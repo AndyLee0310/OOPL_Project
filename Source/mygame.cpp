@@ -58,6 +58,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include <iostream>
 
 namespace game_framework {
 /////////////////////////////////////////////////////////////////////////////
@@ -72,6 +73,7 @@ CGameStateInit::CGameStateInit(CGame *g)
 void CGameStateInit::OnInit()
 {
 	//
+// 
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
@@ -341,10 +343,12 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
-	const char KEY_ESC	 = 27;
+	const char KEY_ESC	 = 0x1B;
+	const char KEY_P     = 0x50;
 
 	if (nChar == KEY_ESC) {
-		//SetRunning(false);
+		game_framework::CGame::Instance()->OnFilePause();
+		
 	}
 
 	if (nChar == KEY_LEFT)
