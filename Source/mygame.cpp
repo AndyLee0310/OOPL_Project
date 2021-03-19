@@ -346,7 +346,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_ESC	 = 0x1B;
 	const char KEY_P     = 0x50;
 
-	if (nChar == KEY_ESC) {
+	if (nChar == KEY_ESC || nChar == KEY_P) {
 		game_framework::CGame::Instance()->OnFilePause();
 		
 	}
