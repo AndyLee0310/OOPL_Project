@@ -328,6 +328,7 @@
     <Image Include="res\bitmap4.bmp" />
     <Image Include="RES\boom_logo.bmp" />
     <Image Include="RES\screenbg1.bmp" />
+    <Image Include="RES\screen_about.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

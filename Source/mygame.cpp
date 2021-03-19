@@ -90,14 +90,16 @@ void CGameStateInit::OnBeginState()
 {
 }
 
-void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	const char KEY_ESC = 27;
+	//const char KEY_ESC = 27;
 	const char KEY_SPACE = ' ';
 	if (nChar == KEY_SPACE)
 		GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
+	/*
 	else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
 		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE,0,0);	// 關閉遊戲
+	*/
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
@@ -107,6 +109,15 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateInit::OnShow()
 {
+	//放背景
+	CMovingBitmap bg;
+	bg.LoadBitmap(IDB_SCREENBG1, RGB(0,0,0));
+	for (int x = 0; x < SIZE_X; x += bg.Width()) {
+		for (int y = 0; y < SIZE_Y; y += bg.Height()) {
+			bg.SetTopLeft(x,y);
+			bg.ShowBitmap();
+		}
+	}
 	//
 	// 貼上logo
 	//
@@ -115,6 +126,15 @@ void CGameStateInit::OnShow()
 	//
 	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 	//
+
+	//Screen_about
+	CMovingBitmap scr_about;
+	scr_about.LoadBitmap(IDB_SCREEN_ABOUT, RGB(255, 255, 255));
+	scr_about.SetTopLeft((SIZE_X - scr_about.Width()) / 2, SIZE_Y / 2);
+	scr_about.ShowBitmap();
+
+
+	/*
 	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 	CFont f,*fp;
 	f.CreatePointFont(160,"Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -128,6 +148,7 @@ void CGameStateInit::OnShow()
 	pDC->TextOut(5,455,"Press Alt-F4 or ESC to Quit.");
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	*/
 }								
 
 /////////////////////////////////////////////////////////////////////////////
@@ -216,7 +237,7 @@ void CGameStateRun::OnBeginState()
 		ball[i].SetIsAlive(true);
 	}
 	eraser.Initialize();
-	background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
+	//background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
@@ -232,11 +253,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//
 	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 	//
+	
+	/*
 	// 移動背景圖的座標
 	//
 	if (background.Top() > SIZE_Y)
 		background.SetTopLeft(60 ,-background.Height());
 	background.SetTopLeft(background.Left(),background.Top()+1);
+	*/
+
 	//
 	// 移動球
 	//
@@ -297,7 +322,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	help.LoadBitmap(IDB_HELP,RGB(255,255,255));				// 載入說明的圖形
 	corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
-	corner.ShowBitmap(background);							// 將corner貼到background
+	//corner.ShowBitmap(background);							// 將corner貼到background
 	bball.LoadBitmap();										// 載入圖形
 	hits_left.LoadBitmap();									
 	CAudio::Instance()->Load(AUDIO_DING,  "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
@@ -309,12 +334,19 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	practice.LoadBitmapA(IDB_BITMAP3);
 }
 
+
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	const char KEY_LEFT  = 0x25; // keyboard左箭頭
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
+	const char KEY_ESC	 = 27;
+
+	if (nChar == KEY_ESC) {
+		//SetRunning(false);
+	}
+
 	if (nChar == KEY_LEFT)
 		eraser.SetMovingLeft(true);
 	if (nChar == KEY_RIGHT)

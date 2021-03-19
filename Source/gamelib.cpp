@@ -523,6 +523,7 @@ void CGame::OnDraw()
 {
 	CDDraw::BltBackColor(DEFAULT_BG_COLOR);	// 將 Back Plain 塗黑
 	gameState->OnDraw();					// 顯示遊戲中的每個元素
+	/*
 	if (!running) {
 		//
 		// 如果在暫停狀態，則顯示Ctrl-Q...
@@ -532,6 +533,7 @@ void CGame::OnDraw()
 		bmp.SetTopLeft(0,0);
 		bmp.ShowBitmap();
 	}
+	*/
 	CDDraw::BltBackToPrimary();				// 將 Back Plain 貼到螢幕
 }
 
@@ -701,6 +703,12 @@ void CGame::SetGameState(int state)
 	CSpecialEffect::SetCurrentTime();
 	running = true;
 }
+
+void CGame::SetRunning(bool state)
+{
+	running = state;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CSpecialEffect: Specail Effect functions

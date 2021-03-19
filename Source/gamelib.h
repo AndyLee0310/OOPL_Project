@@ -73,7 +73,7 @@
 #define DEFAULT_BG_COLOR	 RGB(0,0,0)	// 遊戲畫面預設的背景顏色(黑色)
 #define GAME_CYCLE_TIME		 33		    // 每33ms跑一次Move及Show(每秒30次)
 #define SHOW_GAME_CYCLE_TIME false		// 是否在debug mode顯示cycle time
-#define ENABLE_GAME_PAUSE	 true		// 是否允許以 Ctrl-Q 暫停遊戲
+#define ENABLE_GAME_PAUSE	 false		// 是否允許以 Ctrl-Q 暫停遊戲
 #define ENABLE_AUDIO		 true		// 啟動音效介面
 
 /////////////////////////////////////////////////////////////////////////////
@@ -270,44 +270,10 @@ private:
 // 宣告尚未定義的class
 /////////////////////////////////////////////////////////////////////////////
 
-class CGame;
+class CGameState;
 class CGameStateInit;
 class CGameStateRun;
 class CGameStateOver;
-
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的各種狀態之Base class(是一個abstract class)
-// 每個Public Interface的用法都要懂，Implementation可以不懂
-/////////////////////////////////////////////////////////////////////////////
-
-class CGameState {
-public:
-	CGameState(CGame *g);
-	void OnDraw();			// Template Method
-	void OnCycle();			// Template Method
-	//
-	// virtual functions, 由繼承者提供implementation
-	//
-	virtual ~CGameState() {}								// virtual destructor
-	virtual void OnBeginState() {}							// 設定每次進入這個狀態時所需的初值
-	virtual void OnInit() {}								// 狀態的初值及圖形設定
-	virtual void OnKeyDown(UINT, UINT, UINT) {}				// 處理鍵盤Down的動作
-	virtual void OnKeyUp(UINT, UINT, UINT) {}				// 處理鍵盤Up的動作
-	virtual void OnLButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
-	virtual void OnLButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
-	virtual void OnMouseMove(UINT nFlags, CPoint point) {}  // 處理滑鼠的動作 
-	virtual void OnRButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
-	virtual void OnRButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
-protected:
-	void GotoGameState(int state);							// 跳躍至指定的state
-	void ShowInitProgress(int percent);						// 顯示初始化的進度
-	//
-	// virtual functions, 由繼承者提供implementation
-	//
-	virtual void OnMove() {}								// 移動這個狀態的遊戲元素
-	virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
-	CGame *game;
-};
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class是遊戲的核心，控制遊戲的進行
@@ -336,7 +302,10 @@ public:
 	void OnSetFocus();								// 處理Focus
 	void OnSuspend();								// 處理「待命」的動作
 	void SetGameState(int);
-	static CGame *Instance();
+	
+	void SetRunning(bool);
+
+	static CGame* Instance();
 private:
 	bool			running;			// 遊戲是否正在進行中(未被Pause)
 	bool            suspended;			// 遊戲是否被suspended
@@ -345,5 +314,42 @@ private:
 	CGameState		*gameStateTable[3];	// 遊戲狀態物件的pointer
 	static CGame	instance;			// 遊戲唯一的instance
 };
+
+/////////////////////////////////////////////////////////////////////////////
+// 這個class為遊戲的各種狀態之Base class(是一個abstract class)
+// 每個Public Interface的用法都要懂，Implementation可以不懂
+/////////////////////////////////////////////////////////////////////////////
+
+class CGameState {
+public:
+	CGameState(CGame* g);
+	void OnDraw();			// Template Method
+	void OnCycle();			// Template Method
+
+	//
+	// virtual functions, 由繼承者提供implementation
+	//
+	virtual ~CGameState() {}								// virtual destructor
+	virtual void OnBeginState() {}							// 設定每次進入這個狀態時所需的初值
+	virtual void OnInit() {}								// 狀態的初值及圖形設定
+	virtual void OnKeyDown(UINT, UINT, UINT) {}				// 處理鍵盤Down的動作
+	virtual void OnKeyUp(UINT, UINT, UINT) {}				// 處理鍵盤Up的動作
+	virtual void OnLButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
+	virtual void OnLButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
+	virtual void OnMouseMove(UINT nFlags, CPoint point) {}  // 處理滑鼠的動作 
+	virtual void OnRButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
+	virtual void OnRButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
+
+protected:
+	void GotoGameState(int state);							// 跳躍至指定的state
+	void ShowInitProgress(int percent);						// 顯示初始化的進度
+	//
+	// virtual functions, 由繼承者提供implementation
+	//
+	virtual void OnMove() {}								// 移動這個狀態的遊戲元素
+	virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
+	CGame* game;
+};
+
 
 }
