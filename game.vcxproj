@@ -324,11 +324,24 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\code_temp\OOPL\lifish_BOOM_1.5.2_windows_x64\assets\graphics\boom_logo.png" />
+    <Image Include="RES\about.bmp" />
+    <Image Include="RES\about_red.bmp" />
     <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bitmap4.bmp" />
+    <Image Include="res\bitmap6.bmp" />
     <Image Include="RES\boom_logo.bmp" />
+    <Image Include="RES\exit.bmp" />
+    <Image Include="RES\exit_red.bmp" />
+    <Image Include="RES\loadgame.bmp" />
+    <Image Include="RES\loadgame_red.bmp" />
+    <Image Include="RES\preferences.bmp" />
+    <Image Include="RES\preferences_red.bmp" />
     <Image Include="RES\screenbg1.bmp" />
     <Image Include="RES\screen_about.bmp" />
+    <Image Include="RES\startgame.bmp" />
+    <Image Include="RES\startgame_red.bmp" />
+    <Image Include="res\toolbar1.bmp" />
+    <Image Include="res\toolbar2.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

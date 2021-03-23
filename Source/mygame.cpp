@@ -82,6 +82,13 @@ void CGameStateInit::OnInit()
 	// 開始載入資料
 	//
 	logo.LoadBitmap(IDB_BACKGROUND,RGB(255,255,255));
+
+	scr_start.LoadBitmap(IDB_SCREEN_START, RGB(0, 0, 255));
+	scr_load.LoadBitmapA(IDB_SCREEN_LOAD, RGB(0, 0, 255));
+	scr_preferences.LoadBitmapA(IDB_SCREEN_PREFERENCES, RGB(0, 0, 255));
+	scr_about.LoadBitmap(IDB_SCREEN_ABOUT, RGB(0, 0, 255));
+	scr_exit.LoadBitmapA(IDB_SCREEN_EXIT, RGB(0, 0, 255));
+
 	Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
@@ -96,9 +103,10 @@ void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	//const char KEY_ESC = 27;
 	const char KEY_SPACE = ' ';
+	/*
 	if (nChar == KEY_SPACE)
 		GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
-	/*
+	
 	else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
 		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE,0,0);	// 關閉遊戲
 	*/
@@ -106,7 +114,31 @@ void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
+		p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
+		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	}else if (p.x > scr_load.Left() && p.x < scr_load.Left() + scr_load.Width() &&
+			  p.y > scr_load.Top() && p.y < scr_load.Top() + scr_load.Height()) {
+		//Load Game
+	}else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
+			  p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
+		//Preferences
+	}else if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
+			  p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
+		//About
+	}
+	else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
+		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
+		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+	}
+}
+
+void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)
+{
+	GetCursorPos(&p);
+	ScreenToClient(AfxGetMainWnd()->m_hWnd, &p);	//把螢幕座標轉換為視窗座標，並讀取出來
+	TRACE("mouse:: x: %d, y: %d\n", p.x, p.y);
+	TRACE("image:: x: %d-%d, y: %d-%d\n", scr_start.Left(), scr_start.Left() + scr_start.Width(), scr_start.Top(), scr_start.Top() + scr_start.Height());
 }
 
 void CGameStateInit::OnShow()
@@ -129,11 +161,71 @@ void CGameStateInit::OnShow()
 	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 	//
 
+	//Screen_Start
+	if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
+		p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
+		CMovingBitmap scr_about_red;
+		scr_about_red.LoadBitmap(IDB_SCREEN_START_RED, RGB(0, 0, 255));
+		scr_about_red.SetTopLeft((SIZE_X - scr_about_red.Width()) / 2, SIZE_Y / 2);
+		scr_about_red.ShowBitmap();
+	} else {
+		scr_start.SetTopLeft((SIZE_X - scr_start.Width()) / 2, SIZE_Y / 2);
+		scr_start.ShowBitmap();
+	}
+	
+
+	//Screen_Load
+	if (p.x > scr_load.Left() && p.x < scr_load.Left() + scr_load.Width() &&
+		p.y > scr_load.Top() && p.y < scr_load.Top() + scr_load.Height()) {
+		CMovingBitmap scr_load_red;
+		scr_load_red.LoadBitmap(IDB_SCREEN_LOAD_RED, RGB(0, 0, 255));
+		scr_load_red.SetTopLeft((SIZE_X - scr_load_red.Width()) / 2, SIZE_Y / 2 + scr_start.Height());
+		scr_load_red.ShowBitmap();
+	}
+	else {
+		scr_load.SetTopLeft((SIZE_X - scr_load.Width()) / 2, SIZE_Y / 2 + scr_load.Height());
+		scr_load.ShowBitmap();
+	}
+
+	//Screen_Preferences
+	if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
+		p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
+		CMovingBitmap scr_preferences_red;
+		scr_preferences_red.LoadBitmap(IDB_SCREEN_PREFERENCES_RED, RGB(0, 0, 255));
+		scr_preferences_red.SetTopLeft((SIZE_X - scr_preferences_red.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height());
+		scr_preferences_red.ShowBitmap();
+	}
+	else {
+		scr_preferences.SetTopLeft((SIZE_X - scr_preferences.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height());
+		scr_preferences.ShowBitmap();
+	}
+	
 	//Screen_about
-	CMovingBitmap scr_about;
-	scr_about.LoadBitmap(IDB_SCREEN_ABOUT, RGB(255, 255, 255));
-	scr_about.SetTopLeft((SIZE_X - scr_about.Width()) / 2, SIZE_Y / 2);
-	scr_about.ShowBitmap();
+	if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
+		p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
+		CMovingBitmap scr_about_red;
+		scr_about_red.LoadBitmap(IDB_SCREEN_ABOUT_RED, RGB(0, 0, 255));
+		scr_about_red.SetTopLeft((SIZE_X - scr_about_red.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height());
+		scr_about_red.ShowBitmap();
+	}
+	else {
+		scr_about.SetTopLeft((SIZE_X - scr_about.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height());
+		scr_about.ShowBitmap();
+	}
+
+	//Screen_Exit
+	if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
+		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
+		CMovingBitmap scr_exit_red;
+		scr_exit_red.LoadBitmap(IDB_SCREEN_EXIT_RED, RGB(0, 0, 255));
+		scr_exit_red.SetTopLeft((SIZE_X - scr_exit_red.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height() + scr_exit.Height());
+		scr_exit_red.ShowBitmap();
+	}
+	else {
+		scr_exit.SetTopLeft((SIZE_X - scr_exit.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height() + scr_exit.Height());
+		scr_exit.ShowBitmap();
+	}
+
 
 
 	/*

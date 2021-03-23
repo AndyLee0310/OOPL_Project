@@ -132,9 +132,29 @@ IDB_BACKGROUND          BITMAP                  "..\\RES\\boom_logo.bmp"
 
 IDB_SCREENBG1           BITMAP                  "..\\RES\\screenbg1.bmp"
 
-IDB_SCREEN_ABOUT        BITMAP                  "..\\RES\\screen_about.bmp"
-
 IDB_BITMAP3             BITMAP                  "..\\res\\bitmap3.bmp"
+
+IDB_SCREEN_START        BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\startgame.bmp"
+
+IDB_SCREEN_LOAD         BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\loadgame.bmp"
+
+IDB_SCREEN_PREFERENCES  BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\preferences.bmp"
+
+IDB_SCREEN_EXIT         BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\exit.bmp"
+
+IDB_SCREEN_ABOUT        BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\about.bmp"
+
+IDB_SCREEN_START_RED    BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\startgame_red.bmp"
+
+IDB_SCREEN_LOAD_RED     BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\loadgame_red.bmp"
+
+IDB_SCREEN_PREFERENCES_RED BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\preferences_red.bmp"
+
+IDB_SCREEN_ABOUT_RED    BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\about_red.bmp"
+
+IDB_SCREEN_EXIT_RED     BITMAP                  "C:\\Users\\Lwj\\Desktop\\game4.10\\RES\\exit_red.bmp"
+
+IDR_TOOLBAR1            BITMAP                  "..\\res\\toolbar1.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

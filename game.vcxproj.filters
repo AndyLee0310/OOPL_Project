@@ -190,5 +190,44 @@
     <Image Include="RES\screen_about.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\startgame.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\loadgame.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\preferences.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\exit.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\about.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\startgame_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\loadgame_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\preferences_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\about_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\exit_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
