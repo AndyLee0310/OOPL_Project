@@ -86,7 +86,7 @@ namespace game_framework {
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
-
+	/*
 	class CGameStateRun : public CGameState {
 	public:
 		CGameStateRun(CGame *g);
@@ -113,38 +113,30 @@ namespace game_framework {
 		CEraser			eraser;		// 拍子
 		CInteger		hits_left;	// 剩下的撞擊數
 		CBouncingBall   bball;		// 反覆彈跳的球
-		CMovingBitmap	practice;
 		
 	};
-
-	class GameStage_1 {
+	*/
+	class GameStage_1 : public CGameState {
 	public:
 		GameStage_1(CGame* g);
+		~GameStage_1();
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();                                  // 遊戲的初值及圖形設定
+	protected:
+		void OnMove();									// 移動遊戲元素
+		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		//CMovingBitmap bg;   
-		CMovingBitmap blocks;
+		int bg[13][15];  
+		int coins_pos[5][2];         //硬幣位置
+		CMovingBitmap block_0;
+		CMovingBitmap block_1;
+		CMovingBitmap block_2;       //類別之後改
+		CMovingBitmap panel;
 		CMovingBitmap border;
 		CMovingBitmap character_1;   //類別之後改
 		CMovingBitmap character_2;
 		CMovingBitmap AI;
 		CMovingBitmap coins;
-		int bg[13][15] = {           //0地板 1石塊 2粉色石
-			{0,0,0,0,2,0,2,0,0,0,0,2,0,0,0},
-			{0,1,2,1,0,1,2,1,0,1,2,1,0,1,0},
-			{0,0,0,0,2,0,2,0,2,0,0,0,0,0,2},
-			{0,1,2,1,0,1,0,1,0,1,2,1,0,1,0},
-			{2,0,0,0,0,0,0,0,2,0,0,0,2,0,2},
-			{0,1,0,1,2,1,0,1,0,1,2,1,0,1,0},
-			{0,0,0,2,0,0,2,0,0,0,2,0,0,0,0},
-			{2,1,0,1,2,1,0,1,0,1,2,1,0,1,0},
-			{2,0,0,2,0,0,0,2,2,0,0,0,0,0,2},
-			{0,1,2,1,0,1,0,1,2,1,2,1,0,1,0},
-			{0,0,0,0,2,0,2,0,0,0,0,0,2,2,0},
-			{2,1,2,1,0,1,0,1,2,1,0,1,0,1,0},
-			{0,0,2,0,0,2,0,0,0,0,2,0,0,0,0}
-		};
 	};
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的結束狀態(Game Over)

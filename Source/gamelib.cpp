@@ -367,7 +367,6 @@ void CMovingBitmap::LoadBitmap(char *filename, COLORREF color)
 	SurfaceID = CDDraw::RegisterBitmap(filename, color);
 	isBitmapLoaded = true;
 }
-
 void CMovingBitmap::SetTopLeft(int x, int y)
 {
 	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before SetTopLeft() is called !!!");
@@ -499,7 +498,7 @@ CGame::CGame()
 	running = true;
 	suspended = false;
 	gameStateTable[GAME_STATE_INIT] = new CGameStateInit(this);
-	gameStateTable[GAME_STATE_RUN]  = new CGameStateRun(this);
+	gameStateTable[GAME_STAGE_1]  = new GameStage_1(this);
 	gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
 	gameState = NULL;
 }

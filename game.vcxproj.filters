@@ -229,5 +229,65 @@
     <Image Include="res\toolbar2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\fixed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\bg1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\fixed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\boom_logo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\screenbg1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\startgame.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\loadgame.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\preferences.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\exit.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\about.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\startgame_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\loadgame_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\preferences_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\about_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Menu\exit_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\breakable_0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\border1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\panel.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -116,7 +116,7 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
 		p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
-		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		GotoGameState(GAME_STAGE_1);		// 切換至GAME_STATE_RUN
 	}else if (p.x > scr_load.Left() && p.x < scr_load.Left() + scr_load.Width() &&
 			  p.y > scr_load.Top() && p.y < scr_load.Top() + scr_load.Height()) {
 		//Load Game
@@ -297,11 +297,98 @@ void CGameStateOver::OnShow()
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 }
+/////////////////////////////////////////////////////////////////////////////
+// 第一關
+/////////////////////////////////////////////////////////////////////////////
+GameStage_1::GameStage_1(CGame* g) : CGameState(g)
+{
 
+}
+GameStage_1::~GameStage_1() {
+
+}
+void GameStage_1::OnBeginState() {
+	//腳色數值重置
+	int bg_reset[13][15] = {           //0地板 1石塊 2粉色石
+			{0,0,0,0,2,0,2,0,0,0,0,2,0,0,0},
+			{0,1,2,1,0,1,2,1,0,1,2,1,0,1,0},
+			{0,0,0,0,2,0,2,0,2,0,0,0,0,0,2},
+			{0,1,2,1,0,1,0,1,0,1,2,1,0,1,0},
+			{2,0,0,0,0,0,0,0,2,0,0,0,2,0,2},
+			{0,1,0,1,2,1,0,1,0,1,2,1,0,1,0},
+			{0,0,0,2,0,0,2,0,0,0,2,0,0,0,0},
+			{2,1,0,1,2,1,0,1,0,1,2,1,0,1,0},
+			{2,0,0,2,0,0,0,2,2,0,0,0,0,0,2},
+			{0,1,2,1,0,1,0,1,2,1,2,1,0,1,0},
+			{0,0,0,0,2,0,2,0,0,0,0,0,2,2,0},
+			{2,1,2,1,0,1,0,1,2,1,0,1,0,1,0},
+			{0,0,2,0,0,2,0,0,0,0,2,0,0,0,0}
+	};
+	int coins_reset[5][2] = {
+		{2,9},{4,1},{6,8},{8,13},{9,4}
+	};
+	for (int i = 0; i < 13; i++) {
+		for (int j = 0; j < 15; j++) {
+			bg[i][j] = bg_reset[i][j];
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 2; j++) {
+			coins_pos[i][j] = coins_reset[i][j];
+		}
+	}
+}
+void GameStage_1::OnInit() {
+	//腳色bitmap load
+	block_0.LoadBitmap(IDB_Bg_1, RGB(255, 255, 255));
+	block_1.LoadBitmap(IDB_Blocks, RGB(255, 255, 255));
+	block_2.LoadBitmap(IDB_BREAK_0, RGB(255, 255, 255));
+	border.LoadBitmap(IDB_BORDER_0, RGB(255, 255, 255));
+	coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
+	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
+
+}
+void GameStage_1::OnMove() {
+
+}
+void GameStage_1::OnShow() {
+	panel.SetTopLeft(0, 0);
+	panel.ShowBitmap();
+	std::cout << "1" << std::endl;
+	border.SetTopLeft(96, 0);
+	border.ShowBitmap();
+	std::cout << "2" << std::endl;
+	for (int i = 0; i < 13; i++) {             //方塊顯示    j是X軸 i是Y軸
+		for (int j = 0; j < 15; j++) {
+			switch (bg[i][j]) {
+			case 1:
+				block_1.SetTopLeft(128 + 32 * j, 32 * (i + 1));
+				block_1.ShowBitmap();
+				break;
+			case 2:
+				block_0.SetTopLeft(128 + 32 * j, 32 * (i + 1));
+				block_0.ShowBitmap();
+				block_2.SetTopLeft(128 + 32 * j, 32 * (i + 1));
+				block_2.ShowBitmap();
+				break;
+			default:
+				block_0.SetTopLeft(128 + 32 * j, 32 * (i + 1));
+				block_0.ShowBitmap();
+				break;
+			}
+			std::cout << 3+i << std::endl;
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		coins.SetTopLeft(128 + coins_pos[i][1] * 32, 32* (coins_pos[i][0] + 1));
+		coins.ShowBitmap();
+	}
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
-
+/*
 CGameStateRun::CGameStateRun(CGame *g)
 : CGameState(g), NUMBALLS(28)
 {
@@ -348,13 +435,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 	//
 	
-	/*
 	// 移動背景圖的座標
 	//
 	if (background.Top() > SIZE_Y)
 		background.SetTopLeft(60 ,-background.Height());
 	background.SetTopLeft(background.Left(),background.Top()+1);
-	*/
+	
 
 	//
 	// 移動球
@@ -387,8 +473,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	// 移動彈跳的球
 	//
 	bball.OnMove();
-
-	practice.SetTopLeft(10, 10);
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -425,7 +509,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//
 	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 	//
-	practice.LoadBitmapA(IDB_BITMAP3);
 }
 
 
@@ -504,7 +587,6 @@ void CGameStateRun::OnShow()
 	//
 	//  貼上背景圖、撞擊數、球、擦子、彈跳的球
 	//
-	practice.ShowBitmap();
 	background.ShowBitmap();			// 貼上背景圖
 	help.ShowBitmap();					// 貼上說明圖
 	hits_left.ShowBitmap();
@@ -521,4 +603,5 @@ void CGameStateRun::OnShow()
 	corner.ShowBitmap();
 
 }
+*/
 }
