@@ -110,9 +110,9 @@ IDB_BREAK_0             BITMAP                  "..\\RES\\Stage_1\\breakable_0.b
 
 IDB_COIN_0              BITMAP                  "..\\RES\\Stage_1\\coin_0.bmp"
 
-IDB_BORDER_0            BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\border1.bmp"
+IDB_BORDER_0            BITMAP                  "..\\RES\\Stage_1\\border1.bmp"
 
-IDB_Panel               BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\panel.bmp"
+IDB_Panel               BITMAP                  "..\\RES\\Stage_1\\panel.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
