@@ -114,6 +114,10 @@ IDB_BORDER_0            BITMAP                  "..\\RES\\Stage_1\\border1.bmp"
 
 IDB_Panel               BITMAP                  "..\\RES\\Stage_1\\panel.bmp"
 
+IDB_Test                BITMAP                  "..\\res\\bitmap15.bmp"
+
+IDB_Test1               BITMAP                  "..\\res\\bitmap16.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -160,7 +164,7 @@ IDB_SCREEN_START_RED    BITMAP                  "..\\RES\\Menu\\startgame_red.bm
 
 IDB_SCREEN_LOAD_RED     BITMAP                  "..\\RES\\Menu\\loadgame_red.bmp"
 
-IDB_SCREEN_PREFERENCES_RED BITMAP                  "..\\RES\\Menu\\preferences_red.bmp"
+IDB_SCREEN_PREFERENCES_RED BITMAP               "..\\RES\\Menu\\preferences_red.bmp"
 
 IDB_SCREEN_ABOUT_RED    BITMAP                  "..\\RES\\Menu\\about_red.bmp"
 

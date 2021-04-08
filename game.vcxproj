@@ -260,6 +260,7 @@
     <ClCompile Include="Source\CBall.cpp" />
     <ClCompile Include="Source\CBouncingBall.cpp" />
     <ClCompile Include="Source\CEraser.cpp" />
+    <ClCompile Include="Source\Character.cpp" />
     <ClCompile Include="Source\game.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -306,6 +307,7 @@
     <ClInclude Include="Source\CBall.h" />
     <ClInclude Include="Source\CBouncingBall.h" />
     <ClInclude Include="Source\CEraser.h" />
+    <ClInclude Include="Source\Character.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\gameDoc.h" />
     <ClInclude Include="Source\gameView.h" />
@@ -324,17 +326,15 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\code_temp\OOPL\lifish_BOOM_1.5.2_windows_x64\assets\graphics\boom_logo.png" />
-    <Image Include="RES\about.bmp" />
-    <Image Include="RES\about_red.bmp" />
+    <Image Include="graphics\bitmaps\bg1.bmp" />
+    <Image Include="graphics\bitmaps\border1.bmp" />
+    <Image Include="graphics\bitmaps\fixed.bmp" />
+    <Image Include="graphics\bitmaps\panel.bmp" />
+    <Image Include="res\bitmap15.bmp" />
+    <Image Include="res\bitmap16.bmp" />
     <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bitmap4.bmp" />
-    <Image Include="res\bitmap6.bmp" />
     <Image Include="RES\boom_logo.bmp" />
-    <Image Include="RES\exit.bmp" />
-    <Image Include="RES\exit_red.bmp" />
-    <Image Include="RES\fixed.bmp" />
-    <Image Include="RES\loadgame.bmp" />
-    <Image Include="RES\loadgame_red.bmp" />
     <Image Include="RES\Menu\about.bmp" />
     <Image Include="RES\Menu\about_red.bmp" />
     <Image Include="RES\Menu\boom_logo.bmp" />
@@ -347,21 +347,14 @@
     <Image Include="RES\Menu\screenbg1.bmp" />
     <Image Include="RES\Menu\startgame.bmp" />
     <Image Include="RES\Menu\startgame_red.bmp" />
-    <Image Include="RES\preferences.bmp" />
-    <Image Include="RES\preferences_red.bmp" />
     <Image Include="RES\screenbg1.bmp" />
     <Image Include="RES\screen_about.bmp" />
     <Image Include="RES\Stage_1\bg1.bmp" />
     <Image Include="RES\Stage_1\border1.bmp" />
     <Image Include="RES\Stage_1\breakable_0.bmp" />
-    <Image Include="RES\Stage_1\coin.bmp" />
     <Image Include="RES\Stage_1\coin_0.bmp" />
     <Image Include="RES\Stage_1\fixed.bmp" />
     <Image Include="RES\Stage_1\panel.bmp" />
-    <Image Include="RES\startgame.bmp" />
-    <Image Include="RES\startgame_red.bmp" />
-    <Image Include="res\toolbar1.bmp" />
-    <Image Include="res\toolbar2.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

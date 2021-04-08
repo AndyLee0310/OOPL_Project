@@ -129,6 +129,9 @@
     <ClCompile Include="Source\CBouncingBall.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Character.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -167,6 +170,9 @@
     <ClInclude Include="Source\CBouncingBall.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Character.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\game.rc">
@@ -190,52 +196,40 @@
     <Image Include="RES\screen_about.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\startgame.bmp">
+    <Image Include="graphics\bitmaps\bg1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\loadgame.bmp">
+    <Image Include="graphics\bitmaps\border1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\preferences.bmp">
+    <Image Include="graphics\bitmaps\fixed.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\exit.bmp">
+    <Image Include="graphics\bitmaps\panel.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\bitmap6.bmp">
+    <Image Include="res\bitmap15.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\about.bmp">
+    <Image Include="res\bitmap16.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\startgame_red.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\loadgame_red.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\preferences_red.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\about_red.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\exit_red.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\toolbar1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\toolbar2.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\fixed.bmp">
+    <Image Include="RES\Stage_1\fixed.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Stage_1\bg1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\Stage_1\fixed.bmp">
+    <Image Include="RES\Stage_1\breakable_0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\border1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\panel.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Menu\boom_logo.bmp">
@@ -272,21 +266,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Menu\exit_red.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\Stage_1\breakable_0.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\Stage_1\coin.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\Stage_1\border1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\Stage_1\coin_0.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\Stage_1\panel.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

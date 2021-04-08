@@ -302,13 +302,15 @@ void CGameStateOver::OnShow()
 /////////////////////////////////////////////////////////////////////////////
 GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 {
-
+	
 }
 GameStage_1::~GameStage_1() {
 
 }
 void GameStage_1::OnBeginState() {
 	//腳色數值重置
+	character_1.Initialize(128,32);
+
 	int bg_reset[13][15] = {           //0地板 1石塊 2粉色石
 			{0,0,0,0,2,0,2,0,0,0,0,2,0,0,0},
 			{0,1,2,1,0,1,2,1,0,1,2,1,0,1,0},
@@ -346,18 +348,17 @@ void GameStage_1::OnInit() {
 	border.LoadBitmap(IDB_BORDER_0, RGB(255, 255, 255));
 	coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
 	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
+	character_1.LoadBitmap();
 
 }
 void GameStage_1::OnMove() {
-
+	character_1.OnMove();
 }
-void GameStage_1::OnShow() {
+void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	panel.SetTopLeft(0, 0);
 	panel.ShowBitmap();
-	std::cout << "1" << std::endl;
 	border.SetTopLeft(96, 0);
 	border.ShowBitmap();
-	std::cout << "2" << std::endl;
 	for (int i = 0; i < 13; i++) {             //方塊顯示    j是X軸 i是Y軸
 		for (int j = 0; j < 15; j++) {
 			switch (bg[i][j]) {
@@ -383,7 +384,56 @@ void GameStage_1::OnShow() {
 		coins.SetTopLeft(128 + coins_pos[i][1] * 32, 32* (coins_pos[i][0] + 1));
 		coins.ShowBitmap();
 	}
+	character_1.OnShow();
 
+}
+
+void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	const char KEY_LEFT = 0x25; // keyboard左箭頭
+	const char KEY_UP = 0x26; // keyboard上箭頭
+	const char KEY_RIGHT = 0x27; // keyboard右箭頭
+	const char KEY_DOWN = 0x28; // keyboard下箭頭
+	const char KEY_ESC = 0x1B;
+	const char KEY_P = 0x50;
+
+	if (nChar == KEY_ESC || nChar == KEY_P) {
+		game_framework::CGame::Instance()->OnFilePause();
+
+	}
+
+	if (nChar == KEY_LEFT) {
+		character_1.LoadMap(bg);
+		character_1.SetMovingLeft(true);
+	}
+	if (nChar == KEY_RIGHT) {
+		character_1.LoadMap(bg);
+		character_1.SetMovingRight(true);
+	}
+	if (nChar == KEY_UP) {
+		character_1.LoadMap(bg);
+		character_1.SetMovingUp(true);
+	}
+	if (nChar == KEY_DOWN) {
+		character_1.LoadMap(bg);
+		character_1.SetMovingDown(true);
+	}
+}
+
+void GameStage_1::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	const char KEY_LEFT = 0x25; // keyboard左箭頭
+	const char KEY_UP = 0x26; // keyboard上箭頭
+	const char KEY_RIGHT = 0x27; // keyboard右箭頭
+	const char KEY_DOWN = 0x28; // keyboard下箭頭
+	if (nChar == KEY_LEFT)
+		character_1.SetMovingLeft(false);
+	if (nChar == KEY_RIGHT)
+		character_1.SetMovingRight(false);
+	if (nChar == KEY_UP)
+		character_1.SetMovingUp(false);
+	if (nChar == KEY_DOWN)
+		character_1.SetMovingDown(false);
 }
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡

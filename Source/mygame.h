@@ -41,6 +41,7 @@
 #include "CEraser.h"
 #include "CBall.h"
 #include "CBouncingBall.h"
+#include "Character.h"
 
 
 namespace game_framework {
@@ -122,6 +123,8 @@ namespace game_framework {
 		~GameStage_1();
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();                                  // 遊戲的初值及圖形設定
+		void OnKeyDown(UINT, UINT, UINT);               //鍵盤動作
+		void OnKeyUp(UINT, UINT, UINT);
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -133,7 +136,7 @@ namespace game_framework {
 		CMovingBitmap block_2;       //類別之後改
 		CMovingBitmap panel;
 		CMovingBitmap border;
-		CMovingBitmap character_1;   //類別之後改
+		Character     character_1;   //類別之後改
 		CMovingBitmap character_2;
 		CMovingBitmap AI;
 		CMovingBitmap coins;
