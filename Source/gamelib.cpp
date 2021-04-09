@@ -334,7 +334,8 @@ void CMovingBitmap::LoadBitmap(int IDB_BITMAP, COLORREF color)
 {
 	const int nx = 0;
 	const int ny = 0;
-	GAME_ASSERT(!isBitmapLoaded,"A bitmap has been loaded. You can not load another bitmap !!!");
+	//因為需要重複載入，所以註解掉下面那行"不能重複載入圖片"的限制
+	//GAME_ASSERT(!isBitmapLoaded,"A bitmap has been loaded. You can not load another bitmap !!!");
 	CBitmap bitmap;
 	BOOL rval = bitmap.LoadBitmap(IDB_BITMAP);
 	GAME_ASSERT(rval,"Load bitmap failed !!! Please check bitmap ID (IDB_XXX).");
@@ -493,12 +494,13 @@ void CGameState::OnCycle() // Template Method
 CGame CGame::instance;
 
 CGame::CGame()
-: NUM_GAME_STATES(3)
+: NUM_GAME_STATES(4)
 {
 	running = true;
 	suspended = false;
 	gameStateTable[GAME_STATE_INIT] = new CGameStateInit(this);
 	gameStateTable[GAME_STAGE_1]  = new GameStage_1(this);
+	gameStateTable[GAME_STATE_PAUSE] = new CGamestatePause(this);
 	gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
 	gameState = NULL;
 }
