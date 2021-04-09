@@ -268,5 +268,26 @@
     <Image Include="RES\Menu\exit_red.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Character\player1_up_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_dw_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_dw_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap17.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_up_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_le_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_le_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

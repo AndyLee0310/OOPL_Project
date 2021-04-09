@@ -2,9 +2,13 @@
 namespace game_framework {
 	class Character {
 	protected:
-		CAnimation animation;		// 腳色的動畫
-		int x, y;					// 腳色左上角座標
-		int move_step = STEP;       // 腳色步數
+		CAnimation Character_down;	// 腳色向下的動畫
+		CAnimation Character_up;
+		CAnimation Character_left;
+		CAnimation Character_right;
+		int  Animate_State;         // 腳色移動狀態 1為下 2為上 3為左 4為右
+		int  x, y;					// 腳色左上角座標
+		int  move_step = STEP;      // 腳色步數
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動

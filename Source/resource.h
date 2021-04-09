@@ -69,6 +69,13 @@
 #define IDB_Test                        194
 #define IDB_Test1                       195
 #define IDB_BITMAP16                    196
+#define IDB_PLAYER1_DW_1                197
+#define IDB_BITMAP15                    198
+#define IDB_PLAYER1_DW_2                198
+#define IDB_PLAYER1_UP_1                199
+#define IDB_PLAYER1_UP_2                201
+#define IDB_PLAYER1_LE_2                203
+#define IDB_PLAYER1_LE_1                204
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -81,8 +88,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        197
-#define _APS_NEXT_COMMAND_VALUE         32777
+#define _APS_NEXT_RESOURCE_VALUE        205
+#define _APS_NEXT_COMMAND_VALUE         32779
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

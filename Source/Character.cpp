@@ -13,6 +13,7 @@ namespace game_framework {
 	void Character::Initialize(const int nx, const int ny) {
 		x = nx;
 		y = ny;
+		Animate_State = 1;
 		isMovingDown = isMovingLeft = isMovingRight = isMovingUp = false;
 	}
 	int Character::GetX1() {
@@ -22,60 +23,58 @@ namespace game_framework {
 		return y;
 	}
 	int Character::GetX2() {
-		return x + animation.Width();
+		return x + Character_down.Width();
 	}
 	int Character::GetY2() {
-		return y + animation.Height();
+		return y + Character_down.Height();
 	}
 	int Character::GetStep() {
 		return move_step;
 	}
 	void Character::LoadBitmap() {
-		animation.SetDelayCount(5);
-		animation.AddBitmap(IDB_Test,  RGB(255, 255, 255));   //測試用 待修正
-		animation.AddBitmap(IDB_Test1, RGB(255, 255, 255));
+		Character_down.SetDelayCount(5);
+		Character_down.AddBitmap(IDB_PLAYER1_DW_1, RGB(255, 255, 255));   
+		Character_down.AddBitmap(IDB_PLAYER1_DW_2, RGB(255, 255, 255));
+		Character_up.SetDelayCount(5);
+		Character_up.AddBitmap(IDB_PLAYER1_UP_1, RGB(255, 255, 255));
+		Character_up.AddBitmap(IDB_PLAYER1_UP_2, RGB(255, 255, 255));
+		Character_left.SetDelayCount(5);
+		Character_left.AddBitmap(IDB_PLAYER1_LE_1, RGB(255, 255, 255));
+		Character_left.AddBitmap(IDB_PLAYER1_LE_2, RGB(255, 255, 255));
 	}
 	void Character::OnMove() {
-		/*
-		animation.OnMove();
-		if (isMovingLeft)
-			x -= move_step;
-		if (isMovingRight)
-			x += move_step;
-		if (isMovingUp)
-			y -= move_step;
-		if (isMovingDown)
-			y += move_step;
-		*/
 		if (isMovingDown) {
-			animation.OnMove();
+			Animate_State = 1;
+			Character_down.OnMove();
 			int x1 = x - 128;
-			int x2 = x + animation.Width() - 128 - 1;
-			int y2 = y + animation.Height() - 32 - 1;
+			int x2 = x + Character_down.Width() - 128 - 1;
+			int y2 = y + Character_down.Height() - 32 - 1;
 			if (GetPosition(x1, y2 + move_step) == 0 && GetPosition(x2, y2 + move_step) == 0) //邊界判定
 				y += move_step;
 		}
 		if (isMovingUp) {
-			animation.OnMove();
+			Animate_State = 2;
+			Character_up.OnMove();
 			int x1 = x - 128;
-			int x2 = x + animation.Width() - 128 - 1;
+			int x2 = x + Character_up.Width() - 128 - 1;
 			int y1 = y - 32;
 			if (GetPosition(x1, y1 - move_step) == 0 && GetPosition(x2, y1 - move_step) == 0)                //邊界判定
 				y -= move_step;
 		}
 		if (isMovingLeft) {
-			animation.OnMove();
+			Animate_State = 3;
+			Character_left.OnMove();
 			int x1 = x - 128;
 			int y1 = y - 32;
-			int y2 = y + animation.Height() - 32 - 1;
+			int y2 = y + Character_left.Height() - 32 - 1;
 			if (GetPosition(x1 - move_step, y1) == 0 && GetPosition(x1 - move_step, y2) == 0)
 				x -= move_step;
 		}
 		if (isMovingRight) {
-			animation.OnMove();
-			int x2 = x + animation.Width() - 128 - 1;
+			Character_down.OnMove();
+			int x2 = x + Character_down.Width() - 128 - 1;
 			int y1 = y - 32;
-			int y2 = y + animation.Height() - 32 - 1;
+			int y2 = y + Character_down.Height() - 32 - 1;
 			if (GetPosition(x2 + move_step, y1) == 0 && GetPosition(x2 + move_step, y2) == 0)
 				x += move_step;
 		}
@@ -107,8 +106,12 @@ namespace game_framework {
 
 	void Character::OnShow()
 	{
-		animation.SetTopLeft(x, y);
-		animation.OnShow();
+		Character_down.SetTopLeft(x, y);
+		Character_up.SetTopLeft(x, y);
+		Character_left.SetTopLeft(x, y);
+		if (Animate_State == 1)     Character_down.OnShow();
+		else if (Animate_State == 2)Character_up.OnShow();
+		else if (Animate_State == 3)Character_left.OnShow();
 	}
 	void Character::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 416; i++) {
