@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文 (繁體，台灣) resources
+// Chinese (Traditional, Taiwan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHT)
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
@@ -126,12 +126,12 @@ IDB_Test1               BITMAP                  "..\\res\\bitmap16.bmp"
 
 IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
 
-#endif    // 中文 (繁體，台灣) resources
+#endif    // Chinese (Traditional, Taiwan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英文 (美國) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -144,11 +144,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDR_MAINFRAME           BITMAP                  "..\\res\\Toolbar.bmp"
 
-IDB_BACKGROUND          BITMAP                  "..\\RES\\Menu\\boom_logo.bmp"
+IDB_LOGO                BITMAP                  "..\\RES\\Menu\\boom_logo.bmp"
 
 IDB_SCREENBG1           BITMAP                  "..\\RES\\Menu\\screenbg1.bmp"
-
-IDB_CENTER              BITMAP                  "..\\res\\bitmap3.bmp"
 
 IDB_SCREEN_START        BITMAP                  "..\\RES\\Menu\\startgame.bmp"
 
@@ -164,7 +162,7 @@ IDB_SCREEN_START_RED    BITMAP                  "..\\RES\\Menu\\startgame_red.bm
 
 IDB_SCREEN_LOAD_RED     BITMAP                  "..\\RES\\Menu\\loadgame_red.bmp"
 
-IDB_SCREEN_PREFERENCES_RED BITMAP               "..\\RES\\Menu\\preferences_red.bmp"
+IDB_SCREEN_PREFERENCES_RED BITMAP                  "..\\RES\\Menu\\preferences_red.bmp"
 
 IDB_SCREEN_ABOUT_RED    BITMAP                  "..\\RES\\Menu\\about_red.bmp"
 
@@ -242,7 +240,7 @@ END
 IDR_MAINFRAME ACCELERATORS
 BEGIN
     "F",            ID_TOGGLE_FULLSCREEN,   VIRTKEY, CONTROL, NOINVERT
-    "Q",            ID_FILE_PAUSE,          VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_FILE_PAUSE,          VIRTKEY, NOINVERT
 END
 
 
@@ -463,7 +461,7 @@ BEGIN
     ID_BUTTON_UNITTEST      "Perform Unit Test"
 END
 
-#endif    // 英文 (美國) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -81,7 +81,7 @@ void CGameStateInit::OnInit()
 	//
 	// 開始載入資料
 	//
-	logo.LoadBitmap(IDB_BACKGROUND,RGB(255,255,255));
+	logo.LoadBitmap(IDB_LOGO,RGB(255,255,255));
 
 	scr_start.LoadBitmap(IDB_SCREEN_START, RGB(0, 0, 255));
 	scr_load.LoadBitmapA(IDB_SCREEN_LOAD, RGB(0, 0, 255));
@@ -290,7 +290,7 @@ void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
 		p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
-		//Quit to Menu
+		GotoGameState(GAME_STATE_INIT);
 	}
 	else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
 		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
@@ -705,7 +705,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	for (i = 0; i < NUMBALLS; i++)	
 		ball[i].LoadBitmap();								// 載入第i個球的圖形
 	eraser.LoadBitmap();
-	background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
+	background.LoadBitmap(IDB_LOGO);					// 載入背景的圖形
 	//
 	// 完成部分Loading動作，提高進度
 	//
