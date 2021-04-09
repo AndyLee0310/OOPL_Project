@@ -126,6 +126,10 @@ IDB_PLAYER1_LE_2        BITMAP                  "C:\\Users\\deava\\Desktop\\2020
 
 IDB_PLAYER1_LE_1        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_le_1.bmp"
 
+IDB_PLAYER1_RE_1        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_re_1.bmp"
+
+IDB_PLAYER1_RE_2        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_re_2.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -152,7 +156,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDR_MAINFRAME           BITMAP                  "..\\res\\Toolbar.bmp"
 
-IDB_BACKGROUND          BITMAP                  "..\\RES\\Menu\\boom_logo.bmp"
+IDB_LOGO                BITMAP                  "..\\RES\\Menu\\boom_logo.bmp"
 
 IDB_SCREENBG1           BITMAP                  "..\\RES\\Menu\\screenbg1.bmp"
 
@@ -249,6 +253,7 @@ IDR_MAINFRAME ACCELERATORS
 BEGIN
     "Q",            ID_FILE_PAUSE,          VIRTKEY, CONTROL, NOINVERT
     "F",            ID_TOGGLE_FULLSCREEN,   VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_FILE_PAUSE,          VIRTKEY, NOINVERT
 END
 
 

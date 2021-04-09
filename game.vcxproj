@@ -340,6 +340,8 @@
     <Image Include="RES\Character\player1_dw_2.bmp" />
     <Image Include="RES\Character\player1_le_1.bmp" />
     <Image Include="RES\Character\player1_le_2.bmp" />
+    <Image Include="RES\Character\player1_re_1.bmp" />
+    <Image Include="RES\Character\player1_re_2.bmp" />
     <Image Include="RES\Character\player1_up_1.bmp" />
     <Image Include="RES\Character\player1_up_2.bmp" />
     <Image Include="RES\Menu\about.bmp" />

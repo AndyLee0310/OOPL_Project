@@ -289,5 +289,11 @@
     <Image Include="RES\Character\player1_le_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Character\player1_re_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_re_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

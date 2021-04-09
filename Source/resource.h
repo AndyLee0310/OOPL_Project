@@ -36,6 +36,7 @@
 #define IDB_LOADING                     156
 #define IDB_PNG1                        160
 #define IDB_BACKGROUND                  163
+#define IDB_LOGO                        163
 #define IDB_SCREENBG1                   166
 #define IDB_BITMAP3                     171
 #define IDB_Blocks                      171
@@ -73,7 +74,10 @@
 #define IDB_BITMAP15                    198
 #define IDB_PLAYER1_DW_2                198
 #define IDB_PLAYER1_UP_1                199
+#define IDB_PLAYER1_RE_1                200
 #define IDB_PLAYER1_UP_2                201
+#define IDB_BITMAP17                    202
+#define IDB_PLAYER1_RE_2                202
 #define IDB_PLAYER1_LE_2                203
 #define IDB_PLAYER1_LE_1                204
 #define IDC_README                      1001
@@ -88,8 +92,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        205
-#define _APS_NEXT_COMMAND_VALUE         32779
+#define _APS_NEXT_RESOURCE_VALUE        203
+#define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

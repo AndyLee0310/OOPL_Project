@@ -41,6 +41,9 @@ namespace game_framework {
 		Character_left.SetDelayCount(5);
 		Character_left.AddBitmap(IDB_PLAYER1_LE_1, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_PLAYER1_LE_2, RGB(255, 255, 255));
+		Character_right.SetDelayCount(5);
+		Character_right.AddBitmap(IDB_PLAYER1_RE_1, RGB(255, 255, 255));
+		Character_right.AddBitmap(IDB_PLAYER1_RE_2, RGB(255, 255, 255));
 	}
 	void Character::OnMove() {
 		if (isMovingDown) {
@@ -71,10 +74,11 @@ namespace game_framework {
 				x -= move_step;
 		}
 		if (isMovingRight) {
-			Character_down.OnMove();
-			int x2 = x + Character_down.Width() - 128 - 1;
+			Animate_State = 4;
+			Character_right.OnMove();
+			int x2 = x + Character_right.Width() - 128 - 1;
 			int y1 = y - 32;
-			int y2 = y + Character_down.Height() - 32 - 1;
+			int y2 = y + Character_right.Height() - 32 - 1;
 			if (GetPosition(x2 + move_step, y1) == 0 && GetPosition(x2 + move_step, y2) == 0)
 				x += move_step;
 		}
@@ -109,9 +113,11 @@ namespace game_framework {
 		Character_down.SetTopLeft(x, y);
 		Character_up.SetTopLeft(x, y);
 		Character_left.SetTopLeft(x, y);
+		Character_right.SetTopLeft(x, y);
 		if (Animate_State == 1)     Character_down.OnShow();
 		else if (Animate_State == 2)Character_up.OnShow();
 		else if (Animate_State == 3)Character_left.OnShow();
+		else if (Animate_State == 4)Character_right.OnShow();
 	}
 	void Character::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 416; i++) {
