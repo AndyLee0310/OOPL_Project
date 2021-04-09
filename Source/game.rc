@@ -118,17 +118,17 @@ IDB_PLAYER1_DW_1        BITMAP                  "..\\RES\\Character\\player1_dw_
 
 IDB_PLAYER1_DW_2        BITMAP                  "..\\RES\\Character\\player1_dw_2.bmp"
 
-IDB_PLAYER1_UP_1        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_up_1.bmp"
+IDB_PLAYER1_UP_1        BITMAP                  "..\\RES\\Character\\player1_up_1.bmp"
 
-IDB_PLAYER1_UP_2        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_up_2.bmp"
+IDB_PLAYER1_UP_2        BITMAP                  "..\\RES\\Character\\player1_up_2.bmp"
 
-IDB_PLAYER1_LE_2        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_le_2.bmp"
+IDB_PLAYER1_LE_2        BITMAP                  "..\\RES\\Character\\player1_le_2.bmp"
 
-IDB_PLAYER1_LE_1        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_le_1.bmp"
+IDB_PLAYER1_LE_1        BITMAP                  "..\\RES\\Character\\player1_le_1.bmp"
 
-IDB_PLAYER1_RE_1        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_re_1.bmp"
+IDB_PLAYER1_RE_1        BITMAP                  "..\\RES\\Character\\player1_re_1.bmp"
 
-IDB_PLAYER1_RE_2        BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\player1_re_2.bmp"
+IDB_PLAYER1_RE_2        BITMAP                  "..\\RES\\Character\\player1_re_2.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
