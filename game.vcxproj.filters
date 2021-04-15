@@ -295,5 +295,26 @@
     <Image Include="RES\Character\player1_re_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Pause\quit_to_menu.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\resume.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\save_game.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap18.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\quit_to_menu_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\resume_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\save_game_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

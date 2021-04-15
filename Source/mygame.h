@@ -160,10 +160,10 @@ namespace game_framework {
 		void OnShow();
 	private:
 		CMovingBitmap bg;
-		CMovingBitmap scr_start;
-		CMovingBitmap scr_load;
+		CMovingBitmap scr_resume;
+		CMovingBitmap scr_saveGame;
 		CMovingBitmap scr_preferences;
-		CMovingBitmap scr_about;
+		CMovingBitmap scr_quitToMenu;
 		CMovingBitmap scr_exit;
 		POINT p;
 

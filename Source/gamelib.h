@@ -252,7 +252,7 @@ private:
 
 class CInteger {
 public:
-	CInteger(int=5);			// default 5 digits
+	CInteger(int=4);			// default 4 digits
 	void Add(int n);			// 增加整數值
 	int  GetInteger();			// 回傳整數值
 	void LoadBitmap();			// 載入0..9及負號之圖形
