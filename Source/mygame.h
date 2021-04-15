@@ -124,6 +124,8 @@ namespace game_framework {
 		void OnInit();                                  // 遊戲的初值及圖形設定
 		void OnKeyDown(UINT, UINT, UINT);               //鍵盤動作
 		void OnKeyUp(UINT, UINT, UINT);
+		//static int gettime();
+
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -141,6 +143,8 @@ namespace game_framework {
 		CMovingBitmap coins;
 
 		CInteger count_down;
+
+		int* tempTime = 0;
 		int timer;
 	};
 

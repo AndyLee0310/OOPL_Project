@@ -227,22 +227,24 @@ void CGameStateInit::OnShow()
 	}
 
 
-
-	/*
+	int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
+	//string message = string("%d x %d", width, height);
+	
 	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 	CFont f,*fp;
 	f.CreatePointFont(160,"Times New Roman");	// 產生 font f; 160表示16 point的字
 	fp=pDC->SelectObject(&f);					// 選用 font f
-	pDC->SetBkColor(RGB(0,0,0));
+	pDC->SetBkColor(RGB(0,0,255));
 	pDC->SetTextColor(RGB(255,255,0));
-	pDC->TextOut(120,220,"Please click mouse or press SPACE to begin.");
-	pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
-	if (ENABLE_GAME_PAUSE)
-		pDC->TextOut(5,425,"Press Ctrl-Q to pause the Game.");
-	pDC->TextOut(5,455,"Press Alt-F4 or ESC to Quit.");
+	//pDC->TextOut(120,220,"Please click mouse or press SPACE to begin.");
+	//pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
+	//if (ENABLE_GAME_PAUSE)
+	//	pDC->TextOut(5,425,"Press Ctrl-Q to pause the Game.");
+	pDC->TextOut(5,455, "test");
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-	*/
+	
 }								
 
 //////////////////////////////////////////////////////////////////////////////
@@ -261,6 +263,9 @@ void CGamestatePause::OnInit()
 	scr_preferences.LoadBitmapA(IDB_SCREEN_PREFERENCES, RGB(0, 0, 255));
 	scr_quitToMenu.LoadBitmap(IDB_SCREEN_QUIT_TO_MENU, RGB(0, 0, 255));
 	scr_exit.LoadBitmapA(IDB_SCREEN_EXIT, RGB(0, 0, 255));
+
+
+	//int time_temp = game_framework::GameStage_1::gettime();
 }
 
 void CGamestatePause::OnBeginState()
@@ -272,6 +277,7 @@ void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 	if (p.x > scr_resume.Left() && p.x < scr_resume.Left() + scr_resume.Width() &&
 		p.y > scr_resume.Top() && p.y < scr_resume.Top() + scr_resume.Height()) {
 		//Resume
+
 		GotoGameState(GAME_STAGE_1);
 	}
 	else if (p.x > scr_saveGame.Left() && p.x < scr_saveGame.Left() + scr_saveGame.Width() &&
@@ -281,6 +287,7 @@ void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 	else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
 		p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
 		//Preferences
+		//CWindows::ResizeClient();
 	}
 	else if (p.x > scr_quitToMenu.Left() && p.x < scr_quitToMenu.Left() + scr_quitToMenu.Width() &&
 		p.y > scr_quitToMenu.Top() && p.y < scr_quitToMenu.Top() + scr_quitToMenu.Height()) {
@@ -478,8 +485,6 @@ void GameStage_1::OnBeginState() {
 			coins_pos[i][j] = coins_reset[i][j];
 		}
 	}
-
-	count_down.SetInteger(60);
 	timer = 0;
 }
 void GameStage_1::OnInit() {
@@ -492,6 +497,13 @@ void GameStage_1::OnInit() {
 	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
 	character_1.LoadBitmap();
 
+	if (tempTime == NULL) {
+		count_down.SetInteger(60);
+	}
+	else {
+		count_down.SetInteger(*tempTime);
+		tempTime = NULL;
+	}
 }
 void GameStage_1::OnMove() {
 	timer++;
@@ -556,9 +568,12 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_DOWN = 0x28; // keyboard下箭頭
 	const char KEY_ESC = 0x1B;
 	const char KEY_P = 0x50;
+	//int temp = count_down.GetInteger();
 
 	if (nChar == KEY_ESC || nChar == KEY_P) {
 		game_framework::CGame::Instance()->OnFilePause();
+		//*tempTime = count_down.GetInteger();
+		this -> count_down.GetInteger();
 		GotoGameState(GAME_STATE_PAUSE);
 	}
 
@@ -595,6 +610,13 @@ void GameStage_1::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == KEY_DOWN)
 		character_1.SetMovingDown(false);
 }
+/*
+int GameStage_1::gettime()
+{
+	return count_down.GetInteger();
+}
+*/
+
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
