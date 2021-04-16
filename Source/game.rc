@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文 (繁體，台灣) resources
+// Chinese (Traditional, Taiwan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHT)
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
@@ -142,12 +142,12 @@ IDB_BOMB_2              BITMAP                  "..\\RES\\Character\\bomb_3.bmp"
 
 IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
 
-#endif    // 中文 (繁體，台灣) resources
+#endif    // Chinese (Traditional, Taiwan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英文 (美國) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -183,6 +183,18 @@ IDB_SCREEN_PREFERENCES_RED BITMAP                  "..\\RES\\Menu\\preferences_r
 IDB_SCREEN_ABOUT_RED    BITMAP                  "..\\RES\\Menu\\about_red.bmp"
 
 IDB_SCREEN_EXIT_RED     BITMAP                  "..\\RES\\Menu\\exit_red.bmp"
+
+IDB_SCREEN_QUIT_TO_MENU BITMAP                  "..\\RES\\Pause\\quit_to_menu.bmp"
+
+IDB_SCREEN_RESUME       BITMAP                  "..\\RES\\Pause\\resume.bmp"
+
+IDB_SCREEN_SAVE_GAME    BITMAP                  "..\\RES\\Pause\\save_game.bmp"
+
+IDB_SCREEN_QUIT_TO_MENU_RED BITMAP                  "..\\RES\\Pause\\quit_to_menu_red.bmp"
+
+IDB_SCREEN_RESUME_RED   BITMAP                  "..\\RES\\Pause\\resume_red.bmp"
+
+IDB_SCREEN_SAVE_GAME_RED BITMAP                  "..\\RES\\Pause\\save_game_red.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -255,9 +267,8 @@ END
 
 IDR_MAINFRAME ACCELERATORS
 BEGIN
-    "Q",            ID_FILE_PAUSE,          VIRTKEY, CONTROL, NOINVERT
-    "F",            ID_TOGGLE_FULLSCREEN,   VIRTKEY, CONTROL, NOINVERT
     VK_F1,          ID_FILE_PAUSE,          VIRTKEY, NOINVERT
+    "F",            ID_TOGGLE_FULLSCREEN,   VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -478,7 +489,7 @@ BEGIN
     ID_BUTTON_UNITTEST      "Perform Unit Test"
 END
 
-#endif    // 英文 (美國) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

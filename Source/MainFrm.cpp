@@ -114,6 +114,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// EnableDocking(CBRS_ALIGN_ANY);
 	// DockControlBar(&m_wndToolBar);
 	m_wndToolBar.ShowWindow(SW_HIDE);	//預設取消顯示Toolbar
+	m_wndStatusBar.ShowWindow(SW_HIDE);		//預設取消顯示狀態列
 	//
 	// 儲存Menu的pointer
 	//

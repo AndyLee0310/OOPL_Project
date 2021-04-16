@@ -301,6 +301,7 @@
     <Image Include="RES\Character\player1_re_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+<<<<<<< HEAD
     <Image Include="RES\Character\bomb_1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -308,6 +309,27 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Character\bomb_3.bmp">
+=======
+    <Image Include="RES\Pause\quit_to_menu.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\resume.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\save_game.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap18.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\quit_to_menu_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\resume_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pause\save_game_red.bmp">
+>>>>>>> 3cb5b9dc1fda72be319e9e020cddcabaa8f3bed9
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
