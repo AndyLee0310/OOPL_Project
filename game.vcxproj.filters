@@ -132,6 +132,9 @@
     <ClCompile Include="Source\Character.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Bomb.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -171,6 +174,9 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Character.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bomb.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -293,6 +299,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Character\player1_re_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\bomb_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\bomb_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\bomb_3.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

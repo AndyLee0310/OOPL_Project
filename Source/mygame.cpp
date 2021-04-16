@@ -497,6 +497,8 @@ void GameStage_1::OnInit() {
 	coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
 	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
 	character_1.LoadBitmap();
+}
+void GameStage_1::upDataMap(int m[13][15]) {
 
 }
 void GameStage_1::OnMove() {
@@ -505,8 +507,8 @@ void GameStage_1::OnMove() {
 	int min = second / 60;
 	second %= 60;
 
-	TRACE("second %d\n", second);
-	TRACE("min %d\n", min);
+	//TRACE("second %d\n", second);
+	//TRACE("min %d\n", min);
 
 	if (min == 2) {
 		//下一關的關卡
@@ -539,7 +541,6 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 				block_0.ShowBitmap();
 				break;
 			}
-			std::cout << 3+i << std::endl;
 		}
 	}
 	for (int i = 0; i < 5; i++) {
@@ -556,13 +557,13 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 
 void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	const char KEY_LEFT = 0x25; // keyboard左箭頭
-	const char KEY_UP = 0x26; // keyboard上箭頭
+	const char KEY_LEFT = 0x25;  // keyboard左箭頭
+	const char KEY_UP = 0x26;    // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
-	const char KEY_DOWN = 0x28; // keyboard下箭頭
+	const char KEY_DOWN = 0x28;  // keyboard下箭頭
 	const char KEY_ESC = 0x1B;
 	const char KEY_P = 0x50;
-
+	const char KEY_SPACE = 0x20;
 	if (nChar == KEY_ESC || nChar == KEY_P) {
 		game_framework::CGame::Instance()->OnFilePause();
 		GotoGameState(GAME_STATE_PAUSE);
@@ -583,6 +584,9 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == KEY_DOWN) {
 		character_1.LoadMap(bg);
 		character_1.SetMovingDown(true);
+	}
+	if (nChar == KEY_SPACE) {
+		character_1.setBomb();
 	}
 }
 

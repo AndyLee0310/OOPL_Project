@@ -44,8 +44,10 @@ namespace game_framework {
 		Character_right.SetDelayCount(5);
 		Character_right.AddBitmap(IDB_PLAYER1_RE_1, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_PLAYER1_RE_2, RGB(255, 255, 255));
+		Bombs.LoadBitmap();
 	}
 	void Character::OnMove() {
+		Bombs.OnMove();
 		if (isMovingDown) {
 			Animate_State = 1;
 			Character_down.OnMove();
@@ -54,6 +56,8 @@ namespace game_framework {
 			int y2 = y + Character_down.Height() - 32 - 1;
 			if (GetPosition(x1, y2 + move_step) == 0 && GetPosition(x2, y2 + move_step) == 0) //邊界判定
 				y += move_step;
+			else if (GetPosition(x1, y2 + move_step - 2) == 0 && GetPosition(x2, y2 + move_step - 2) == 0)
+				y += 2;
 		}
 		if (isMovingUp) {
 			Animate_State = 2;
@@ -63,6 +67,8 @@ namespace game_framework {
 			int y1 = y - 32;
 			if (GetPosition(x1, y1 - move_step) == 0 && GetPosition(x2, y1 - move_step) == 0)                //邊界判定
 				y -= move_step;
+			else if (GetPosition(x1, y1 - move_step + 2) == 0 && GetPosition(x2, y1 - move_step + 2) == 0)                //邊界判定
+				y -= 2;
 		}
 		if (isMovingLeft) {
 			Animate_State = 3;
@@ -72,6 +78,8 @@ namespace game_framework {
 			int y2 = y + Character_left.Height() - 32 - 1;
 			if (GetPosition(x1 - move_step, y1) == 0 && GetPosition(x1 - move_step, y2) == 0)
 				x -= move_step;
+			else if (GetPosition(x1 - move_step + 2, y1) == 0 && GetPosition(x1 - move_step + 2, y2) == 0)
+				x -= 2;
 		}
 		if (isMovingRight) {
 			Animate_State = 4;
@@ -81,6 +89,8 @@ namespace game_framework {
 			int y2 = y + Character_right.Height() - 32 - 1;
 			if (GetPosition(x2 + move_step, y1) == 0 && GetPosition(x2 + move_step, y2) == 0)
 				x += move_step;
+			else if (GetPosition(x2 + move_step - 2, y1) == 0 && GetPosition(x2 + move_step - 2, y2) == 0)
+				x += 2;
 		}
 	}
 	void Character::SetMovingDown(bool flag)
@@ -118,6 +128,7 @@ namespace game_framework {
 		else if (Animate_State == 2)Character_up.OnShow();
 		else if (Animate_State == 3)Character_left.OnShow();
 		else if (Animate_State == 4)Character_right.OnShow();
+		Bombs.OnShow();
 	}
 	void Character::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 416; i++) {
@@ -125,10 +136,23 @@ namespace game_framework {
 				map[i][j] = maps[i / 32][j / 32];
 			}
 		}
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 15; j++) {
+				map_simple[i][j] = maps[i][j];
+			}
+		}
 	}
 	int Character::GetPosition(int px, int py) {
 		if (px < 0 || px > 480 || py < 0 || py > 416)
 			return 2;
 		return map[py][px];
+	}
+	void Character::setBomb() {
+		int B_x = (x + Character_up.Width() / 2 - 128) / 32;  // 腳色中心點判斷
+		int B_y = (y + Character_up.Height() / 2 - 32) / 32;
+		if (!Bombs.getActive()) {
+			Bombs.Initialize(B_x * 32 + 128, B_y * 32 + 32);
+		}
+
 	}
 }

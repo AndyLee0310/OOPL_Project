@@ -257,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\audio.cpp" />
+    <ClCompile Include="Source\Bomb.cpp" />
     <ClCompile Include="Source\CBall.cpp" />
     <ClCompile Include="Source\CBouncingBall.cpp" />
     <ClCompile Include="Source\CEraser.cpp" />
@@ -304,6 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h" />
+    <ClInclude Include="Source\Bomb.h" />
     <ClInclude Include="Source\CBall.h" />
     <ClInclude Include="Source\CBouncingBall.h" />
     <ClInclude Include="Source\CEraser.h" />
@@ -336,6 +338,9 @@
     <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bitmap4.bmp" />
     <Image Include="RES\boom_logo.bmp" />
+    <Image Include="RES\Character\bomb_1.bmp" />
+    <Image Include="RES\Character\bomb_2.bmp" />
+    <Image Include="RES\Character\bomb_3.bmp" />
     <Image Include="RES\Character\player1_dw_1.bmp" />
     <Image Include="RES\Character\player1_dw_2.bmp" />
     <Image Include="RES\Character\player1_le_1.bmp" />

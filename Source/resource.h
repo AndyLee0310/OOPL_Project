@@ -80,6 +80,10 @@
 #define IDB_PLAYER1_RE_2                202
 #define IDB_PLAYER1_LE_2                203
 #define IDB_PLAYER1_LE_1                204
+#define IDB_BOMB_1                      205
+#define IDB_BITMAP18                    207
+#define IDB_BOMB_3                      207
+#define IDB_BOMB_2                      207
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -92,7 +96,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        203
+#define _APS_NEXT_RESOURCE_VALUE        208
 #define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
