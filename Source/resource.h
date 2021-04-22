@@ -87,6 +87,7 @@
 #define IDB_SCREEN_RESUME_RED           210
 #define IDB_BITMAP18                    211
 #define IDB_SCREEN_SAVE_GAME_RED        211
+
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -99,11 +100,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-<<<<<<< HEAD
-#define _APS_NEXT_RESOURCE_VALUE        208
-=======
 #define _APS_NEXT_RESOURCE_VALUE        212
->>>>>>> 3cb5b9dc1fda72be319e9e020cddcabaa8f3bed9
 #define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
