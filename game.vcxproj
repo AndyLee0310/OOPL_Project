@@ -327,7 +327,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\code_temp\OOPL\lifish_BOOM_1.5.2_windows_x64\assets\graphics\boom_logo.png" />
     <Image Include="graphics\bitmaps\bg1.bmp" />
     <Image Include="graphics\bitmaps\border1.bmp" />
     <Image Include="graphics\bitmaps\fixed.bmp" />

@@ -618,7 +618,7 @@ void GameStage_1::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 void GameStage_1::setBomb(int id) {
 	if (id == 1) {
-		int x1 = character_1.
+		int x1 = 2;
 	}
 	else if (id == 2) {
 

@@ -44,10 +44,8 @@ namespace game_framework {
 		Character_right.SetDelayCount(5);
 		Character_right.AddBitmap(IDB_PLAYER1_RE_1, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_PLAYER1_RE_2, RGB(255, 255, 255));
-		Bombs.LoadBitmap();
 	}
 	void Character::OnMove() {
-		Bombs.OnMove();
 		if (isMovingDown) {
 			Animate_State = 1;
 			Character_down.OnMove();
