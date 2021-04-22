@@ -19,8 +19,6 @@ namespace game_framework {
 		int  getRight();
 		int  getLeft();
 		bool getActive();
-	protected:
-
 	private:
 		CAnimation waiting;
 		CAnimation Explosion;

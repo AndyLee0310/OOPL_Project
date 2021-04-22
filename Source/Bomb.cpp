@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "Bomb.h"
+
 namespace game_framework {
 	Bomb::Bomb() {
 		x = 0;

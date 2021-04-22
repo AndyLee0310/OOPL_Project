@@ -128,7 +128,6 @@ namespace game_framework {
 		else if (Animate_State == 2)Character_up.OnShow();
 		else if (Animate_State == 3)Character_left.OnShow();
 		else if (Animate_State == 4)Character_right.OnShow();
-		Bombs.OnShow();
 	}
 	void Character::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 416; i++) {
@@ -146,13 +145,5 @@ namespace game_framework {
 		if (px < 0 || px > 480 || py < 0 || py > 416)
 			return 2;
 		return map[py][px];
-	}
-	void Character::setBomb() {
-		int B_x = (x + Character_up.Width() / 2 - 128) / 32;  // 腳色中心點判斷
-		int B_y = (y + Character_up.Height() / 2 - 32) / 32;
-		if (!Bombs.getActive()) {
-			Bombs.Initialize(B_x * 32 + 128, B_y * 32 + 32);
-		}
-
 	}
 }

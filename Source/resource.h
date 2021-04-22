@@ -80,12 +80,6 @@
 #define IDB_PLAYER1_RE_2                202
 #define IDB_PLAYER1_LE_2                203
 #define IDB_PLAYER1_LE_1                204
-<<<<<<< HEAD
-#define IDB_BOMB_1                      205
-#define IDB_BITMAP18                    207
-#define IDB_BOMB_3                      207
-#define IDB_BOMB_2                      207
-=======
 #define IDB_SCREEN_QUIT_TO_MENU         205
 #define IDB_SCREEN_RESUME               206
 #define IDB_SCREEN_SAVE_GAME            207
@@ -93,7 +87,6 @@
 #define IDB_SCREEN_RESUME_RED           210
 #define IDB_BITMAP18                    211
 #define IDB_SCREEN_SAVE_GAME_RED        211
->>>>>>> 3cb5b9dc1fda72be319e9e020cddcabaa8f3bed9
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772

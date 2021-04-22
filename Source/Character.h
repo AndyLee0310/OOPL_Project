@@ -1,5 +1,4 @@
 #define STEP   4
-#include "Bomb.h"
 namespace game_framework {
 	class Character {
 	private:
@@ -7,8 +6,6 @@ namespace game_framework {
 		CAnimation Character_up;
 		CAnimation Character_left;
 		CAnimation Character_right;
-		Bomb       Bombs;
-		int  Bomb_count;            // 可用炸彈數量
 		int  Animate_State;         // 腳色移動狀態 1為下 2為上 3為左 4為右
 		int  x, y;					// 腳色左上角座標
 		int  move_step = STEP;      // 腳色步數
@@ -39,6 +36,5 @@ namespace game_framework {
 		void SetXY(int nx, int ny);		// 設定腳色左上角座標
 		void LoadMap(int maps[13][15]);
 		int  GetPosition(int, int);
-		void setBomb();
 	};
 }

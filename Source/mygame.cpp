@@ -59,6 +59,7 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include <iostream>
+#include "Bomb.h"
 
 namespace game_framework {
 /////////////////////////////////////////////////////////////////////////////
@@ -448,10 +449,10 @@ void CGameStateOver::OnShow()
 /////////////////////////////////////////////////////////////////////////////
 GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 {
-	
+	Bomb_ch1 = new Bomb [7];
 }
 GameStage_1::~GameStage_1() {
-
+	delete [] Bomb_ch1;
 }
 void GameStage_1::OnBeginState() {
 	//腳色數值重置
@@ -569,9 +570,9 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_DOWN = 0x28;  // keyboard下箭頭
 	const char KEY_ESC = 0x1B;
 	const char KEY_P = 0x50;
-	//int temp = count_down.GetInteger();
-
 	const char KEY_SPACE = 0x20;
+
+	
 	if (nChar == KEY_ESC || nChar == KEY_P) {
 		game_framework::CGame::Instance()->OnFilePause();
 		//*tempTime = count_down.GetInteger();
@@ -596,7 +597,7 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		character_1.SetMovingDown(true);
 	}
 	if (nChar == KEY_SPACE) {
-		character_1.setBomb();
+		setBomb(1);
 	}
 }
 
@@ -614,6 +615,14 @@ void GameStage_1::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		character_1.SetMovingUp(false);
 	if (nChar == KEY_DOWN)
 		character_1.SetMovingDown(false);
+}
+void GameStage_1::setBomb(int id) {
+	if (id == 1) {
+		int x1 = character_1.
+	}
+	else if (id == 2) {
+
+	}
 }
 /*
 int GameStage_1::gettime()
