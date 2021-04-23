@@ -13,12 +13,13 @@ namespace game_framework {
 		active = false;
 		isExp  = false;
 	}
-	void Bomb::Initialize(int nx, int ny) {
-		x = nx;
-		y = ny;
-		active = true;
-		isExp =  false;
+	void Bomb::Initialize() {
+		x = 128;
+		y = 32;
+		active = false;
+		isExp  = false;
 		timer = 0;
+		range_up = range_down = range_left = range_right = 0;
 	}
 	void Bomb::LoadBitmap() {
 		waiting.AddBitmap(IDB_BOMB_1, RGB(255, 255, 255));
@@ -41,6 +42,7 @@ namespace game_framework {
 		else if (active && isExp)active = false;
 	}
 	void Bomb::setActive(bool act) {
+		if (act)isExp = false;
 		active = act;
 	}
 	void Bomb::setUp(int up) {
@@ -75,6 +77,15 @@ namespace game_framework {
 	}
 	bool  Bomb::getActive() {
 		return active;
+	}
+	bool  Bomb::getExp() {
+		return isExp;
+	}
+	int  Bomb::getTop_Bomb() {
+		return x;
+	}
+	int  Bomb::getLeft_Bomb() {
+		return y;
 	}
 	void Bomb::setTopleft(int nx, int ny) {
 		x = nx;

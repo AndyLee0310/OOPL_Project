@@ -3,7 +3,7 @@ namespace game_framework {
 	class Bomb {
 	public:
 		Bomb();
-		void Initialize(int nx, int ny);
+		void Initialize();
 		void LoadBitmap();
 		void OnMove();
 		void OnShow();
@@ -18,7 +18,10 @@ namespace game_framework {
 		int  getDown();
 		int  getRight();
 		int  getLeft();
+		int  getTop_Bomb();
+		int  getLeft_Bomb();
 		bool getActive();
+		bool getExp();
 	private:
 		CAnimation waiting;
 		CAnimation Explosion;

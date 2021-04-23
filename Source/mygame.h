@@ -42,6 +42,7 @@
 #include "CBall.h"
 #include "CBouncingBall.h"
 #include "Character.h"
+#include "Bomb.h"
 
 
 namespace game_framework {
@@ -124,24 +125,23 @@ namespace game_framework {
 		void OnInit();                                  // 遊戲的初值及圖形設定
 		void OnKeyDown(UINT, UINT, UINT);               // 鍵盤動作
 		void OnKeyUp(UINT, UINT, UINT);
-		void upDataMap(int*);
-		void setBomb(int);
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void setBomb(int);
 	private:
-		int bg[13][15];  
+		int bg[13][15];              //0地板 1石塊 2粉色石 4未爆彈
 		int coins_pos[5][2];         //硬幣位置
 		CMovingBitmap block_0;
 		CMovingBitmap block_1;
 		CMovingBitmap block_2;       //類別之後改
 		CMovingBitmap panel;
 		CMovingBitmap border;
-		Character     character_1;   
+		Character     character_1;   //Range undone
 		CMovingBitmap character_2;   //類別之後改
 		CMovingBitmap AI;
 		CMovingBitmap coins;
-		Bomb          *Bomb_ch1;
+		Bomb*         Bomb_ch1;
 		CInteger count_down;
 
 		int* tempTime = 0;

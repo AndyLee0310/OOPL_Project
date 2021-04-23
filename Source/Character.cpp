@@ -15,6 +15,7 @@ namespace game_framework {
 		y = ny;
 		Animate_State = 1;
 		isMovingDown = isMovingLeft = isMovingRight = isMovingUp = false;
+		Explosion_range = 3;
 	}
 	int Character::GetX1() {
 		return x;
@@ -30,6 +31,9 @@ namespace game_framework {
 	}
 	int Character::GetStep() {
 		return move_step;
+	}
+	int Character::GetRange() {
+		return Explosion_range;
 	}
 	void Character::LoadBitmap() {
 		Character_down.SetDelayCount(5);
@@ -114,6 +118,10 @@ namespace game_framework {
 	void Character::SetXY(int nx, int ny)
 	{
 		x = nx; y = ny;
+	}
+
+	void Character::SetRange(int i) {
+		Explosion_range = i;
 	}
 
 	void Character::OnShow()

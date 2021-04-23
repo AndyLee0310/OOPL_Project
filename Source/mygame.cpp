@@ -59,7 +59,6 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include <iostream>
-#include "Bomb.h"
 
 namespace game_framework {
 /////////////////////////////////////////////////////////////////////////////
@@ -457,7 +456,9 @@ GameStage_1::~GameStage_1() {
 void GameStage_1::OnBeginState() {
 	//腳色數值重置
 	character_1.Initialize(128,32);
-
+	for (int i = 0; i < 7; i++) {
+		Bomb_ch1[i].Initialize();
+	}
 	int bg_reset[13][15] = {           //0地板 1石塊 2粉色石
 			{0,0,0,0,2,0,2,0,0,0,0,2,0,0,0},
 			{0,1,2,1,0,1,2,1,0,1,2,1,0,1,0},
@@ -497,15 +498,8 @@ void GameStage_1::OnInit() {
 	coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
 	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
 	character_1.LoadBitmap();
-}
-void GameStage_1::upDataMap(int m[13][15]) {
-
-	if (tempTime == NULL) {
-		count_down.SetInteger(60);
-	}
-	else {
-		count_down.SetInteger(*tempTime);
-		tempTime = NULL;
+	for (int i = 0; i < 7; i++) {
+		Bomb_ch1[i].LoadBitmap();
 	}
 }
 void GameStage_1::OnMove() {
@@ -524,6 +518,14 @@ void GameStage_1::OnMove() {
 		count_down.Add(-1);
 
 	character_1.OnMove();
+	for (int i = 0; i < 7; i++) {
+		Bomb_ch1[i].OnMove();
+		if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {   //爆炸過的炸彈位置重設成可行走
+			int nx = Bomb_ch1[i].getTop_Bomb();
+			int ny = Bomb_ch1[i].getLeft_Bomb();
+			bg[(nx - 128) / 32][(ny - 32) / 32] = 0;
+		}
+	}
 }
 void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	panel.SetTopLeft(0, 0);
@@ -558,8 +560,10 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	count_down.SetTopLeft(panel.Width() * 25 / 100, panel.Height() * 48 / 100);
 	count_down.LoadBitmapA();
 	count_down.ShowBitmap();
-
 	character_1.OnShow();
+	for (int i = 0; i < 7; i++) {
+		Bomb_ch1[i].OnShow();
+	}
 }
 
 void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -618,7 +622,54 @@ void GameStage_1::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 void GameStage_1::setBomb(int id) {
 	if (id == 1) {
-		int x1 = 2;
+		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
+		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
+		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
+		y = y / 32 - 1;
+		if (bg[x][y] == 0) {
+			int j;
+			int range = character_1.GetRange();
+			for (int i = 0; i < 7; i++) {
+				if (!Bomb_ch1[i].getActive()) {
+					Bomb_ch1[i].setTopleft(x * 32 + 128, (y + 1) * 32);
+					Bomb_ch1[i].setActive(true);
+					for (j = 1; j <= range; j++) {
+						if (y - j < 0 || bg[x][y - j] != 0) {
+							j--;
+							break;
+						}
+					}
+					Bomb_ch1[i].setUp(j);
+					for (j = 1; j <= range; j++) {
+						if (y + j > 14 || bg[x][y + j] != 0) {
+							j--;
+							break;
+						}
+					}
+					Bomb_ch1[i].setDown(j);
+					for (j = 1; j <= range; j++) {
+						if (x + j > 12 || bg[x + j][y] != 0) {
+							j--;
+							break;
+						}
+					}
+					Bomb_ch1[i].setRight(j);
+					for (j = 1; j <= range; j++) {
+						if (x - j < 0 || bg[x - j][y] != 0) {
+							j--;
+							break;
+						}
+					}
+					Bomb_ch1[i].setLeft(j);
+					bg[x][y] = 4;
+					break;
+				}
+			}
+		}
+		else {
+			TRACE("Fail\n");
+		}
+		TRACE("bg[0][0] = %d\n", bg[0][0]);
 	}
 	else if (id == 2) {
 
