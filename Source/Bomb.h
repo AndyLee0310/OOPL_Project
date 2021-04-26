@@ -30,7 +30,7 @@ namespace game_framework {
 		CAnimation Exp_left;
 		CAnimation Exp_right;
 		bool       active;
-		bool       isExp;
+		bool       isExp;         // 1Ãz¬µ¤¤ 2µ²§ô
 		int        x, y;
 		int        range_up;
 		int        range_down;

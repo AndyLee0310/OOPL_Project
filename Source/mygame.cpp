@@ -523,7 +523,10 @@ void GameStage_1::OnMove() {
 		if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {   //爆炸過的炸彈位置重設成可行走
 			int nx = Bomb_ch1[i].getTop_Bomb();
 			int ny = Bomb_ch1[i].getLeft_Bomb();
-			bg[(nx - 128) / 32][(ny - 32) / 32] = 0;
+			TRACE("X,Y = %d %d return to 0\n", (nx - 128) / 32, (ny - 32) / 32);
+			Bomb_ch1[i].Initialize();
+			bg[(ny - 32) / 32][(nx - 128) / 32] = 0;
+
 		}
 	}
 }
@@ -621,12 +624,12 @@ void GameStage_1::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		character_1.SetMovingDown(false);
 }
 void GameStage_1::setBomb(int id) {
-	if (id == 1) {
+	if (id == 1) {                                                  //[y][x]
 		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
 		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
 		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
 		y = y / 32 - 1;
-		if (bg[x][y] == 0) {
+		if (bg[y][x] == 0) {
 			int j;
 			int range = character_1.GetRange();
 			for (int i = 0; i < 7; i++) {
@@ -634,42 +637,42 @@ void GameStage_1::setBomb(int id) {
 					Bomb_ch1[i].setTopleft(x * 32 + 128, (y + 1) * 32);
 					Bomb_ch1[i].setActive(true);
 					for (j = 1; j <= range; j++) {
-						if (y - j < 0 || bg[x][y - j] != 0) {
+						if (y - j < 0 || bg[y - j][x] != 0) {
 							j--;
 							break;
 						}
 					}
 					Bomb_ch1[i].setUp(j);
 					for (j = 1; j <= range; j++) {
-						if (y + j > 14 || bg[x][y + j] != 0) {
+						if (y + j > 14 || bg[y + j][x] != 0) {
 							j--;
 							break;
 						}
 					}
 					Bomb_ch1[i].setDown(j);
 					for (j = 1; j <= range; j++) {
-						if (x + j > 12 || bg[x + j][y] != 0) {
+						if (x + j > 12 || bg[y][x + j] != 0) {
 							j--;
 							break;
 						}
 					}
 					Bomb_ch1[i].setRight(j);
 					for (j = 1; j <= range; j++) {
-						if (x - j < 0 || bg[x - j][y] != 0) {
+						if (x - j < 0 || bg[x - j][x] != 0) {
 							j--;
 							break;
 						}
 					}
 					Bomb_ch1[i].setLeft(j);
-					bg[x][y] = 4;
+					bg[y][x] = 4;
+					TRACE("X,Y = %d %d set to %d\n", x, y, bg[y][x]);
 					break;
 				}
 			}
 		}
 		else {
-			TRACE("Fail\n");
+			TRACE("X,Y = %d %d is %d\n", x, y, bg[y][x]);
 		}
-		TRACE("bg[0][0] = %d\n", bg[0][0]);
 	}
 	else if (id == 2) {
 

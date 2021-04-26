@@ -341,6 +341,10 @@
     <Image Include="RES\Character\bomb_1.bmp" />
     <Image Include="RES\Character\bomb_2.bmp" />
     <Image Include="RES\Character\bomb_3.bmp" />
+    <Image Include="RES\Character\explosionC_1.bmp" />
+    <Image Include="RES\Character\explosionC_2.bmp" />
+    <Image Include="RES\Character\explosionC_3.bmp" />
+    <Image Include="RES\Character\explosionC_4.bmp" />
     <Image Include="RES\Character\player1_dw_1.bmp" />
     <Image Include="RES\Character\player1_dw_2.bmp" />
     <Image Include="RES\Character\player1_le_1.bmp" />

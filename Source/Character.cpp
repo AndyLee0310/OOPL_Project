@@ -27,7 +27,7 @@ namespace game_framework {
 		return x + Character_down.Width();
 	}
 	int Character::GetY2() {
-		return y + Character_down.Height();
+		return y + Character_down.Width();
 	}
 	int Character::GetStep() {
 		return move_step;

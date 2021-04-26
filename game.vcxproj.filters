@@ -330,5 +330,17 @@
     <Image Include="RES\Character\bomb_3.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Character\explosionC_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionC_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionC_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionC_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

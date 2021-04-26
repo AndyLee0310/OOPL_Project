@@ -14,35 +14,54 @@ namespace game_framework {
 		isExp  = false;
 	}
 	void Bomb::Initialize() {
-		x = 128;
-		y = 32;
+		x = 0;
+		y = 0;
 		active = false;
 		isExp  = false;
 		timer = 0;
 		range_up = range_down = range_left = range_right = 0;
+		Explosion.Reset();
 	}
 	void Bomb::LoadBitmap() {
 		waiting.AddBitmap(IDB_BOMB_1, RGB(255, 255, 255));
 		waiting.AddBitmap(IDB_BOMB_2, RGB(255, 255, 255));
+		Explosion.SetDelayCount(5);
+		Explosion.AddBitmap(IDB_expC_4, RGB(255, 255, 255));
+		Explosion.AddBitmap(IDB_expC_3, RGB(255, 255, 255));
+		Explosion.AddBitmap(IDB_expC_2, RGB(255, 255, 255));
+		Explosion.AddBitmap(IDB_expC_1, RGB(255, 255, 255));
 
 	}
 	void Bomb::OnMove() {
-		waiting.OnMove();
+		if (active && !isExp) {
+			waiting.OnMove();
+		}
+		else if (active && isExp) {
+			Explosion.OnMove();
+		}
+
 	}
 	void Bomb::OnShow() {
-		waiting.SetTopLeft(x, y);
-		if (timer == 30 * 3 && !isExp) {            //30FPS * 5¬í
-			timer = 0;
-			isExp = true;
-		}
 		if (active && !isExp) {
 			timer++;
+			waiting.SetTopLeft(x, y);
 			waiting.OnShow();
+			if (timer == 30 * 3) {            //30FPS * 5¬í
+				timer = 0;
+				isExp  = true;
+			}
 		}
-		else if (active && isExp)active = false;
+		else if (active && isExp) {
+			Explosion.SetTopLeft(x, y);
+			Explosion.OnShow();
+			if (Explosion.IsFinalBitmap()) {
+				active = false;
+			}
+		}
+		//else if (active && isExp)active = false;
 	}
 	void Bomb::setActive(bool act) {
-		if (act)isExp = false;
+		if (act)isExp = 0;
 		active = act;
 	}
 	void Bomb::setUp(int up) {
