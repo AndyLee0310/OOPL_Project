@@ -449,13 +449,14 @@ void CGameStateOver::OnShow()
 GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 {
 	Bomb_ch1 = new Bomb [7];
+	block_2 = new Obstacle[42];
+
 }
 GameStage_1::~GameStage_1() {
 	delete [] Bomb_ch1;
+	delete[] block_2;
 }
 void GameStage_1::OnBeginState() {
-	//腳色數值重置
-	character_1.Initialize(128,32);
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].Initialize();
 	}
@@ -474,6 +475,12 @@ void GameStage_1::OnBeginState() {
 			{2,1,2,1,0,1,0,1,2,1,0,1,0,1,0},
 			{0,0,2,0,0,2,0,0,0,0,2,0,0,0,0}
 	};
+	int obstacle_reset[42][2] = {
+		{0, 4},{0, 6},{0, 11},{1, 2},{1, 6},{1, 10},{2, 4},{2, 6},{2, 8},{2, 14},{3, 2},{3,10},
+		{4,0},{4,8},{4,12},{4,14},{5,4},{5,10},{6,3},{6,6},{6,10},{7,0},{7,4},{7,10},{8,0},{8,3},
+		{8,7},{8,8},{8,14},{9,2},{9,8},{9,10},{10,4},{10,6},{10,12},{10,13},{11,0},{11,2},{11,8},
+		{12,2},{12,5},{12,10}
+	};
 	int coins_reset[5][2] = {
 		{2,9},{4,1},{6,8},{8,13},{9,4}
 	};
@@ -482,18 +489,29 @@ void GameStage_1::OnBeginState() {
 			bg[i][j] = bg_reset[i][j];
 		}
 	}
+	for (int i = 0; i < 42; i++) {
+		block_2_pos[i][0] = obstacle_reset[i][0];
+		block_2_pos[i][1] = obstacle_reset[i][1];
+		
+		block_2[i].Initialize(block_2_pos[i][1] * 32 + 128, block_2_pos[i][0] * 32 + 32);
+	}
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 2; j++) {
 			coins_pos[i][j] = coins_reset[i][j];
 		}
 	}
+	//腳色數值重置
+	character_1.Initialize(128, 32);
+	character_1.LoadMap(bg);
 	timer = 0;
 }
 void GameStage_1::OnInit() {
-	//腳色bitmap load
+	timer = 250;
 	block_0.LoadBitmap(IDB_Bg_1, RGB(255, 255, 255));
 	block_1.LoadBitmap(IDB_Blocks, RGB(255, 255, 255));
-	block_2.LoadBitmap(IDB_BREAK_0, RGB(255, 255, 255));
+	for (int i = 0; i < 42; i++) {
+		block_2[i].LoadBitmap();
+	}
 	border.LoadBitmap(IDB_BORDER_0, RGB(255, 255, 255));
 	coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
 	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
@@ -517,18 +535,14 @@ void GameStage_1::OnMove() {
 	if (!(timer % 30))
 		count_down.Add(-1);
 
-	character_1.OnMove();
-	for (int i = 0; i < 7; i++) {
-		Bomb_ch1[i].OnMove();
-		if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {   //爆炸過的炸彈位置重設成可行走
-			int nx = Bomb_ch1[i].getTop_Bomb();
-			int ny = Bomb_ch1[i].getLeft_Bomb();
-			TRACE("X,Y = %d %d return to 0\n", (nx - 128) / 32, (ny - 32) / 32);
-			Bomb_ch1[i].Initialize();
-			bg[(ny - 32) / 32][(nx - 128) / 32] = 0;
-
+	for (int i = 0; i < 42; i++) {
+		block_2[i].OnMove();
+		if (block_2[i].getActive() && !block_2[i].getExp()) {
+			mapChange(block_2_pos[i][1], block_2_pos[i][0], 0);
 		}
 	}
+	character_1.OnMove();
+	BombState();
 }
 void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	panel.SetTopLeft(0, 0);
@@ -537,31 +551,28 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	border.ShowBitmap();
 	for (int i = 0; i < 13; i++) {             //方塊顯示    j是X軸 i是Y軸
 		for (int j = 0; j < 15; j++) {
-			switch (bg[i][j]) {
-			case 1:
+			if (bg[i][j] == 1) {
 				block_1.SetTopLeft(128 + 32 * j, 32 * (i + 1));
 				block_1.ShowBitmap();
-				break;
-			case 2:
+			}
+			else {
 				block_0.SetTopLeft(128 + 32 * j, 32 * (i + 1));
 				block_0.ShowBitmap();
-				block_2.SetTopLeft(128 + 32 * j, 32 * (i + 1));
-				block_2.ShowBitmap();
-				break;
-			default:
-				block_0.SetTopLeft(128 + 32 * j, 32 * (i + 1));
-				block_0.ShowBitmap();
-				break;
 			}
 		}
 	}
+
+	for (int i = 0; i < 42; i++) {
+		block_2[i].OnShow();
+	}
+
 	for (int i = 0; i < 5; i++) {
 		coins.SetTopLeft(128 + coins_pos[i][1] * 32, 32* (coins_pos[i][0] + 1));
 		coins.ShowBitmap();
 	}
 
 	count_down.SetTopLeft(panel.Width() * 25 / 100, panel.Height() * 48 / 100);
-	count_down.LoadBitmapA();
+	count_down.LoadBitmap();
 	count_down.ShowBitmap();
 	character_1.OnShow();
 	for (int i = 0; i < 7; i++) {
@@ -588,19 +599,15 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	if (nChar == KEY_LEFT) {
-		character_1.LoadMap(bg);
 		character_1.SetMovingLeft(true);
 	}
 	if (nChar == KEY_RIGHT) {
-		character_1.LoadMap(bg);
 		character_1.SetMovingRight(true);
 	}
 	if (nChar == KEY_UP) {
-		character_1.LoadMap(bg);
 		character_1.SetMovingUp(true);
 	}
 	if (nChar == KEY_DOWN) {
-		character_1.LoadMap(bg);
 		character_1.SetMovingDown(true);
 	}
 	if (nChar == KEY_SPACE) {
@@ -628,54 +635,125 @@ void GameStage_1::setBomb(int id) {
 		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
 		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
 		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
-		y = y / 32 - 1;
+		y = (y - 32) / 32;
 		if (bg[y][x] == 0) {
-			int j;
-			int range = character_1.GetRange();
 			for (int i = 0; i < 7; i++) {
 				if (!Bomb_ch1[i].getActive()) {
 					Bomb_ch1[i].setTopleft(x * 32 + 128, (y + 1) * 32);
 					Bomb_ch1[i].setActive(true);
-					for (j = 1; j <= range; j++) {
-						if (y - j < 0 || bg[y - j][x] != 0) {
-							j--;
-							break;
-						}
-					}
-					Bomb_ch1[i].setUp(j);
-					for (j = 1; j <= range; j++) {
-						if (y + j > 14 || bg[y + j][x] != 0) {
-							j--;
-							break;
-						}
-					}
-					Bomb_ch1[i].setDown(j);
-					for (j = 1; j <= range; j++) {
-						if (x + j > 12 || bg[y][x + j] != 0) {
-							j--;
-							break;
-						}
-					}
-					Bomb_ch1[i].setRight(j);
-					for (j = 1; j <= range; j++) {
-						if (x - j < 0 || bg[x - j][x] != 0) {
-							j--;
-							break;
-						}
-					}
-					Bomb_ch1[i].setLeft(j);
-					bg[y][x] = 4;
-					TRACE("X,Y = %d %d set to %d\n", x, y, bg[y][x]);
+					mapChange(x, y, 4);
 					break;
 				}
 			}
+			TRACE("X,Y = %d %d set to %d\n", x, y, bg[y][x]);
 		}
 		else {
-			TRACE("X,Y = %d %d is %d\n", x, y, bg[y][x]);
+			TRACE("fail\n");
 		}
 	}
 	else if (id == 2) {
 
+	}
+}
+
+void GameStage_1::mapChange(int x, int y, int value) {
+	bg[y][x] = value;
+	character_1.LoadMap(bg);
+}
+void GameStage_1::BombState() {
+	for (int i = 0; i < 7; i++) {
+		Bomb_ch1[i].OnMove();
+		if (Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {  //爆炸中的炸彈位置重設成可行走
+			int nx = (Bomb_ch1[i].getTop_Bomb() - 128) / 32;
+			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
+			mapChange(nx, ny, 5);
+			if(!Bomb_ch1[i].getObs())setBombRange(1, i, nx, ny);
+			for (int i = 1; i <= Bomb_ch1[i].getUp(); i++)mapChange(nx, ny - i, 5);
+			for (int i = 1; i <= Bomb_ch1[i].getDown(); i++)mapChange(nx, ny + i, 5);
+			for (int i = 1; i <= Bomb_ch1[i].getRight(); i++)mapChange(nx + i, ny, 5);
+			for (int i = 1; i <= Bomb_ch1[i].getLeft(); i++)mapChange(nx - i, ny, 5);
+			
+		}
+		if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {
+			int nx = (Bomb_ch1[i].getTop_Bomb() - 128) / 32;
+			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
+			mapChange(nx, ny, 0);
+			for (int i = 1; i <= Bomb_ch1[i].getUp(); i++)mapChange(nx, ny - i, 0);
+			for (int i = 1; i <= Bomb_ch1[i].getDown(); i++)mapChange(nx, ny + i, 0);
+			for (int i = 1; i <= Bomb_ch1[i].getRight(); i++)mapChange(nx + i, ny, 0);
+			for (int i = 1; i <= Bomb_ch1[i].getLeft(); i++)mapChange(nx - i, ny, 0);
+			
+			Bomb_ch1[i].Initialize();
+		}
+	}
+}
+void GameStage_1::setBombRange(int id, int i,int x,int y) {
+	if (id == 1) {
+		int j;
+		int range = character_1.GetRange();
+		for (j = 1; j <= range; j++) {
+			if (y - j < 0 || bg[y - j][x] == 1) {
+				break;
+			}
+			else if (bg[y - j][x] == 2) {
+				for (int k = 0; k < 42; k++) {
+					if (block_2_pos[k][0] == y - j && block_2_pos[k][1] == x) {
+						block_2[k].setActive();
+						break;
+					}
+				}
+
+				break;
+			}
+		}
+		Bomb_ch1[i].setUp(--j);
+		for (j = 1; j <= range; j++) {
+			if (y + j > 12 || bg[y + j][x] == 1) {
+				break;
+			}
+			else if (bg[y + j][x] == 2) {
+				for (int k = 0; k < 42; k++) {
+					if (block_2_pos[k][0] == y + j && block_2_pos[k][1] == x) {
+						block_2[k].setActive();
+						break;
+					}
+				}
+				break;
+			}
+		}
+		Bomb_ch1[i].setDown(--j);
+		for (j = 1; j <= range; j++) {
+			if (x + j > 14 || bg[y][x + j] == 1) {
+				break;
+			}
+			else if (bg[y][x + j] == 2) {
+				for (int k = 0; k < 42; k++) {
+					if (block_2_pos[k][0] == y && block_2_pos[k][1] == x + j) {
+						block_2[k].setActive();
+						break;
+					}
+				}
+				break;
+			}
+
+		}
+		Bomb_ch1[i].setRight(--j);
+		for (j = 1; j <= range; j++) {
+			if (x - j < 0 || bg[y][x - j] == 1) {
+				break;
+			}
+			else if (bg[y][x - j] == 2) {
+				for (int k = 0; k < 42; k++) {
+					if (block_2_pos[k][0] == y && block_2_pos[k][1] == x - j) {
+						block_2[k].setActive();
+						break;
+					}
+				}
+				break;
+			}
+		}
+		Bomb_ch1[i].setLeft(--j);
+		Bomb_ch1[i].setObs(true);
 	}
 }
 /*

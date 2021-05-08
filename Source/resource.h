@@ -94,6 +94,19 @@
 #define IDB_expC_3                      216
 #define IDB_BITMAP19                    217
 #define IDB_expC_4                      217
+#define IDB_expH_1                      218
+#define IDB_expH_2                      219
+#define IDB_expH_3                      220
+#define IDB_expH_4                      221
+#define IDB_expV_1                      222
+#define IDB_BITMAP21                    223
+#define IDB_expV_2                      223
+#define IDB_expV_3                      224
+#define IDB_expV_4                      225
+#define IDB_BREAK_1                     226
+#define IDB_BREAK_2                     227
+#define IDB_BITMAP22                    228
+#define IDB_BREAK_3                     228
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -106,7 +119,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        218
+#define _APS_NEXT_RESOURCE_VALUE        229
 #define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101

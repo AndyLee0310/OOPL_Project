@@ -134,13 +134,35 @@ IDB_BOMB_1              BITMAP                  "..\\RES\\Character\\bomb_1.bmp"
 
 IDB_BOMB_2              BITMAP                  "..\\RES\\Character\\bomb_3.bmp"
 
-IDB_expC_1              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionC_1.bmp"
+IDB_expC_1              BITMAP                  "..\\RES\\Character\\explosionC_1.bmp"
 
-IDB_expC_2              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionC_2.bmp"
+IDB_expC_2              BITMAP                  "..\\RES\\Character\\explosionC_2.bmp"
 
-IDB_expC_3              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionC_3.bmp"
+IDB_expC_3              BITMAP                  "..\\RES\\Character\\explosionC_3.bmp"
 
-IDB_expC_4              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionC_4.bmp"
+IDB_expC_4              BITMAP                  "..\\RES\\Character\\explosionC_4.bmp"
+
+IDB_expH_1              BITMAP                  "..\\RES\\Character\\explosionH_1.bmp"
+
+IDB_expH_2              BITMAP                  "..\\RES\\Character\\explosionH_2.bmp"
+
+IDB_expH_3              BITMAP                  "..\\RES\\Character\\explosionH_3.bmp"
+
+IDB_expH_4              BITMAP                  "..\\RES\\Character\\explosionH_4.bmp"
+
+IDB_expV_1              BITMAP                  "..\\RES\\Character\\explosionV_1.bmp"
+
+IDB_expV_2              BITMAP                  "..\\RES\\Character\\explosionV_2.bmp"
+
+IDB_expV_3              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionV_3.bmp"
+
+IDB_expV_4              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionV_4.bmp"
+
+IDB_BREAK_1             BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\breakable_1.bmp"
+
+IDB_BREAK_2             BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\breakable_2.bmp"
+
+IDB_BREAK_3             BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\breakable_3.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

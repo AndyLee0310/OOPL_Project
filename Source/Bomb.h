@@ -14,6 +14,7 @@ namespace game_framework {
 		void setLeft(int);
 		void setRange(int, int, int, int);
 		void setTopleft(int, int);
+		void setObs(bool);
 		int  getUp();
 		int  getDown();
 		int  getRight();
@@ -22,15 +23,15 @@ namespace game_framework {
 		int  getLeft_Bomb();
 		bool getActive();
 		bool getExp();
+		bool getObs();
 	private:
 		CAnimation waiting;
 		CAnimation Explosion;
-		CAnimation Exp_up;
-		CAnimation Exp_down;
-		CAnimation Exp_left;
-		CAnimation Exp_right;
-		bool       active;
-		bool       isExp;         // 1爆炸中 2結束
+		CAnimation Exp_V;
+		CAnimation Exp_H;
+		bool       active;        // 00等待 10未爆 11爆炸中 01結束
+		bool       isExp;
+		bool       Obs_break;     // 是否範圍設置
 		int        x, y;
 		int        range_up;
 		int        range_down;

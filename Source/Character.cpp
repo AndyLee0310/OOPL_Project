@@ -15,7 +15,7 @@ namespace game_framework {
 		y = ny;
 		Animate_State = 1;
 		isMovingDown = isMovingLeft = isMovingRight = isMovingUp = false;
-		Explosion_range = 3;
+		Explosion_range = 1;
 	}
 	int Character::GetX1() {
 		return x;
@@ -56,10 +56,19 @@ namespace game_framework {
 			int x1 = x - 128;
 			int x2 = x + Character_down.Width() - 128 - 1;
 			int y2 = y + Character_down.Height() - 32 - 1;
-			if (GetPosition(x1, y2 + move_step) == 0 && GetPosition(x2, y2 + move_step) == 0) //邊界判定
+			if (isMoveable(x1, y2 + move_step) && isMoveable(x2, y2 + move_step)) { //邊界判定
 				y += move_step;
-			else if (GetPosition(x1, y2 + move_step - 2) == 0 && GetPosition(x2, y2 + move_step - 2) == 0)
+			}
+			else if (isMoveable(x1, y2 + move_step - 2) && isMoveable(x2, y2 + move_step - 2)) {
 				y += 2;
+			}
+			else if (GetPosition(x1, y2) == 4 && GetPosition(x1, y2 + move_step) == 4 && y2 / 32 == (y2 + move_step) / 32) {         //在剛設下的32*32炸彈空間內可以正常移動 但離開後不能重新回來
+				y += move_step;
+			}
+			else if (GetPosition(x1, y2) == 4 && GetPosition(x1, y2 + move_step - 2) == 4 && y2 / 32 == (y2 + move_step - 2) / 32) {
+				y += 2;
+			}
+				
 		}
 		if (isMovingUp) {
 			Animate_State = 2;
@@ -67,10 +76,15 @@ namespace game_framework {
 			int x1 = x - 128;
 			int x2 = x + Character_up.Width() - 128 - 1;
 			int y1 = y - 32;
-			if (GetPosition(x1, y1 - move_step) == 0 && GetPosition(x2, y1 - move_step) == 0)                //邊界判定
+			if (isMoveable(x1, y1 - move_step) && isMoveable(x2, y1 - move_step))
 				y -= move_step;
-			else if (GetPosition(x1, y1 - move_step + 2) == 0 && GetPosition(x2, y1 - move_step + 2) == 0)                //邊界判定
+			else if (isMoveable(x1, y1 - move_step + 2) && isMoveable(x2, y1 - move_step + 2))                //邊界判定
 				y -= 2;
+			else if (GetPosition(x1, y1) == 4 && GetPosition(x1, y1 - move_step) == 4 && y1 / 32 == (y1 - move_step) / 32)
+				y -= move_step;
+			else if (GetPosition(x1, y1) == 4 && GetPosition(x1, y1 - move_step + 2) == 4 && y1 / 32 == (y1 - move_step + 2) / 32)
+				y -= 2;
+			
 		}
 		if (isMovingLeft) {
 			Animate_State = 3;
@@ -78,10 +92,15 @@ namespace game_framework {
 			int x1 = x - 128;
 			int y1 = y - 32;
 			int y2 = y + Character_left.Height() - 32 - 1;
-			if (GetPosition(x1 - move_step, y1) == 0 && GetPosition(x1 - move_step, y2) == 0)
+			if (isMoveable(x1 - move_step, y1) && isMoveable(x1 - move_step, y2))
 				x -= move_step;
-			else if (GetPosition(x1 - move_step + 2, y1) == 0 && GetPosition(x1 - move_step + 2, y2) == 0)
+			else if (isMoveable(x1 - move_step + 2, y1) && isMoveable(x1 - move_step + 2, y2))
 				x -= 2;
+			else if (GetPosition(x1, y1) == 4 && GetPosition(x1 - move_step, y1) == 4 && x1 / 32 == (x1 - move_step) / 32)
+				x -= move_step;
+			else if (GetPosition(x1, y1) == 4 && GetPosition(x1 - move_step + 2, y1) == 4 && x1 / 32 == (x1 - move_step + 2) / 32)
+				x -= 2;
+			
 		}
 		if (isMovingRight) {
 			Animate_State = 4;
@@ -89,10 +108,15 @@ namespace game_framework {
 			int x2 = x + Character_right.Width() - 128 - 1;
 			int y1 = y - 32;
 			int y2 = y + Character_right.Height() - 32 - 1;
-			if (GetPosition(x2 + move_step, y1) == 0 && GetPosition(x2 + move_step, y2) == 0)
+			if (isMoveable(x2 + move_step, y1) && isMoveable(x2 + move_step, y2))
 				x += move_step;
-			else if (GetPosition(x2 + move_step - 2, y1) == 0 && GetPosition(x2 + move_step - 2, y2) == 0)
+			else if (isMoveable(x2 + move_step - 2, y1) && isMoveable(x2 + move_step - 2, y2))
 				x += 2;
+			else if (GetPosition(x2, y1) == 4 && GetPosition(x2 + move_step, y1) == 4 && x2 / 32 == (x2 + move_step) / 32)
+				x += move_step;
+			else if (GetPosition(x2, y1) == 4 && GetPosition(x2 + move_step - 2, y1) == 4 && x2 / 32 == (x2 + move_step - 2) / 32)
+				x += 2;
+			
 		}
 	}
 	void Character::SetMovingDown(bool flag)
@@ -151,5 +175,13 @@ namespace game_framework {
 		if (px < 0 || px > 480 || py < 0 || py > 416)
 			return 2;
 		return map[py][px];
+	}
+
+	bool Character::isMoveable(int x, int y) {
+		if (x < 0 || y < 0 || x > 480 || y > 416)return false;
+		if (map[y][x] == 1)return false;
+		if (map[y][x] == 2)return false;
+		if (map[y][x] == 4)return false;
+		return true;
 	}
 }

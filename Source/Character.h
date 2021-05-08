@@ -16,6 +16,7 @@ namespace game_framework {
 		bool isMovingUp;			// 是否正在往上移動
 		int  map_simple[13][15];
 		int  map[416][480];
+		bool isMoveable(int, int);
 		// int health;
 		// int *Bombs;
 		// int life;

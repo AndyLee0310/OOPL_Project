@@ -43,6 +43,7 @@
 #include "CBouncingBall.h"
 #include "Character.h"
 #include "Bomb.h"
+#include "Obstacle.h"
 
 
 namespace game_framework {
@@ -129,12 +130,16 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void setBomb(int);
+		void mapChange(int,int,int);                            // 地圖變動&通知character
+		void BombState();
+		void setBombRange(int,int,int,int);                                    // 爆炸時設置範圍
 	private:
-		int bg[13][15];              //0地板 1石塊 2粉色石 4未爆彈
+		int bg[13][15];              //0地板 1石塊 2粉色石 4未爆彈 5爆炸中
 		int coins_pos[5][2];         //硬幣位置
 		CMovingBitmap block_0;
 		CMovingBitmap block_1;
-		CMovingBitmap block_2;       //類別之後改
+		Obstacle*     block_2;
+		int           block_2_pos[42][2];
 		CMovingBitmap panel;
 		CMovingBitmap border;
 		Character     character_1;   //Range undone

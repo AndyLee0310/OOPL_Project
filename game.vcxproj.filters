@@ -135,6 +135,9 @@
     <ClCompile Include="Source\Bomb.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Obstacle.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -179,6 +182,9 @@
     <ClInclude Include="Source\Bomb.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Obstacle.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\game.rc">
@@ -186,12 +192,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap3.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\bitmap4.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="RES\boom_logo.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -211,12 +211,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="graphics\bitmaps\panel.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\bitmap15.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\bitmap16.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Stage_1\fixed.bmp">
@@ -282,9 +276,6 @@
     <Image Include="RES\Character\player1_dw_1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\bitmap17.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="RES\Character\player1_up_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -315,9 +306,6 @@
     <Image Include="RES\Pause\save_game.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\bitmap18.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="RES\Pause\quit_to_menu_red.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -340,6 +328,39 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Character\explosionC_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionH_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionH_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionH_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionH_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionV_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionV_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionV_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\explosionV_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\breakable_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\breakable_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\breakable_3.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
