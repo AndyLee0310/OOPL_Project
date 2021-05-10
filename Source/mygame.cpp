@@ -636,7 +636,8 @@ void GameStage_1::setBomb(int id) {
 		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
 		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
 		y = (y - 32) / 32;
-		if (bg[y][x] == 0) {
+		if (bg[y][x] == 0 && character_1.GetPlaceable()) {
+			character_1.setPlaceable(false);
 			for (int i = 0; i < 7; i++) {
 				if (!Bomb_ch1[i].getActive()) {
 					Bomb_ch1[i].setTopleft(x * 32 + 128, (y + 1) * 32);
@@ -645,6 +646,7 @@ void GameStage_1::setBomb(int id) {
 					break;
 				}
 			}
+			character_1.setPlaceable(true);
 			TRACE("X,Y = %d %d set to %d\n", x, y, bg[y][x]);
 		}
 		else {
@@ -657,6 +659,7 @@ void GameStage_1::setBomb(int id) {
 }
 
 void GameStage_1::mapChange(int x, int y, int value) {
+	if (bg[y][x] == 1)value = 1;    // bombState會把不可破壞的石頭取代 這是應急處理
 	bg[y][x] = value;
 	character_1.LoadMap(bg);
 }
@@ -668,10 +671,12 @@ void GameStage_1::BombState() {
 			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
 			mapChange(nx, ny, 5);
 			if(!Bomb_ch1[i].getObs())setBombRange(1, i, nx, ny);
+			
 			for (int i = 1; i <= Bomb_ch1[i].getUp(); i++)mapChange(nx, ny - i, 5);
 			for (int i = 1; i <= Bomb_ch1[i].getDown(); i++)mapChange(nx, ny + i, 5);
 			for (int i = 1; i <= Bomb_ch1[i].getRight(); i++)mapChange(nx + i, ny, 5);
 			for (int i = 1; i <= Bomb_ch1[i].getLeft(); i++)mapChange(nx - i, ny, 5);
+			
 			
 		}
 		if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {
