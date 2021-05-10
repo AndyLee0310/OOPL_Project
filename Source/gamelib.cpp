@@ -494,7 +494,7 @@ void CGameState::OnCycle() // Template Method
 CGame CGame::instance;
 
 CGame::CGame()
-: NUM_GAME_STATES(4)
+: NUM_GAME_STATES(6)
 {
 	running = true;
 	suspended = false;
@@ -502,6 +502,8 @@ CGame::CGame()
 	gameStateTable[GAME_STAGE_1]  = new GameStage_1(this);
 	gameStateTable[GAME_STATE_PAUSE] = new CGamestatePause(this);
 	gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
+	gameStateTable[GAME_PREFENCES] = new GamePrefences(this);
+	gameStateTable[GAME_ABOUT] = new GameAbout(this);
 	gameState = NULL;
 }
 

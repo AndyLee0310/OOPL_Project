@@ -363,5 +363,89 @@
     <Image Include="RES\Stage_1\breakable_3.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\scr_Prefences\ScrPrefences.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\-.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\Cancel.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\cancel_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\no.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\Ok.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\ok_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\yes.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\boom_logo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\screenbg1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\startgame.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\loadgame.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\preferences.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\exit.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\about.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\startgame_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\loadgame_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\preferences_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\about_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\exit_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Pause\quit_to_menu.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Pause\resume.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Pause\save_game.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Pause\quit_to_menu_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Pause\resume_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Pause\save_game_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\back.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\back_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
