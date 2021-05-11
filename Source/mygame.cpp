@@ -123,9 +123,11 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	}else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
 			  p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
 		//Preferences
+		GotoGameState(GAME_PREFENCES);
 	}else if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
 			  p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
 		//About
+		GotoGameState(GAME_ABOUT);
 	}
 	else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
 		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
@@ -237,10 +239,6 @@ void CGameStateInit::OnShow()
 	fp=pDC->SelectObject(&f);					// 選用 font f
 	pDC->SetBkColor(RGB(0,0,255));
 	pDC->SetTextColor(RGB(255,255,0));
-	//pDC->TextOut(120,220,"Please click mouse or press SPACE to begin.");
-	//pDC->TextOut(5,395,"Press Ctrl-F to switch in between window mode and full screen mode.");
-	//if (ENABLE_GAME_PAUSE)
-	//	pDC->TextOut(5,425,"Press Ctrl-Q to pause the Game.");
 	pDC->TextOut(5,455, "test");
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
@@ -277,7 +275,6 @@ void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 	if (p.x > scr_resume.Left() && p.x < scr_resume.Left() + scr_resume.Width() &&
 		p.y > scr_resume.Top() && p.y < scr_resume.Top() + scr_resume.Height()) {
 		//Resume
-
 		GotoGameState(GAME_STAGE_1);
 	}
 	else if (p.x > scr_saveGame.Left() && p.x < scr_saveGame.Left() + scr_saveGame.Width() &&
@@ -287,7 +284,7 @@ void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 	else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
 		p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
 		//Preferences
-		//CWindows::ResizeClient();
+		GotoGameState(GAME_PREFENCES);
 	}
 	else if (p.x > scr_quitToMenu.Left() && p.x < scr_quitToMenu.Left() + scr_quitToMenu.Width() &&
 		p.y > scr_quitToMenu.Top() && p.y < scr_quitToMenu.Top() + scr_quitToMenu.Height()) {
@@ -503,6 +500,7 @@ void GameStage_1::OnBeginState() {
 	//腳色數值重置
 	character_1.Initialize(128, 32);
 	character_1.LoadMap(bg);
+	
 	timer = 0;
 }
 void GameStage_1::OnInit() {
@@ -519,6 +517,16 @@ void GameStage_1::OnInit() {
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].LoadBitmap();
 	}
+	//因撰寫關卡內容須測試，故先將時間倒數註解
+	/*
+	if (tempTime == NULL) {
+		count_down.SetInteger(60);
+	}
+	else {
+		count_down.SetInteger(*tempTime);
+		tempTime = NULL;
+	}
+	*/
 }
 void GameStage_1::OnMove() {
 	timer++;
@@ -534,6 +542,7 @@ void GameStage_1::OnMove() {
 	}
 	if (!(timer % 30))
 		count_down.Add(-1);
+
 
 	for (int i = 0; i < 42; i++) {
 		block_2[i].OnMove();
@@ -636,8 +645,7 @@ void GameStage_1::setBomb(int id) {
 		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
 		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
 		y = (y - 32) / 32;
-		if (bg[y][x] == 0 && character_1.GetPlaceable()) {
-			character_1.setPlaceable(false);
+		if (bg[y][x] == 0) {
 			for (int i = 0; i < 7; i++) {
 				if (!Bomb_ch1[i].getActive()) {
 					Bomb_ch1[i].setTopleft(x * 32 + 128, (y + 1) * 32);
@@ -646,11 +654,10 @@ void GameStage_1::setBomb(int id) {
 					break;
 				}
 			}
-			character_1.setPlaceable(true);
 			TRACE("X,Y = %d %d set to %d\n", x, y, bg[y][x]);
 		}
 		else {
-			TRACE("fail\n");
+			
 		}
 	}
 	else if (id == 2) {
@@ -666,6 +673,11 @@ void GameStage_1::mapChange(int x, int y, int value) {
 void GameStage_1::BombState() {
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].OnMove();
+		if (Bomb_ch1[i].getActive() && !Bomb_ch1[i].getExp()) {
+			int nx = (Bomb_ch1[i].getTop_Bomb() - 128) / 32;
+			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
+			if(bg[ny][nx] != 4)mapChange(nx, ny, 4);            // 
+		}
 		if (Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {  //爆炸中的炸彈位置重設成可行走
 			int nx = (Bomb_ch1[i].getTop_Bomb() - 128) / 32;
 			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
@@ -987,4 +999,279 @@ void CGameStateRun::OnShow()
 
 }
 */
+
+//////////////////////////////////////////////////////////////////////////////
+//Prefences
+/////////////////////////////////////////////////////////////////////////////
+
+GamePrefences::GamePrefences(CGame* g) : CGameState(g)
+{
+}
+
+void GamePrefences::OnInit()
+{
+	scr.LoadBitmap(IDB_SCREEN_PREFENCES, RGB(0, 0, 255));
+	scr_ok.LoadBitmap(IDB_SCREEN_OK, RGB(0, 0, 255));
+	scr_cancel.LoadBitmap(IDB_SCREEN_CANCEL, RGB(0, 0, 255));
+
+	scr_FS_yes.LoadBitmap(IDB_SCREEN_YES, RGB(0, 0, 255));
+	scr_FS_no.LoadBitmap(IDB_SCREEN_NO, RGB(0, 0, 255));
+
+	scr_FR.LoadBitmap(IDB_SCREEN_FR, RGB(0, 0, 255));
+
+	scr_SF_yes.LoadBitmap(IDB_SCREEN_YES, RGB(0, 0, 255));
+	scr_SF_no.LoadBitmap(IDB_SCREEN_NO, RGB(0, 0, 255));
+
+	scr_Vsync_yes.LoadBitmap(IDB_SCREEN_YES, RGB(0, 0, 255));
+	scr_Vsync_no.LoadBitmap(IDB_SCREEN_NO, RGB(0, 0, 255));
+}
+
+void GamePrefences::OnBeginState()
+{
+}
+
+void GamePrefences::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
+		p.y > scr_FS_no.Top() && p.y < scr_FS_no.Top() + scr_FS_no.Height()) {
+		//Fullscreen
+		scr_FS_yes.ShowBitmap();
+		CDDraw::SetFullScreen(true);
+		//CMainFrame::OnButtonFullscreen();
+
+	}
+
+	if (p.x > scr_ok.Left() && p.x < scr_ok.Left() + scr_ok.Width() &&
+		p.y > scr_ok.Top() && p.y < scr_ok.Top() + scr_ok.Height()) {
+		//OK
+		GotoGameState(GAME_STATE_INIT);
+	}
+	else if (p.x > scr_cancel.Left() && p.x < scr_cancel.Left() + scr_cancel.Width() &&
+		p.y > scr_cancel.Top() && p.y < scr_cancel.Top() + scr_cancel.Height()) {
+		//Cancel
+		GotoGameState(GAME_STATE_INIT);
+	}
+
+
+
+}
+
+void GamePrefences::OnMouseMove(UINT nFlags, CPoint point)
+{
+	GetCursorPos(&p);
+	ScreenToClient(AfxGetMainWnd()->m_hWnd, &p);	//把螢幕座標轉換為視窗座標，並讀取出來
+	//TRACE("mouse:: x: %d, y: %d\n", p.x, p.y);
+}
+
+void GamePrefences::OnShow()
+{
+	//放背景
+	bg.LoadBitmap(IDB_SCREENBG1, RGB(0, 0, 0));
+	for (int x = 0; x < SIZE_X; x += bg.Width()) {
+		for (int y = 0; y < SIZE_Y; y += bg.Height()) {
+			bg.SetTopLeft(x, y);
+			bg.ShowBitmap();
+		}
+	}
+
+	scr.SetTopLeft(SIZE_X * 4 / 1000, SIZE_Y * 4 / 1000);
+	scr.ShowBitmap();
+
+
+	//OK
+	if (p.x > scr_ok.Left() && p.x < scr_ok.Left() + scr_ok.Width() &&
+		p.y > scr_ok.Top() && p.y < scr_ok.Top() + scr_ok.Height()) {
+		CMovingBitmap scr_ok_red;
+		scr_ok_red.LoadBitmap(IDB_SCREEN_OK_RED, RGB(0, 0, 255));
+		scr_ok_red.SetTopLeft((SIZE_X - scr_ok_red.Width()) * 34 / 100, SIZE_Y * 85 / 100);
+		scr_ok_red.ShowBitmap();
+	}
+	else {
+		scr_ok.SetTopLeft((SIZE_X - scr_ok.Width()) * 34 / 100, SIZE_Y * 85 / 100);
+		scr_ok.ShowBitmap();
+	}
+
+
+	//Cancel
+	if (p.x > scr_cancel.Left() && p.x < scr_cancel.Left() + scr_cancel.Width() &&
+		p.y > scr_cancel.Top() && p.y < scr_cancel.Top() + scr_cancel.Height()) {
+		CMovingBitmap scr_cancel_red;
+		scr_cancel_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		scr_cancel_red.SetTopLeft((SIZE_X - scr_cancel_red.Width()) * 68 / 100, SIZE_Y * 85 / 100);
+		scr_cancel_red.ShowBitmap();
+	}
+	else {
+		scr_cancel.SetTopLeft((SIZE_X - scr_cancel.Width()) * 68 / 100, SIZE_Y * 85 / 100);
+		scr_cancel.ShowBitmap();
+	}
+
+	//scr_FS_yes
+	if (p.x > scr_FS_yes.Left() && p.x < scr_FS_yes.Left() + scr_FS_yes.Width() &&
+		p.y > scr_FS_yes.Top() && p.y < scr_FS_yes.Top() + scr_FS_yes.Height()) {
+		CMovingBitmap scr_FS_yes_red;
+		//scr_FS_yes_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_FS_yes_red.SetTopLeft((SIZE_X - scr_FS_yes_red.Width()) * 39 / 100, SIZE_Y * 22 / 100);
+		//scr_FS_yes_red.ShowBitmap();
+	}
+	else {
+		scr_FS_yes.SetTopLeft((SIZE_X - scr_FS_yes.Width()) * 39 / 100, SIZE_Y * 22 / 100);
+		//scr_FS_yes.ShowBitmap();
+	}
+
+	//scr_FS_no
+	if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
+		p.y > scr_FS_no.Top() && p.y < scr_FS_no.Top() + scr_FS_no.Height()) {
+		CMovingBitmap scr_FS_no_red;
+		//scr_FS_no_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_FS_no_red.SetTopLeft((SIZE_X - scr_FS_no_red.Width()) * 38 / 100, SIZE_Y * 22 / 100);
+		//scr_FS_no_red.ShowBitmap();
+	}
+	else {
+		scr_FS_no.SetTopLeft((SIZE_X - scr_FS_no.Width()) * 38 / 100, SIZE_Y * 22 / 100);
+		scr_FS_no.ShowBitmap();
+	}
+
+	//scr_FR
+	if (p.x > scr_FR.Left() && p.x < scr_FR.Left() + scr_FR.Width() &&
+		p.y > scr_FR.Top() && p.y < scr_FR.Top() + scr_FR.Height()) {
+		CMovingBitmap scr_FR_red;
+		//scr_FR_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_FR_red.SetTopLeft((SIZE_X - scr_FR_red.Width()) * 39 / 100, SIZE_Y * 22 / 100);
+		//scr_FR_red.ShowBitmap();
+	}
+	else {
+		scr_FR.SetTopLeft((SIZE_X - scr_FR.Width()) * 38 / 100, SIZE_Y * 31 / 100);
+		scr_FR.ShowBitmap();
+	}
+
+	//scr_SF_yes
+	if (p.x > scr_SF_yes.Left() && p.x < scr_SF_yes.Left() + scr_SF_yes.Width() &&
+		p.y > scr_SF_yes.Top() && p.y < scr_SF_yes.Top() + scr_SF_yes.Height()) {
+		CMovingBitmap scr_SF_yes_red;
+		//scr_SF_yes_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_SF_yes_red.SetTopLeft((SIZE_X - scr_SF_yes_red.Width()) * 39 / 100, SIZE_Y * 35 / 100);
+		//scr_SF_yes_red.ShowBitmap();
+	}
+	else {
+		scr_SF_yes.SetTopLeft((SIZE_X - scr_SF_yes.Width()) * 39 / 100, SIZE_Y * 35 / 100);
+		//scr_SF_yes.ShowBitmap();
+	}
+
+	//scr_SF_no
+	if (p.x > scr_SF_no.Left() && p.x < scr_SF_no.Left() + scr_SF_no.Width() &&
+		p.y > scr_SF_no.Top() && p.y < scr_SF_no.Top() + scr_SF_no.Height()) {
+		CMovingBitmap scr_SF_no_red;
+		//scr_SF_no_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_SF_no_red.SetTopLeft((SIZE_X - scr_SF_no_red.Width()) * 38 / 100, SIZE_Y * 35 / 100);
+		//scr_SF_no_red.ShowBitmap();
+	}
+	else {
+		scr_SF_no.SetTopLeft((SIZE_X - scr_SF_no.Width()) * 38 / 100, SIZE_Y * 35 / 100);
+		scr_SF_no.ShowBitmap();
+	}
+
+	//scr_Vsync_yes
+	if (p.x > scr_Vsync_yes.Left() && p.x < scr_Vsync_yes.Left() + scr_Vsync_yes.Width() &&
+		p.y > scr_Vsync_yes.Top() && p.y < scr_Vsync_yes.Top() + scr_Vsync_yes.Height()) {
+		CMovingBitmap scr_Vsync_yes_red;
+		//scr_Vsync_yes_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_Vsync_yes_red.SetTopLeft((SIZE_X - scr_Vsync_yes_red.Width()) * 39 / 100, SIZE_Y * 43 / 100);
+		//scr_Vsync_yes_red.ShowBitmap();
+	}
+	else {
+		scr_Vsync_yes.SetTopLeft((SIZE_X - scr_Vsync_yes.Width()) * 39 / 100, SIZE_Y * 43 / 100);
+		scr_Vsync_yes.ShowBitmap();
+	}
+
+	//scr_Vsync_no
+	if (p.x > scr_Vsync_no.Left() && p.x < scr_Vsync_no.Left() + scr_Vsync_no.Width() &&
+		p.y > scr_Vsync_no.Top() && p.y < scr_Vsync_no.Top() + scr_Vsync_no.Height()) {
+		CMovingBitmap scr_Vsync_no_red;
+		//scr_Vsync_no_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
+		//scr_Vsync_no_red.SetTopLeft((SIZE_X - scr_Vsync_no_red.Width()) * 38 / 100, SIZE_Y * 43 / 100);
+		//scr_Vsync_no_red.ShowBitmap();
+	}
+	else {
+		scr_Vsync_no.SetTopLeft((SIZE_X - scr_Vsync_no.Width()) * 38 / 100, SIZE_Y * 43 / 100);
+		//scr_Vsync_no.ShowBitmap();
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+//About
+/////////////////////////////////////////////////////////////////////////////
+
+GameAbout::GameAbout(CGame* g) : CGameState(g)
+{
+}
+
+void GameAbout::OnInit()
+{
+	scr_back.LoadBitmap(IDB_SCREEN_BACK, RGB(0, 0, 255));
+}
+
+void GameAbout::OnBeginState()
+{
+}
+
+void GameAbout::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	if (p.x > scr_back.Left() && p.x < scr_back.Left() + scr_back.Width() &&
+		p.y > scr_back.Top() && p.y < scr_back.Top() + scr_back.Height()) {
+		GotoGameState(GAME_STATE_INIT);
+	}
+}
+
+void GameAbout::OnMouseMove(UINT nFlags, CPoint point)
+{
+	GetCursorPos(&p);
+	ScreenToClient(AfxGetMainWnd()->m_hWnd, &p);	//把螢幕座標轉換為視窗座標，並讀取出來
+	//TRACE("mouse:: x: %d, y: %d\n", p.x, p.y);
+}
+
+void GameAbout::OnShow()
+{
+	//放背景
+	bg.LoadBitmap(IDB_SCREENBG1, RGB(0, 0, 0));
+	for (int x = 0; x < SIZE_X; x += bg.Width()) {
+		for (int y = 0; y < SIZE_Y; y += bg.Height()) {
+			bg.SetTopLeft(x, y);
+			bg.ShowBitmap();
+		}
+	}
+
+	CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f, * fp;
+	f.CreatePointFont(140, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp = pDC->SelectObject(&f);					// 選用 font f
+	pDC->SetBkColor(RGB(0, 0, 255));
+	pDC->SetTextColor(RGB(255, 255, 0));
+	pDC->TextOut(SIZE_X * 30 / 100, SIZE_Y * 15 / 100, "Lifish - (c) 2018 Giacomo Parolini");
+	pDC->TextOut(SIZE_X * 29 / 100, SIZE_Y * 22 / 100, "Lifish is free software, licnsed under");
+	pDC->TextOut(SIZE_X * 40 / 100, SIZE_Y * 29 / 100, "the Lifish License");
+	pDC->TextOut(SIZE_X * 29 / 100, SIZE_Y * 36 / 100, "(silverweed.github.io/lifish-license.txt)");
+	pDC->TextOut(SIZE_X * 27 / 100, SIZE_Y * 43 / 100, "This game uses the Lifish engine to create");
+	pDC->TextOut(SIZE_X * 27 / 100, SIZE_Y * 50 / 100, "a clone of \"BOOM\" by Federico Filipponi.");
+	pDC->TextOut(SIZE_X * 26 / 100, SIZE_Y * 57 / 100, "Create by Giacomo Parolini, aka silverweed.");
+	pDC->TextOut(SIZE_X * 28 / 100, SIZE_Y * 64 / 100, "Contact: silverweed1991@gmail.com");
+	pDC->TextOut(SIZE_X * 30 / 100, SIZE_Y * 71 / 100, "Code: github.com/silverweed/lifish");
+
+	pDC->TextOut(SIZE_X * 1 / 100, SIZE_Y * 95 / 100, "lifish v.BOOM_1.5 rev.1.5-5-dirty RELEASE (64 bit) by Giacomo Parolini");
+	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+
+	//Back
+	if (p.x > scr_back.Left() && p.x < scr_back.Left() + scr_back.Width() &&
+		p.y > scr_back.Top() && p.y < scr_back.Top() + scr_back.Height()) {
+		CMovingBitmap scr_back_red;
+		scr_back_red.LoadBitmap(IDB_SCREEN_BACK_RED, RGB(0, 0, 255));
+		scr_back_red.SetTopLeft((SIZE_X - scr_back_red.Width()) / 2, SIZE_Y * 80 / 100);
+		scr_back_red.ShowBitmap();
+	}
+	else {
+		scr_back.SetTopLeft((SIZE_X - scr_back.Width()) / 2, SIZE_Y * 80 / 100);
+		scr_back.ShowBitmap();
+	}
+}
 }

@@ -14,7 +14,6 @@ namespace game_framework {
 		x = nx;
 		y = ny;
 		Animate_State = 1;
-		isPlaceable = true;
 		isMovingDown = isMovingLeft = isMovingRight = isMovingUp = false;
 		Explosion_range = 5;
 	}
@@ -35,9 +34,6 @@ namespace game_framework {
 	}
 	int Character::GetRange() {
 		return Explosion_range;
-	}
-	bool Character::GetPlaceable() {
-		return isPlaceable;
 	}
 	void Character::LoadBitmap() {
 		Character_down.SetDelayCount(5);
@@ -150,9 +146,6 @@ namespace game_framework {
 
 	void Character::SetRange(int i) {
 		Explosion_range = i;
-	}
-	void Character::setPlaceable(bool p) {
-		isPlaceable = p;
 	}
 	void Character::OnShow()
 	{

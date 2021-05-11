@@ -195,5 +195,54 @@ namespace game_framework {
 	private:
 		int counter;	// 倒數之計數器
 	};
+	////////////////////////////////////////////////////////////////////////////
+//Prefences畫面
+////////////////////////////////////////////////////////////////////////////
+	class GamePrefences : public CGameState {
+	public:
+		GamePrefences(CGame* g);
+		void OnBeginState();
+		void OnInit();
+		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnMouseMove(UINT nFlags, CPoint point);
+	protected:
+		void OnShow();
+	private:
+		CMovingBitmap bg;
+		CMovingBitmap scr;
+		CMovingBitmap scr_ok;
+		CMovingBitmap scr_cancel;
 
+		CMovingBitmap scr_FS_yes;
+		CMovingBitmap scr_FS_no;
+
+		CMovingBitmap scr_FR;
+
+		CMovingBitmap scr_SF_yes;
+		CMovingBitmap scr_SF_no;
+
+		CMovingBitmap scr_Vsync_yes;
+		CMovingBitmap scr_Vsync_no;
+
+		POINT p;
+	};
+
+	////////////////////////////////////////////////////////////////////////////
+	//About畫面
+	////////////////////////////////////////////////////////////////////////////
+	class GameAbout : public CGameState {
+	public:
+		GameAbout(CGame* g);
+		void OnBeginState();
+		void OnInit();
+		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnMouseMove(UINT nFlags, CPoint point);
+	protected:
+		void OnShow();
+	private:
+		CMovingBitmap bg;
+		CMovingBitmap scr_back;
+
+		POINT p;
+	};
 }

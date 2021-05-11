@@ -10,7 +10,7 @@ namespace game_framework {
 		int  x, y;					// 腳色左上角座標
 		int  move_step = STEP;      // 腳色步數
 		int  Explosion_range;       // 最大爆炸距離
-		bool isPlaceable;           // 註一
+		//int  Bomb_count;            // 可用炸彈數
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動
@@ -19,7 +19,6 @@ namespace game_framework {
 		int  map[416][480];
 		bool isMoveable(int, int);
 		// int health;
-		// int *Bombs;
 		// int life;
 	public:
 		Character();
@@ -29,7 +28,6 @@ namespace game_framework {
 		int  GetY2();					// 腳色右下角 y 座標
 		int  GetStep();                 // 腳色步數
 		int  GetRange();                // 爆炸距離
-		bool GetPlaceable();
 		void Initialize(int nx, int ny);// 設定腳色為初始值 對不同腳色設定初始位置
 		void LoadBitmap();				// 載入圖形
 		void OnMove();					// 移動腳色
@@ -41,7 +39,6 @@ namespace game_framework {
 		void SetXY(int nx, int ny);		// 設定腳色左上角座標
 		void SetRange(int);             // 設定爆炸距離
 		void LoadMap(int maps[13][15]);
-		void setPlaceable(bool);
 		int  GetPosition(int, int);
 	};
 }

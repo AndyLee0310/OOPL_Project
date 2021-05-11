@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文 (繁體，台灣) resources
+// Chinese (Traditional, Taiwan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHT)
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
@@ -154,15 +154,15 @@ IDB_expV_1              BITMAP                  "..\\RES\\Character\\explosionV_
 
 IDB_expV_2              BITMAP                  "..\\RES\\Character\\explosionV_2.bmp"
 
-IDB_expV_3              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionV_3.bmp"
+IDB_expV_3              BITMAP                  "..\\RES\\Character\\explosionV_3.bmp"
 
-IDB_expV_4              BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Character\\explosionV_4.bmp"
+IDB_expV_4              BITMAP                  "..\\RES\\Character\\explosionV_4.bmp"
 
-IDB_BREAK_1             BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\breakable_1.bmp"
+IDB_BREAK_1             BITMAP                  "..\\RES\\Stage_1\\breakable_1.bmp"
 
-IDB_BREAK_2             BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\breakable_2.bmp"
+IDB_BREAK_2             BITMAP                  "..\\RES\\Stage_1\\breakable_2.bmp"
 
-IDB_BREAK_3             BITMAP                  "C:\\Users\\deava\\Desktop\\2020_Project\\OOP\\Game\\Project\\RES\\Stage_1\\breakable_3.bmp"
+IDB_BREAK_3             BITMAP                  "..\\RES\\Stage_1\\breakable_3.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -172,12 +172,12 @@ IDB_BREAK_3             BITMAP                  "C:\\Users\\deava\\Desktop\\2020
 
 IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
 
-#endif    // 中文 (繁體，台灣) resources
+#endif    // Chinese (Traditional, Taiwan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英文 (美國) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -190,41 +190,61 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDR_MAINFRAME           BITMAP                  "..\\res\\Toolbar.bmp"
 
-IDB_LOGO                BITMAP                  "..\\RES\\Menu\\boom_logo.bmp"
+IDB_LOGO                BITMAP                  "..\\RES\\scr_Menu\\boom_logo.bmp"
 
-IDB_SCREENBG1           BITMAP                  "..\\RES\\Menu\\screenbg1.bmp"
+IDB_SCREENBG1           BITMAP                  "..\\RES\\scr_Menu\\screenbg1.bmp"
 
-IDB_SCREEN_START        BITMAP                  "..\\RES\\Menu\\startgame.bmp"
+IDB_SCREEN_START        BITMAP                  "..\\RES\\scr_Menu\\startgame.bmp"
 
-IDB_SCREEN_LOAD         BITMAP                  "..\\RES\\Menu\\loadgame.bmp"
+IDB_SCREEN_LOAD         BITMAP                  "..\\RES\\scr_Menu\\loadgame.bmp"
 
-IDB_SCREEN_PREFERENCES  BITMAP                  "..\\RES\\Menu\\preferences.bmp"
+IDB_SCREEN_PREFERENCES  BITMAP                  "..\\RES\\scr_Menu\\preferences.bmp"
 
-IDB_SCREEN_EXIT         BITMAP                  "..\\RES\\Menu\\exit.bmp"
+IDB_SCREEN_EXIT         BITMAP                  "..\\RES\\scr_Menu\\exit.bmp"
 
-IDB_SCREEN_ABOUT        BITMAP                  "..\\RES\\Menu\\about.bmp"
+IDB_SCREEN_ABOUT        BITMAP                  "..\\RES\\scr_Menu\\about.bmp"
 
-IDB_SCREEN_START_RED    BITMAP                  "..\\RES\\Menu\\startgame_red.bmp"
+IDB_SCREEN_START_RED    BITMAP                  "..\\RES\\scr_Menu\\startgame_red.bmp"
 
-IDB_SCREEN_LOAD_RED     BITMAP                  "..\\RES\\Menu\\loadgame_red.bmp"
+IDB_SCREEN_LOAD_RED     BITMAP                  "..\\RES\\scr_Menu\\loadgame_red.bmp"
 
-IDB_SCREEN_PREFERENCES_RED BITMAP                  "..\\RES\\Menu\\preferences_red.bmp"
+IDB_SCREEN_PREFERENCES_RED BITMAP                  "..\\RES\\scr_Menu\\preferences_red.bmp"
 
-IDB_SCREEN_ABOUT_RED    BITMAP                  "..\\RES\\Menu\\about_red.bmp"
+IDB_SCREEN_ABOUT_RED    BITMAP                  "..\\RES\\scr_Menu\\about_red.bmp"
 
-IDB_SCREEN_EXIT_RED     BITMAP                  "..\\RES\\Menu\\exit_red.bmp"
+IDB_SCREEN_EXIT_RED     BITMAP                  "..\\RES\\scr_Menu\\exit_red.bmp"
 
-IDB_SCREEN_QUIT_TO_MENU BITMAP                  "..\\RES\\Pause\\quit_to_menu.bmp"
+IDB_SCREEN_QUIT_TO_MENU BITMAP                  "..\\RES\\scr_Pause\\quit_to_menu.bmp"
 
-IDB_SCREEN_RESUME       BITMAP                  "..\\RES\\Pause\\resume.bmp"
+IDB_SCREEN_RESUME       BITMAP                  "..\\RES\\scr_Pause\\resume.bmp"
 
-IDB_SCREEN_SAVE_GAME    BITMAP                  "..\\RES\\Pause\\save_game.bmp"
+IDB_SCREEN_SAVE_GAME    BITMAP                  "..\\RES\\scr_Pause\\save_game.bmp"
 
-IDB_SCREEN_QUIT_TO_MENU_RED BITMAP                  "..\\RES\\Pause\\quit_to_menu_red.bmp"
+IDB_SCREEN_QUIT_TO_MENU_RED BITMAP                  "..\\RES\\scr_Pause\\quit_to_menu_red.bmp"
 
-IDB_SCREEN_RESUME_RED   BITMAP                  "..\\RES\\Pause\\resume_red.bmp"
+IDB_SCREEN_RESUME_RED   BITMAP                  "..\\RES\\scr_Pause\\resume_red.bmp"
 
-IDB_SCREEN_SAVE_GAME_RED BITMAP                  "..\\RES\\Pause\\save_game_red.bmp"
+IDB_SCREEN_SAVE_GAME_RED BITMAP                  "..\\RES\\scr_Pause\\save_game_red.bmp"
+
+IDB_SCREEN_PREFENCES    BITMAP                  "..\\RES\\scr_Prefences\\ScrPrefences.bmp"
+
+IDB_SCREEN_FR           BITMAP                  "..\\RES\\scr_Prefences\\-.bmp"
+
+IDB_SCREEN_CANCEL       BITMAP                  "..\\RES\\scr_Prefences\\Cancel.bmp"
+
+IDB_SCREEN_CANCEL_RED   BITMAP                  "..\\RES\\scr_Prefences\\cancel_red.bmp"
+
+IDB_SCREEN_NO           BITMAP                  "..\\RES\\scr_Prefences\\no.bmp"
+
+IDB_SCREEN_OK           BITMAP                  "..\\RES\\scr_Prefences\\Ok.bmp"
+
+IDB_SCREEN_OK_RED       BITMAP                  "..\\RES\\scr_Prefences\\ok_red.bmp"
+
+IDB_SCREEN_YES          BITMAP                  "..\\RES\\scr_Prefences\\yes.bmp"
+
+IDB_SCREEN_BACK         BITMAP                  "..\\RES\\scr_Prefences\\back.bmp"
+
+IDB_SCREEN_BACK_RED     BITMAP                  "..\\RES\\scr_Prefences\\back_red.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -385,7 +405,7 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "..\\RES\\Menu\\boom_logo.bmp"
+IDB_PNG1                PNG                     "..\\RES\\scr_Menu\\boom_logo.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -519,7 +539,7 @@ BEGIN
     ID_BUTTON_UNITTEST      "Perform Unit Test"
 END
 
-#endif    // 英文 (美國) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
