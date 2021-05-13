@@ -110,6 +110,24 @@ IDB_BREAK_0             BITMAP                  "..\\RES\\Stage_1\\breakable_0.b
 
 IDB_COIN_0              BITMAP                  "..\\RES\\Stage_1\\coin_0.bmp"
 
+IDB_COIN_1              BITMAP                  "..\\RES\\Stage_1\\coin_1.bmp"
+
+IDB_COIN_2              BITMAP                  "..\\RES\\Stage_1\\coin_2.bmp"
+
+IDB_COIN_3              BITMAP                  "..\\RES\\Stage_1\\coin_3.bmp"
+
+IDB_COIN_4              BITMAP                  "..\\RES\\Stage_1\\coin_4.bmp"
+
+IDB_COIN_5              BITMAP                  "..\\RES\\Stage_1\\coin_5.bmp"
+
+IDB_COIN_6              BITMAP                  "..\\RES\\Stage_1\\coin_6.bmp"
+
+IDB_COIN_7              BITMAP                  "..\\RES\\Stage_1\\coin_7.bmp"
+
+IDB_COIN_8              BITMAP                  "..\\RES\\Stage_1\\coin_8.bmp"
+
+IDB_COIN_9              BITMAP                  "..\\RES\\Stage_1\\coin_9.bmp"
+
 IDB_BORDER_0            BITMAP                  "..\\RES\\Stage_1\\border1.bmp"
 
 IDB_Panel               BITMAP                  "..\\RES\\Stage_1\\panel.bmp"
@@ -164,9 +182,13 @@ IDB_BREAK_2             BITMAP                  "..\\RES\\Stage_1\\breakable_2.b
 
 IDB_BREAK_3             BITMAP                  "..\\RES\\Stage_1\\breakable_3.bmp"
 
-IDB_Test                BITMAP                  "..\\res\\character\\bitmap20.bmp"
+IDB_Test                BITMAP                  "..\\RES\\character\\bitmap20.bmp"
 
-IDB_Test2               BITMAP                  "..\\res\\character\\test2.bmp"
+IDB_Test2               BITMAP                  "..\\RES\\character\\test2.bmp"
+
+IDB_EM_LE_1             BITMAP                  "..\\RES\\Stage_1\\enemy_le_1.bmp"
+
+IDB_BULLET_1            BITMAP                  "..\\RES\\Stage_1\\shot_1.bmp"
 
 IDB_EM_DW_1             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_1.bmp"
 
@@ -175,8 +197,6 @@ IDB_EM_DW_2             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_2.bm
 IDB_EM_DW_3             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_3.bmp"
 
 IDB_EM_DW_4             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_4.bmp"
-
-IDB_EM_LE_1             BITMAP                  "..\\RES\\Stage_1\\enemy_le_1.bmp"
 
 IDB_EM_LE_2             BITMAP                  "..\\RES\\Stage_1\\enemy_le_2.bmp"
 
@@ -200,7 +220,7 @@ IDB_EM_UP_3             BITMAP                  "..\\RES\\Stage_1\\enemy_up_3.bm
 
 IDB_EM_UP_4             BITMAP                  "..\\RES\\Stage_1\\enemy_up_4.bmp"
 
-IDB_BULLET_1            BITMAP                  "..\\RES\\Stage_1\\shot_1.bmp"
+IDB_BITMAP20            BITMAP                  "..\\RES\\Stage_1\\shot_1.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -268,17 +288,23 @@ IDB_SCREEN_PREFENCES    BITMAP                  "..\\RES\\scr_Prefences\\ScrPref
 
 IDB_SCREEN_FR           BITMAP                  "..\\RES\\scr_Prefences\\-.bmp"
 
+IDB_SCREEN_FR_RED       BITMAP                  "..\\RES\\scr_Prefences\\-_red.bmp"
+
 IDB_SCREEN_CANCEL       BITMAP                  "..\\RES\\scr_Prefences\\Cancel.bmp"
 
 IDB_SCREEN_CANCEL_RED   BITMAP                  "..\\RES\\scr_Prefences\\cancel_red.bmp"
 
 IDB_SCREEN_NO           BITMAP                  "..\\RES\\scr_Prefences\\no.bmp"
 
+IDB_SCREEN_NO_RED       BITMAP                  "..\\RES\\scr_Prefences\\no_red.bmp"
+
 IDB_SCREEN_OK           BITMAP                  "..\\RES\\scr_Prefences\\Ok.bmp"
 
 IDB_SCREEN_OK_RED       BITMAP                  "..\\RES\\scr_Prefences\\ok_red.bmp"
 
 IDB_SCREEN_YES          BITMAP                  "..\\RES\\scr_Prefences\\yes.bmp"
+
+IDB_SCREEN_YES_RED      BITMAP                  "..\\RES\\scr_Prefences\\yes_red.bmp"
 
 IDB_SCREEN_BACK         BITMAP                  "..\\RES\\scr_Prefences\\back.bmp"
 

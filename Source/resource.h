@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by game.rc
+// Microsoft Visual C++ 產生的 Include 檔案。
+// 由 game.rc 使用
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_SOCKETS_INIT_FAILED         104
@@ -67,8 +67,6 @@
 #define IDB_BITMAP12                    193
 #define IDB_Panel                       193
 #define IDB_BITMAP14                    194
-#define IDB_Test                        194
-#define IDB_Test1                       195
 #define IDB_BITMAP16                    196
 #define IDB_PLAYER1_DW_1                197
 #define IDB_BITMAP15                    198
@@ -116,7 +114,6 @@
 #define IDB_SCREEN_OK_RED               235
 #define IDB_SCREEN_YES                  237
 #define IDB_SCREEN_BACK                 238
-#define IDB_BITMAP23                    239
 #define IDB_SCREEN_BACK_RED             239
 #define IDB_Test2                       240
 #define IDB_COIN_1                      241
@@ -130,24 +127,28 @@
 #define IDB_COIN_9                      249
 #define IDB_SCREEN_YES_RED              250
 #define IDB_SCREEN_NO_RED               251
-#define IDB_BITMAP20                    252
-#define IDB_SCREEN_FR_RED               252
-#define IDB_EM_DW_1                     241
-#define IDB_EM_DW_2                     242
-#define IDB_EM_DW_3                     243
-#define IDB_EM_DW_4                     244
-#define IDB_EM_LE_1                     245
-#define IDB_EM_LE_2                     246
-#define IDB_EM_LE_3                     247
-#define IDB_EM_LE_4                     248
-#define IDB_EM_RE_1                     249
-#define IDB_EM_RE_2                     250
-#define IDB_EM_RE_3                     251
-#define IDB_EM_RE_4                     252
-#define IDB_EM_UP_1                     253
-#define IDB_EM_UP_2                     254
-#define IDB_EM_UP_3                     255
-#define IDB_EM_UP_4                     256
+#define IDB_Test                        252
+#define IDB_SCREEN_FR_RED               253
+#define IDB_EM_DW_1                     254
+#define IDB_EM_DW_2                     255
+#define IDB_EM_DW_3                     256
+#define IDB_EM_DW_4                     257
+#define IDB_EM_LE_2                     258
+#define IDB_EM_LE_3                     259
+#define IDB_EM_LE_4                     260
+#define IDB_EM_RE_1                     261
+#define IDB_EM_RE_2                     262
+#define IDB_EM_RE_3                     263
+#define IDB_EM_RE_4                     264
+#define IDB_EM_UP_1                     265
+#define IDB_EM_UP_2                     266
+#define IDB_EM_UP_3                     267
+#define IDB_EM_UP_4                     268
+#define IDB_EM_LE_1                     269
+#define IDB_BULLET_1                    270
+#define IDB_BITMAP24                    271
+
+#define IDB_BITMAP20                    272
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -160,7 +161,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        257
+#define _APS_NEXT_RESOURCE_VALUE        273
 #define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101

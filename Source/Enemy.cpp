@@ -19,29 +19,48 @@ namespace game_framework {
 		descision = 0;
 	}
 	void Enemy::LoadBitmap() {
+
 		Character_down.SetDelayCount(5);
 		Character_down.AddBitmap(IDB_EM_DW_1, RGB(255, 255, 255));
 		Character_down.AddBitmap(IDB_EM_DW_2, RGB(255, 255, 255));
 		Character_down.AddBitmap(IDB_EM_DW_3, RGB(255, 255, 255));
 		Character_down.AddBitmap(IDB_EM_DW_4, RGB(255, 255, 255));
+		TRACE("%d\n", IDB_EM_DW_1);
+		TRACE("%d\n", IDB_EM_DW_2);
+		TRACE("%d\n", IDB_EM_DW_3);
+		TRACE("%d\n", IDB_EM_DW_4);
 
 		Character_up.SetDelayCount(5);
 		Character_up.AddBitmap(IDB_EM_UP_1, RGB(255, 255, 255));
 		Character_up.AddBitmap(IDB_EM_UP_2, RGB(255, 255, 255));
 		Character_up.AddBitmap(IDB_EM_UP_3, RGB(255, 255, 255));
 		Character_up.AddBitmap(IDB_EM_UP_4, RGB(255, 255, 255));
+		TRACE("%d\n", IDB_EM_UP_1);
+		TRACE("%d\n", IDB_EM_UP_2);
+		TRACE("%d\n", IDB_EM_UP_3);
+		TRACE("%d\n", IDB_EM_UP_4);
 
 		Character_left.SetDelayCount(5);
 		Character_left.AddBitmap(IDB_EM_LE_1, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_EM_LE_2, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_EM_LE_3, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_EM_LE_4, RGB(255, 255, 255));
+		TRACE("%d\n", IDB_EM_LE_1);
+		TRACE("%d\n", IDB_EM_LE_2);
+		TRACE("%d\n", IDB_EM_LE_3);
+		TRACE("%d\n", IDB_EM_LE_4);
+
 
 		Character_right.SetDelayCount(5);
 		Character_right.AddBitmap(IDB_EM_RE_1, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_2, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_3, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_4, RGB(255, 255, 255));
+		TRACE("%d\n", IDB_EM_RE_1);
+		TRACE("%d\n", IDB_EM_RE_2);
+		TRACE("%d\n", IDB_EM_RE_3);
+		TRACE("%d\n", IDB_EM_RE_4);
+
 	}
 	void Enemy::OnMove() {
 		time++;

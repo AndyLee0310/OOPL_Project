@@ -141,11 +141,10 @@
     <ClCompile Include="Source\Enemy.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Source\Bullet.cpp">
-=======
+      <Filter>MyGame</Filter>
+    </ClCompile>
     <ClCompile Include="Source\CoinsAnimation.cpp">
->>>>>>> 68bad3f623ead7adf5d88f5359e65c86d29fa00b
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,11 +197,10 @@
     <ClInclude Include="Source\Enemy.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Source\Bullet.h">
-=======
+      <Filter>MyGame</Filter>
+    </ClInclude>
     <ClInclude Include="Source\CoinsAnimation.h">
->>>>>>> 68bad3f623ead7adf5d88f5359e65c86d29fa00b
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -555,6 +553,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\scr_Prefences\-_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\shot_1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
