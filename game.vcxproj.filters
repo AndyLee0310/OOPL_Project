@@ -141,7 +141,11 @@
     <ClCompile Include="Source\Enemy.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Source\Bullet.cpp">
+=======
+    <ClCompile Include="Source\CoinsAnimation.cpp">
+>>>>>>> 68bad3f623ead7adf5d88f5359e65c86d29fa00b
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,7 +198,11 @@
     <ClInclude Include="Source\Enemy.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\Bullet.h">
+=======
+    <ClInclude Include="Source\CoinsAnimation.h">
+>>>>>>> 68bad3f623ead7adf5d88f5359e65c86d29fa00b
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -511,6 +519,42 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\Stage_1\enemy_up_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_9.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\yes_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\no_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\-_red.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ 產生的 Include 檔案。
-// 由 game.rc 使用
+// Microsoft Visual C++ generated include file.
+// Used by game.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_SOCKETS_INIT_FAILED         104
@@ -119,6 +119,19 @@
 #define IDB_BITMAP23                    239
 #define IDB_SCREEN_BACK_RED             239
 #define IDB_Test2                       240
+#define IDB_COIN_1                      241
+#define IDB_COIN_5                      242
+#define IDB_COIN_2                      243
+#define IDB_COIN_6                      244
+#define IDB_COIN_3                      245
+#define IDB_COIN_4                      246
+#define IDB_COIN_8                      247
+#define IDB_COIN_7                      248
+#define IDB_COIN_9                      249
+#define IDB_SCREEN_YES_RED              250
+#define IDB_SCREEN_NO_RED               251
+#define IDB_BITMAP20                    252
+#define IDB_SCREEN_FR_RED               252
 #define IDB_EM_DW_1                     241
 #define IDB_EM_DW_2                     242
 #define IDB_EM_DW_3                     243
@@ -134,7 +147,6 @@
 #define IDB_EM_UP_1                     253
 #define IDB_EM_UP_2                     254
 #define IDB_EM_UP_3                     255
-#define IDB_BITMAP20                    256
 #define IDB_EM_UP_4                     256
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771

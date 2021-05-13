@@ -447,11 +447,12 @@ GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 {
 	Bomb_ch1 = new Bomb [7];
 	block_2 = new Obstacle[42];
-
+	coin_Ani = new CoinsAnimation[5];
 }
 GameStage_1::~GameStage_1() {
 	delete [] Bomb_ch1;
 	delete[] block_2;
+	delete[] coin_Ani;
 }
 void GameStage_1::OnBeginState() {
 	for (int i = 0; i < 7; i++) {
@@ -492,14 +493,26 @@ void GameStage_1::OnBeginState() {
 		
 		block_2[i].Initialize(block_2_pos[i][1] * 32 + 128, block_2_pos[i][0] * 32 + 32);
 	}
+	/*
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 2; j++) {
 			coins_pos[i][j] = coins_reset[i][j];
 		}
 	}
+	*/
+	for (int i = 0; i < 5; i++) {
+		coins_pos[i][0] = coins_reset[i][0];
+		coins_pos[i][1] = coins_reset[i][1];
+
+		coin_Ani[i].Initialize(coins_pos[i][1] * 32 + 128, coins_pos[i][0] * 32 + 32);
+	}
 	//腳色數值重置
 	character_1.Initialize(128, 32);
 	character_1.LoadMap(bg);
+
+	coins_num = 5;		//該關卡共有5個金幣
+	sc = 0;		//預設吃到的金幣數為0個
+
 	AI.Initialize(6 * 32 + 128, 4 * 32 + 32);
 	//AI.Initialize(128, 32);
 	AI.LoadMap(bg);
@@ -513,12 +526,18 @@ void GameStage_1::OnInit() {
 		block_2[i].LoadBitmap();
 	}
 	border.LoadBitmap(IDB_BORDER_0, RGB(255, 255, 255));
-	coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
+	//coins.LoadBitmap(IDB_COIN_0, RGB(255, 255, 255));
 	panel.LoadBitmap(IDB_Panel, RGB(255, 255, 255));
 	character_1.LoadBitmap();
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].LoadBitmap();
 	}
+
+
+	for (int i = 0; i < 5; i++) {
+		coin_Ani[i].LoadBitmap();
+	}
+
 	AI.LoadBitmap();
 	//因撰寫關卡內容須測試，故先將時間倒數註解
 	/*
@@ -559,6 +578,8 @@ void GameStage_1::OnMove() {
 	BombState();
 	character_1.OnMove();
 	AI.OnMove();
+
+	GetCoins();
 }
 void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	panel.SetTopLeft(0, 0);
@@ -582,9 +603,11 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 		block_2[i].OnShow();
 	}
 
-	for (int i = 0; i < 5; i++) {
-		coins.SetTopLeft(128 + coins_pos[i][1] * 32, 32* (coins_pos[i][0] + 1));
-		coins.ShowBitmap();
+	for (int i = 0; i < coins_num; i++) {
+		coin_Ani[i].setTopLeft(128 + coins_pos[i][1] * 32, 32 * (coins_pos[i][0] + 1));
+		coin_Ani[i].OnShow();
+		//coins.SetTopLeft(128 + coins_pos[i][1] * 32, 32* (coins_pos[i][0] + 1));
+		//coins.ShowBitmap();
 	}
 
 	count_down.SetTopLeft(panel.Width() * 25 / 100, panel.Height() * 48 / 100);
@@ -781,6 +804,23 @@ void GameStage_1::setBombRange(int id, int i,int x,int y) {
 		Bomb_ch1[i].setLeft(--j);
 		Bomb_ch1[i].setObs(true);
 	}
+}
+void GameStage_1::GetCoins() {
+	//找出腳色所在位置(x,y)
+	int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
+	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
+	x = (x - 128) / 32;                                         //轉換成13*15地圖模式
+	y = (y - 32) / 32;
+	for (int i = 0; i < coins_num; i++) {
+		coin_Ani[i].OnMove();
+		if (x == coins_pos[i][1] && y == coins_pos[i][0] && !coin_Ani[i].getActive() && !coin_Ani[i].getExp()) {
+			coin_Ani[i].setActive();
+			/*吃掉的硬幣+1*/
+			sc++;
+			TRACE("you get %d coins\n", sc);
+		}
+	}
+
 }
 /*
 int GameStage_1::gettime()
@@ -1037,22 +1077,23 @@ void GamePrefences::OnInit()
 
 void GamePrefences::OnBeginState()
 {
+	FS_state = 0;
+	SF_state = 0;
+	Vsync_state = 1;
 }
 
 void GamePrefences::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
-		p.y > scr_FS_no.Top() && p.y < scr_FS_no.Top() + scr_FS_no.Height()) {
-		//Fullscreen
-		scr_FS_yes.ShowBitmap();
-		CDDraw::SetFullScreen(true);
-		//CMainFrame::OnButtonFullscreen();
-
-	}
-
 	if (p.x > scr_ok.Left() && p.x < scr_ok.Left() + scr_ok.Width() &&
 		p.y > scr_ok.Top() && p.y < scr_ok.Top() + scr_ok.Height()) {
 		//OK
+		if (FS_state == 1) {
+			CDDraw::SetFullScreen(true);
+			//CMainFrame::OnButtonFullscreen();
+		}
+		else if (FS_state == 0) {
+			CDDraw::SetFullScreen(false);
+		}
 		GotoGameState(GAME_STATE_INIT);
 	}
 	else if (p.x > scr_cancel.Left() && p.x < scr_cancel.Left() + scr_cancel.Width() &&
@@ -1061,7 +1102,31 @@ void GamePrefences::OnLButtonDown(UINT nFlags, CPoint point)
 		GotoGameState(GAME_STATE_INIT);
 	}
 
+	if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
+		p.y > scr_FS_no.Top() && p.y < scr_FS_no.Top() + scr_FS_no.Height() && FS_state == 0) {
+		FS_state = 1;
+	} else if (p.x > scr_FS_yes.Left() && p.x < scr_FS_yes.Left() + scr_FS_yes.Width() &&
+		p.y > scr_FS_yes.Top() && p.y < scr_FS_yes.Top() + scr_FS_yes.Height() && FS_state == 1) {
+		FS_state = 0;
+	}
 
+	if (p.x > scr_SF_no.Left() && p.x < scr_SF_no.Left() + scr_SF_no.Width() &&
+		p.y > scr_SF_no.Top() && p.y < scr_SF_no.Top() + scr_SF_no.Height() && SF_state == 0) {
+		SF_state = 1;
+	}
+	else if (p.x > scr_SF_yes.Left() && p.x < scr_SF_yes.Left() + scr_SF_yes.Width() &&
+		p.y > scr_SF_yes.Top() && p.y < scr_SF_yes.Top() + scr_SF_yes.Height() && SF_state == 1) {
+		SF_state = 0;
+	}
+
+	if (p.x > scr_Vsync_no.Left() && p.x < scr_Vsync_no.Left() + scr_Vsync_no.Width() &&
+		p.y > scr_Vsync_no.Top() && p.y < scr_Vsync_no.Top() + scr_Vsync_no.Height() && Vsync_state == 0) {
+		Vsync_state = 1;
+	}
+	else if (p.x > scr_Vsync_yes.Left() && p.x < scr_Vsync_yes.Left() + scr_Vsync_yes.Width() &&
+		p.y > scr_Vsync_yes.Top() && p.y < scr_Vsync_yes.Top() + scr_Vsync_yes.Height() && Vsync_state == 1) {
+		Vsync_state = 0;
+	}
 
 }
 
@@ -1114,95 +1179,107 @@ void GamePrefences::OnShow()
 		scr_cancel.ShowBitmap();
 	}
 
-	//scr_FS_yes
-	if (p.x > scr_FS_yes.Left() && p.x < scr_FS_yes.Left() + scr_FS_yes.Width() &&
-		p.y > scr_FS_yes.Top() && p.y < scr_FS_yes.Top() + scr_FS_yes.Height()) {
-		CMovingBitmap scr_FS_yes_red;
-		//scr_FS_yes_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_FS_yes_red.SetTopLeft((SIZE_X - scr_FS_yes_red.Width()) * 39 / 100, SIZE_Y * 22 / 100);
-		//scr_FS_yes_red.ShowBitmap();
+	//Fullscreen
+	if (FS_state == 1) {
+		//scr_FS_yes
+		if (p.x > scr_FS_yes.Left() && p.x < scr_FS_yes.Left() + scr_FS_yes.Width() &&
+			p.y > scr_FS_yes.Top() && p.y < scr_FS_yes.Top() + scr_FS_yes.Height()) {
+			CMovingBitmap scr_FS_yes_red;
+			scr_FS_yes_red.LoadBitmap(IDB_SCREEN_YES_RED, RGB(0, 0, 255));
+			scr_FS_yes_red.SetTopLeft((SIZE_X - scr_FS_yes_red.Width()) * 39 / 100, SIZE_Y * 22 / 100);
+			scr_FS_yes_red.ShowBitmap();
+		}
+		else {
+			scr_FS_yes.SetTopLeft((SIZE_X - scr_FS_yes.Width()) * 39 / 100, SIZE_Y * 22 / 100);
+			scr_FS_yes.ShowBitmap();
+		}
 	}
-	else {
-		scr_FS_yes.SetTopLeft((SIZE_X - scr_FS_yes.Width()) * 39 / 100, SIZE_Y * 22 / 100);
-		//scr_FS_yes.ShowBitmap();
+	else if (FS_state == 0) {
+		//scr_FS_no
+		if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
+			p.y > scr_FS_no.Top() && p.y < scr_FS_no.Top() + scr_FS_no.Height()) {
+			CMovingBitmap scr_FS_no_red;
+			scr_FS_no_red.LoadBitmap(IDB_SCREEN_NO_RED, RGB(0, 0, 255));
+			scr_FS_no_red.SetTopLeft((SIZE_X - scr_FS_no_red.Width()) * 38 / 100, SIZE_Y * 22 / 100);
+			scr_FS_no_red.ShowBitmap();
+		}
+		else {
+			scr_FS_no.SetTopLeft((SIZE_X - scr_FS_no.Width()) * 38 / 100, SIZE_Y * 22 / 100);
+			scr_FS_no.ShowBitmap();
+		}
 	}
 
-	//scr_FS_no
-	if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
-		p.y > scr_FS_no.Top() && p.y < scr_FS_no.Top() + scr_FS_no.Height()) {
-		CMovingBitmap scr_FS_no_red;
-		//scr_FS_no_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_FS_no_red.SetTopLeft((SIZE_X - scr_FS_no_red.Width()) * 38 / 100, SIZE_Y * 22 / 100);
-		//scr_FS_no_red.ShowBitmap();
-	}
-	else {
-		scr_FS_no.SetTopLeft((SIZE_X - scr_FS_no.Width()) * 38 / 100, SIZE_Y * 22 / 100);
-		scr_FS_no.ShowBitmap();
-	}
-
-	//scr_FR
+	//scr_FR: Fllscr.Res
 	if (p.x > scr_FR.Left() && p.x < scr_FR.Left() + scr_FR.Width() &&
 		p.y > scr_FR.Top() && p.y < scr_FR.Top() + scr_FR.Height()) {
 		CMovingBitmap scr_FR_red;
-		//scr_FR_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_FR_red.SetTopLeft((SIZE_X - scr_FR_red.Width()) * 39 / 100, SIZE_Y * 22 / 100);
-		//scr_FR_red.ShowBitmap();
+		scr_FR_red.LoadBitmap(IDB_SCREEN_FR_RED, RGB(0, 0, 255));
+		scr_FR_red.SetTopLeft((SIZE_X - scr_FR_red.Width()) * 38 / 100, SIZE_Y * 31 / 100);
+		scr_FR_red.ShowBitmap();
 	}
 	else {
 		scr_FR.SetTopLeft((SIZE_X - scr_FR.Width()) * 38 / 100, SIZE_Y * 31 / 100);
 		scr_FR.ShowBitmap();
 	}
 
-	//scr_SF_yes
-	if (p.x > scr_SF_yes.Left() && p.x < scr_SF_yes.Left() + scr_SF_yes.Width() &&
-		p.y > scr_SF_yes.Top() && p.y < scr_SF_yes.Top() + scr_SF_yes.Height()) {
-		CMovingBitmap scr_SF_yes_red;
-		//scr_SF_yes_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_SF_yes_red.SetTopLeft((SIZE_X - scr_SF_yes_red.Width()) * 39 / 100, SIZE_Y * 35 / 100);
-		//scr_SF_yes_red.ShowBitmap();
+	//Show FPS
+	if (SF_state == 1) {
+		//scr_SF_yes
+		if (p.x > scr_SF_yes.Left() && p.x < scr_SF_yes.Left() + scr_SF_yes.Width() &&
+			p.y > scr_SF_yes.Top() && p.y < scr_SF_yes.Top() + scr_SF_yes.Height()) {
+			CMovingBitmap scr_SF_yes_red;
+			scr_SF_yes_red.LoadBitmap(IDB_SCREEN_YES_RED, RGB(0, 0, 255));
+			scr_SF_yes_red.SetTopLeft((SIZE_X - scr_SF_yes_red.Width()) * 39 / 100, SIZE_Y * 35 / 100);
+			scr_SF_yes_red.ShowBitmap();
+		}
+		else {
+			scr_SF_yes.SetTopLeft((SIZE_X - scr_SF_yes.Width()) * 39 / 100, SIZE_Y * 35 / 100);
+			scr_SF_yes.ShowBitmap();
+		}
 	}
-	else {
-		scr_SF_yes.SetTopLeft((SIZE_X - scr_SF_yes.Width()) * 39 / 100, SIZE_Y * 35 / 100);
-		//scr_SF_yes.ShowBitmap();
-	}
-
-	//scr_SF_no
-	if (p.x > scr_SF_no.Left() && p.x < scr_SF_no.Left() + scr_SF_no.Width() &&
-		p.y > scr_SF_no.Top() && p.y < scr_SF_no.Top() + scr_SF_no.Height()) {
-		CMovingBitmap scr_SF_no_red;
-		//scr_SF_no_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_SF_no_red.SetTopLeft((SIZE_X - scr_SF_no_red.Width()) * 38 / 100, SIZE_Y * 35 / 100);
-		//scr_SF_no_red.ShowBitmap();
-	}
-	else {
-		scr_SF_no.SetTopLeft((SIZE_X - scr_SF_no.Width()) * 38 / 100, SIZE_Y * 35 / 100);
-		scr_SF_no.ShowBitmap();
-	}
-
-	//scr_Vsync_yes
-	if (p.x > scr_Vsync_yes.Left() && p.x < scr_Vsync_yes.Left() + scr_Vsync_yes.Width() &&
-		p.y > scr_Vsync_yes.Top() && p.y < scr_Vsync_yes.Top() + scr_Vsync_yes.Height()) {
-		CMovingBitmap scr_Vsync_yes_red;
-		//scr_Vsync_yes_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_Vsync_yes_red.SetTopLeft((SIZE_X - scr_Vsync_yes_red.Width()) * 39 / 100, SIZE_Y * 43 / 100);
-		//scr_Vsync_yes_red.ShowBitmap();
-	}
-	else {
-		scr_Vsync_yes.SetTopLeft((SIZE_X - scr_Vsync_yes.Width()) * 39 / 100, SIZE_Y * 43 / 100);
-		scr_Vsync_yes.ShowBitmap();
+	else if (SF_state == 0) {
+		//scr_SF_no
+		if (p.x > scr_SF_no.Left() && p.x < scr_SF_no.Left() + scr_SF_no.Width() &&
+			p.y > scr_SF_no.Top() && p.y < scr_SF_no.Top() + scr_SF_no.Height()) {
+			CMovingBitmap scr_SF_no_red;
+			scr_SF_no_red.LoadBitmap(IDB_SCREEN_NO_RED, RGB(0, 0, 255));
+			scr_SF_no_red.SetTopLeft((SIZE_X - scr_SF_no_red.Width()) * 38 / 100, SIZE_Y * 35 / 100);
+			scr_SF_no_red.ShowBitmap();
+		}
+		else {
+			scr_SF_no.SetTopLeft((SIZE_X - scr_SF_no.Width()) * 38 / 100, SIZE_Y * 35 / 100);
+			scr_SF_no.ShowBitmap();
+		}
 	}
 
-	//scr_Vsync_no
-	if (p.x > scr_Vsync_no.Left() && p.x < scr_Vsync_no.Left() + scr_Vsync_no.Width() &&
-		p.y > scr_Vsync_no.Top() && p.y < scr_Vsync_no.Top() + scr_Vsync_no.Height()) {
-		CMovingBitmap scr_Vsync_no_red;
-		//scr_Vsync_no_red.LoadBitmap(IDB_SCREEN_CANCEL_RED, RGB(0, 0, 255));
-		//scr_Vsync_no_red.SetTopLeft((SIZE_X - scr_Vsync_no_red.Width()) * 38 / 100, SIZE_Y * 43 / 100);
-		//scr_Vsync_no_red.ShowBitmap();
+	//Vsync
+	if (Vsync_state == 1) {
+		//scr_Vsync_yes
+		if (p.x > scr_Vsync_yes.Left() && p.x < scr_Vsync_yes.Left() + scr_Vsync_yes.Width() &&
+			p.y > scr_Vsync_yes.Top() && p.y < scr_Vsync_yes.Top() + scr_Vsync_yes.Height()) {
+			CMovingBitmap scr_Vsync_yes_red;
+			scr_Vsync_yes_red.LoadBitmap(IDB_SCREEN_YES_RED, RGB(0, 0, 255));
+			scr_Vsync_yes_red.SetTopLeft((SIZE_X - scr_Vsync_yes_red.Width()) * 39 / 100, SIZE_Y * 43 / 100);
+			scr_Vsync_yes_red.ShowBitmap();
+		}
+		else {
+			scr_Vsync_yes.SetTopLeft((SIZE_X - scr_Vsync_yes.Width()) * 39 / 100, SIZE_Y * 43 / 100);
+			scr_Vsync_yes.ShowBitmap();
+		}
 	}
-	else {
-		scr_Vsync_no.SetTopLeft((SIZE_X - scr_Vsync_no.Width()) * 38 / 100, SIZE_Y * 43 / 100);
-		//scr_Vsync_no.ShowBitmap();
+	else if (Vsync_state == 0) {
+		//scr_Vsync_no
+		if (p.x > scr_Vsync_no.Left() && p.x < scr_Vsync_no.Left() + scr_Vsync_no.Width() &&
+			p.y > scr_Vsync_no.Top() && p.y < scr_Vsync_no.Top() + scr_Vsync_no.Height()) {
+			CMovingBitmap scr_Vsync_no_red;
+			scr_Vsync_no_red.LoadBitmap(IDB_SCREEN_NO_RED, RGB(0, 0, 255));
+			scr_Vsync_no_red.SetTopLeft((SIZE_X - scr_Vsync_no_red.Width()) * 38 / 100, SIZE_Y * 43 / 100);
+			scr_Vsync_no_red.ShowBitmap();
+		}
+		else {
+			scr_Vsync_no.SetTopLeft((SIZE_X - scr_Vsync_no.Width()) * 38 / 100, SIZE_Y * 43 / 100);
+			scr_Vsync_no.ShowBitmap();
+		}
 	}
 }
 

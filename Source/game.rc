@@ -200,6 +200,8 @@ IDB_EM_UP_3             BITMAP                  "..\\RES\\Stage_1\\enemy_up_3.bm
 
 IDB_EM_UP_4             BITMAP                  "..\\RES\\Stage_1\\enemy_up_4.bmp"
 
+IDB_BULLET_1            BITMAP                  "..\\RES\\Stage_1\\shot_1.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
