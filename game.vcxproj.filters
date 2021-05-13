@@ -141,6 +141,9 @@
     <ClCompile Include="Source\Enemy.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CoinsAnimation.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -189,6 +192,9 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CoinsAnimation.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -457,6 +463,42 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\character\test2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\coin_9.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\yes_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\no_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\-_red.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

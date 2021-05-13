@@ -45,6 +45,7 @@
 #include "Bomb.h"
 #include "Obstacle.h"
 #include "Enemy.h"
+#include "CoinsAnimation.h"
 
 
 namespace game_framework {
@@ -134,6 +135,8 @@ namespace game_framework {
 		void mapChange(int,int,int);                            // 地圖變動&通知character
 		void BombState();
 		void setBombRange(int,int,int,int);                                    // 爆炸時設置範圍
+		void GetCoins();				//偵測碰撞金幣
+		void CoinState();				//金幣動畫
 	private:
 		int bg[13][15];              //0地板 1石塊 2粉色石 4未爆彈 5爆炸中
 		int coins_pos[5][2];         //硬幣位置
@@ -146,7 +149,11 @@ namespace game_framework {
 		Character     character_1;   //Range undone
 		CMovingBitmap character_2;   //類別之後改
 		Enemy         AI;
-		CMovingBitmap coins;
+		//CMovingBitmap coins;
+		int coins_num;	//金幣總數
+		int sc;		//紀錄吃到幾個金幣
+		CoinsAnimation* coin_Ani;
+
 		Bomb*         Bomb_ch1;
 		CInteger count_down;
 
@@ -197,8 +204,8 @@ namespace game_framework {
 		int counter;	// 倒數之計數器
 	};
 	////////////////////////////////////////////////////////////////////////////
-//Prefences畫面
-////////////////////////////////////////////////////////////////////////////
+	//Prefences畫面
+	////////////////////////////////////////////////////////////////////////////
 	class GamePrefences : public CGameState {
 	public:
 		GamePrefences(CGame* g);
@@ -216,14 +223,17 @@ namespace game_framework {
 
 		CMovingBitmap scr_FS_yes;
 		CMovingBitmap scr_FS_no;
+		int FS_state;
 
 		CMovingBitmap scr_FR;
 
 		CMovingBitmap scr_SF_yes;
 		CMovingBitmap scr_SF_no;
+		int SF_state;
 
 		CMovingBitmap scr_Vsync_yes;
 		CMovingBitmap scr_Vsync_no;
+		int Vsync_state;
 
 		POINT p;
 	};
