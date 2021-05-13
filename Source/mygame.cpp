@@ -501,6 +501,7 @@ void GameStage_1::OnBeginState() {
 	character_1.Initialize(128, 32);
 	character_1.LoadMap(bg);
 	AI.Initialize(6 * 32 + 128, 4 * 32 + 32);
+	//AI.Initialize(128, 32);
 	AI.LoadMap(bg);
 	timer = 0;
 }
@@ -550,11 +551,14 @@ void GameStage_1::OnMove() {
 		block_2[i].OnMove();
 		if (block_2[i].getActive() && !block_2[i].getExp()) {
 			mapChange(block_2_pos[i][1], block_2_pos[i][0], 0);
+			block_2[i].setActive(false); 
+			block_2[i].setExp(true);
+			
 		}
 	}
+	BombState();
 	character_1.OnMove();
 	AI.OnMove();
-	BombState();
 }
 void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	panel.SetTopLeft(0, 0);

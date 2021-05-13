@@ -61,7 +61,7 @@ namespace game_framework {
 			timer++;
 			waiting.SetTopLeft(x, y);
 			waiting.OnShow();
-			if (timer == 30 * 3) {            //30FPS * 3¬í
+			if (timer == 30 * 2) {            //30FPS * 3¬í
 				timer = 0;
 				isExp  = true;
 			}

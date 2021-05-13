@@ -258,6 +258,7 @@
   <ItemGroup>
     <ClCompile Include="Source\audio.cpp" />
     <ClCompile Include="Source\Bomb.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\CBall.cpp" />
     <ClCompile Include="Source\CBouncingBall.cpp" />
     <ClCompile Include="Source\CEraser.cpp" />
@@ -308,6 +309,7 @@
   <ItemGroup>
     <ClInclude Include="Source\audio.h" />
     <ClInclude Include="Source\Bomb.h" />
+    <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\CBall.h" />
     <ClInclude Include="Source\CBouncingBall.h" />
     <ClInclude Include="Source\CEraser.h" />
@@ -416,6 +418,22 @@
     <Image Include="RES\Stage_1\breakable_2.bmp" />
     <Image Include="RES\Stage_1\breakable_3.bmp" />
     <Image Include="RES\Stage_1\coin_0.bmp" />
+    <Image Include="RES\Stage_1\enemy_dw_1.bmp" />
+    <Image Include="RES\Stage_1\enemy_dw_2.bmp" />
+    <Image Include="RES\Stage_1\enemy_dw_3.bmp" />
+    <Image Include="RES\Stage_1\enemy_dw_4.bmp" />
+    <Image Include="RES\Stage_1\enemy_le_1.bmp" />
+    <Image Include="RES\Stage_1\enemy_le_2.bmp" />
+    <Image Include="RES\Stage_1\enemy_le_3.bmp" />
+    <Image Include="RES\Stage_1\enemy_le_4.bmp" />
+    <Image Include="RES\Stage_1\enemy_re_1.bmp" />
+    <Image Include="RES\Stage_1\enemy_re_2.bmp" />
+    <Image Include="RES\Stage_1\enemy_re_3.bmp" />
+    <Image Include="RES\Stage_1\enemy_re_4.bmp" />
+    <Image Include="RES\Stage_1\enemy_up_1.bmp" />
+    <Image Include="RES\Stage_1\enemy_up_2.bmp" />
+    <Image Include="RES\Stage_1\enemy_up_3.bmp" />
+    <Image Include="RES\Stage_1\enemy_up_4.bmp" />
     <Image Include="RES\Stage_1\fixed.bmp" />
     <Image Include="RES\Stage_1\panel.bmp" />
   </ItemGroup>

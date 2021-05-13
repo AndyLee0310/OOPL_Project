@@ -7,7 +7,8 @@ namespace game_framework {
 		void OnMove();
 		void OnShow();
 		void setActive();
-		//void setExp(bool);
+		void setActive(bool);
+		void setExp(bool);
 		void setTopLeft(int, int);
 		bool getActive();
 		bool getExp();

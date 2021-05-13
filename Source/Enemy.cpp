@@ -6,7 +6,7 @@
 #include "gamelib.h"
 #include <cstdlib> /* 亂數相關函數 */
 #include "Enemy.h"
-
+#include "Bullet.h"
 namespace game_framework {
 	Enemy::Enemy() {
 		Initialize(0, 0);
@@ -20,30 +20,72 @@ namespace game_framework {
 	}
 	void Enemy::LoadBitmap() {
 		Character_down.SetDelayCount(5);
-		Character_down.AddBitmap(IDB_Test, RGB(255,255,255));
-		//Character_down.AddBitmap(IDB_Test2, RGB(255, 255, 255));
+		Character_down.AddBitmap(IDB_EM_DW_1, RGB(255, 255, 255));
+		Character_down.AddBitmap(IDB_EM_DW_2, RGB(255, 255, 255));
+		Character_down.AddBitmap(IDB_EM_DW_3, RGB(255, 255, 255));
+		Character_down.AddBitmap(IDB_EM_DW_4, RGB(255, 255, 255));
+
+		Character_up.SetDelayCount(5);
+		Character_up.AddBitmap(IDB_EM_UP_1, RGB(255, 255, 255));
+		Character_up.AddBitmap(IDB_EM_UP_2, RGB(255, 255, 255));
+		Character_up.AddBitmap(IDB_EM_UP_3, RGB(255, 255, 255));
+		Character_up.AddBitmap(IDB_EM_UP_4, RGB(255, 255, 255));
+
+		Character_left.SetDelayCount(5);
+		Character_left.AddBitmap(IDB_EM_LE_1, RGB(255, 255, 255));
+		Character_left.AddBitmap(IDB_EM_LE_2, RGB(255, 255, 255));
+		Character_left.AddBitmap(IDB_EM_LE_3, RGB(255, 255, 255));
+		Character_left.AddBitmap(IDB_EM_LE_4, RGB(255, 255, 255));
+
+		Character_right.SetDelayCount(5);
+		Character_right.AddBitmap(IDB_EM_RE_1, RGB(255, 255, 255));
+		Character_right.AddBitmap(IDB_EM_RE_2, RGB(255, 255, 255));
+		Character_right.AddBitmap(IDB_EM_RE_3, RGB(255, 255, 255));
+		Character_right.AddBitmap(IDB_EM_RE_4, RGB(255, 255, 255));
 	}
 	void Enemy::OnMove() {
 		time++;
 		if ((x - 128) % 32 == 0 && (y - 32) % 32 == 0) {
 			descision = GetPath();
 		}
-		if (descision == 1) { y -= move_step; Character_down.OnMove(); }
-		else if (descision == 2) { y += move_step; Character_down.OnMove(); }
-		else if (descision == 3) { x -= move_step; Character_down.OnMove(); }
-		else if (descision == 4) { x += move_step; Character_down.OnMove(); }
+		if (descision == 1) { 
+			y -= move_step;
+			Character_up.OnMove();
+
+		}
+		else if (descision == 2) { 
+			y += move_step;
+			Character_down.OnMove();
+
+		}
+		else if (descision == 3) { 
+			x -= move_step;
+			Character_left.OnMove();
+		}
+		else if (descision == 4) { 
+			x += move_step;
+			Character_right.OnMove();
+		}
 	}
 	void Enemy::OnShow() {
 		Character_down.SetTopLeft(x, y);
-		if (descision == 1)Character_down.OnShow();
-		else if (descision == 2)Character_down.OnShow();
-		else if (descision == 3)Character_down.OnShow();
+		Character_up.SetTopLeft(x, y);
+		Character_left.SetTopLeft(x, y);
+		Character_right.SetTopLeft(x, y);
+		if (descision == 1)Character_up.OnShow();
+		else if (descision == 4)Character_right.OnShow();
+		else if (descision == 3)Character_left.OnShow();
 		else Character_down.OnShow();
 	}
 	void Enemy::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 13; i++) {
 			for (int j = 0; j < 15; j++) {
 				bg[i][j] = maps[i][j];
+			}
+		}
+		for (int i = 0; i < 13 * 32; i++) {
+			for (int j = 0; j < 15 * 32; j++) {
+				map[i][j] = maps[i / 32][j / 32];
 			}
 		}
 	}
@@ -81,9 +123,9 @@ namespace game_framework {
 
 		srand(time);
 		int total = upRange + downRange + leftRange + rightRange;
+		if (total == 0)return 0;
 		int Rand = rand() % total;
-		TRACE("%d %d\n", time, rand);
-		TRACE("%d %d %d %d\n", upRange, downRange, leftRange, rightRange);
+		//TRACE("%d %d %d %d %d %d\n", x, y, upRange, downRange, leftRange, rightRange);
 		if (Rand < upRange && upRange != 0) {        //rand剛好整除且upRange又為0 AI不能往上 *只有向上才會有這種情況
 			return 1;                   // 向上
 		}

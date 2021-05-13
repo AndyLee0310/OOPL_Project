@@ -42,11 +42,13 @@ namespace game_framework {
 		Active = true;
 		exp = true;
 	}
-	/*
+	void Obstacle::setActive(bool a) {
+		Active = a;
+	}
 	void Obstacle::setExp(bool e) {
 		exp = e;
 	}
-	*/
+	
 	void Obstacle::setTopLeft(int nx, int ny) {
 		x = nx;
 		y = ny;

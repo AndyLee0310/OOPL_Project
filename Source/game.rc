@@ -168,6 +168,38 @@ IDB_Test                BITMAP                  "..\\res\\character\\bitmap20.bm
 
 IDB_Test2               BITMAP                  "..\\res\\character\\test2.bmp"
 
+IDB_EM_DW_1             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_1.bmp"
+
+IDB_EM_DW_2             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_2.bmp"
+
+IDB_EM_DW_3             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_3.bmp"
+
+IDB_EM_DW_4             BITMAP                  "..\\RES\\Stage_1\\enemy_dw_4.bmp"
+
+IDB_EM_LE_1             BITMAP                  "..\\RES\\Stage_1\\enemy_le_1.bmp"
+
+IDB_EM_LE_2             BITMAP                  "..\\RES\\Stage_1\\enemy_le_2.bmp"
+
+IDB_EM_LE_3             BITMAP                  "..\\RES\\Stage_1\\enemy_le_3.bmp"
+
+IDB_EM_LE_4             BITMAP                  "..\\RES\\Stage_1\\enemy_le_4.bmp"
+
+IDB_EM_RE_1             BITMAP                  "..\\RES\\Stage_1\\enemy_re_1.bmp"
+
+IDB_EM_RE_2             BITMAP                  "..\\RES\\Stage_1\\enemy_re_2.bmp"
+
+IDB_EM_RE_3             BITMAP                  "..\\RES\\Stage_1\\enemy_re_3.bmp"
+
+IDB_EM_RE_4             BITMAP                  "..\\RES\\Stage_1\\enemy_re_4.bmp"
+
+IDB_EM_UP_1             BITMAP                  "..\\RES\\Stage_1\\enemy_up_1.bmp"
+
+IDB_EM_UP_2             BITMAP                  "..\\RES\\Stage_1\\enemy_up_2.bmp"
+
+IDB_EM_UP_3             BITMAP                  "..\\RES\\Stage_1\\enemy_up_3.bmp"
+
+IDB_EM_UP_4             BITMAP                  "..\\RES\\Stage_1\\enemy_up_4.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
