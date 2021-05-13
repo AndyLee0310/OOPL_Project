@@ -453,5 +453,11 @@
     <Image Include="RES\scr_Prefences\back_red.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\character\bitmap20.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\character\test2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

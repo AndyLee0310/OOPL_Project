@@ -336,6 +336,7 @@
     <Image Include="graphics\bitmaps\fixed.bmp" />
     <Image Include="graphics\bitmaps\panel.bmp" />
     <Image Include="RES\boom_logo.bmp" />
+    <Image Include="res\character\bitmap20.bmp" />
     <Image Include="RES\Character\bomb_1.bmp" />
     <Image Include="RES\Character\bomb_2.bmp" />
     <Image Include="RES\Character\bomb_3.bmp" />
@@ -359,6 +360,7 @@
     <Image Include="RES\Character\player1_re_2.bmp" />
     <Image Include="RES\Character\player1_up_1.bmp" />
     <Image Include="RES\Character\player1_up_2.bmp" />
+    <Image Include="res\character\test2.bmp" />
     <Image Include="RES\Menu\about.bmp" />
     <Image Include="RES\Menu\about_red.bmp" />
     <Image Include="RES\Menu\boom_logo.bmp" />

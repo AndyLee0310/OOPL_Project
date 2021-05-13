@@ -500,7 +500,8 @@ void GameStage_1::OnBeginState() {
 	//腳色數值重置
 	character_1.Initialize(128, 32);
 	character_1.LoadMap(bg);
-	
+	AI.Initialize(6 * 32 + 128, 4 * 32 + 32);
+	AI.LoadMap(bg);
 	timer = 0;
 }
 void GameStage_1::OnInit() {
@@ -517,6 +518,7 @@ void GameStage_1::OnInit() {
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].LoadBitmap();
 	}
+	AI.LoadBitmap();
 	//因撰寫關卡內容須測試，故先將時間倒數註解
 	/*
 	if (tempTime == NULL) {
@@ -551,6 +553,7 @@ void GameStage_1::OnMove() {
 		}
 	}
 	character_1.OnMove();
+	AI.OnMove();
 	BombState();
 }
 void GameStage_1::OnShow() {                   //越後放的顯示會越上層
@@ -587,6 +590,7 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].OnShow();
 	}
+	AI.OnShow();
 }
 
 void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -669,6 +673,7 @@ void GameStage_1::mapChange(int x, int y, int value) {
 	if (bg[y][x] == 1)value = 1;    // bombState會把不可破壞的石頭取代 這是應急處理
 	bg[y][x] = value;
 	character_1.LoadMap(bg);
+	AI.LoadMap(bg);
 }
 void GameStage_1::BombState() {
 	for (int i = 0; i < 7; i++) {

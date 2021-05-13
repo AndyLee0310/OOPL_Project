@@ -44,6 +44,7 @@
 #include "Character.h"
 #include "Bomb.h"
 #include "Obstacle.h"
+#include "Enemy.h"
 
 
 namespace game_framework {
@@ -144,7 +145,7 @@ namespace game_framework {
 		CMovingBitmap border;
 		Character     character_1;   //Range undone
 		CMovingBitmap character_2;   //類別之後改
-		CMovingBitmap AI;
+		Enemy         AI;
 		CMovingBitmap coins;
 		Bomb*         Bomb_ch1;
 		CInteger count_down;
