@@ -7,6 +7,7 @@
 #include <cstdlib> /* 亂數相關函數 */
 #include "Enemy.h"
 #include "Bullet.h"
+
 namespace game_framework {
 	Enemy::Enemy() {
 		Initialize(0, 0);
@@ -155,5 +156,17 @@ namespace game_framework {
 			return 3;                   // 向左
 		}
 		else return 4;                  // 向右
+	}
+	int Enemy::GetX1() {
+		return x;
+	}
+	int Enemy::GetY1() {
+		return y;
+	}
+	int Enemy::GetX2() {
+		return x + Character_down.Width();
+	}
+	int Enemy::GetY2() {
+		return y + Character_down.Width();
 	}
 }

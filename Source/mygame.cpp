@@ -97,6 +97,7 @@ void CGameStateInit::OnInit()
 
 void CGameStateInit::OnBeginState()
 {
+	form_state = 1;
 }
 
 void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -237,6 +238,7 @@ void CGameStateInit::OnShow()
 	CFont f,*fp;
 	f.CreatePointFont(160,"Times New Roman");	// 產生 font f; 160表示16 point的字
 	fp=pDC->SelectObject(&f);					// 選用 font f
+	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetBkColor(RGB(0,0,255));
 	pDC->SetTextColor(RGB(255,255,0));
 	pDC->TextOut(5,455, "test");
@@ -262,12 +264,12 @@ void CGamestatePause::OnInit()
 	scr_quitToMenu.LoadBitmap(IDB_SCREEN_QUIT_TO_MENU, RGB(0, 0, 255));
 	scr_exit.LoadBitmapA(IDB_SCREEN_EXIT, RGB(0, 0, 255));
 
-
 	//int time_temp = game_framework::GameStage_1::gettime();
 }
 
 void CGamestatePause::OnBeginState()
 {
+	form_state = 2;
 }
 
 void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
@@ -448,11 +450,13 @@ GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 	Bomb_ch1 = new Bomb [7];
 	block_2 = new Obstacle[42];
 	coin_Ani = new CoinsAnimation[5];
+	heart = new Healths[8];
 }
 GameStage_1::~GameStage_1() {
 	delete [] Bomb_ch1;
 	delete[] block_2;
 	delete[] coin_Ani;
+	delete[] heart;
 }
 void GameStage_1::OnBeginState() {
 	for (int i = 0; i < 7; i++) {
@@ -493,19 +497,19 @@ void GameStage_1::OnBeginState() {
 		
 		block_2[i].Initialize(block_2_pos[i][1] * 32 + 128, block_2_pos[i][0] * 32 + 32);
 	}
-	/*
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 2; j++) {
-			coins_pos[i][j] = coins_reset[i][j];
-		}
-	}
-	*/
 	for (int i = 0; i < 5; i++) {
 		coins_pos[i][0] = coins_reset[i][0];
 		coins_pos[i][1] = coins_reset[i][1];
 
 		coin_Ani[i].Initialize(coins_pos[i][1] * 32 + 128, coins_pos[i][0] * 32 + 32);
 	}
+
+	double health_reset[8] = {1, 1, 1, 1, 1, 1, 1, 1};
+	for (int i = 0; i < 8; i++) {
+		heart_num[i] = health_reset[i];
+	}
+	blood_ori = blood_vol = 8;		//預設血量總值為8
+
 	//腳色數值重置
 	character_1.Initialize(128, 32);
 	character_1.LoadMap(bg);
@@ -539,14 +543,21 @@ void GameStage_1::OnInit() {
 	}
 
 	AI.LoadBitmap();
+
+	playerhead_1.LoadBitmap(IDB_PLAYERHEAD1, RGB(255, 255, 255));
+	playerhead_2.LoadBitmap(IDB_PLAYERHEAD2, RGB(255, 255, 255));
+	for (int i = 0; i < 8; i++) {
+		heart[i].LoadBitmap();
+	}
+
 	//因撰寫關卡內容須測試，故先將時間倒數註解
 	/*
-	if (tempTime == NULL) {
+	if (tempTime == 0) {
 		count_down.SetInteger(60);
 	}
 	else {
-		count_down.SetInteger(*tempTime);
-		tempTime = NULL;
+		count_down.SetInteger(tempTime);
+		tempTime = 0;
 	}
 	*/
 }
@@ -580,6 +591,10 @@ void GameStage_1::OnMove() {
 	AI.OnMove();
 
 	GetCoins();
+
+	HealthState();
+	if (blood_vol == 0) {
+	}
 }
 void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	panel.SetTopLeft(0, 0);
@@ -618,6 +633,35 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 		Bomb_ch1[i].OnShow();
 	}
 	AI.OnShow();
+
+	playerhead_1.SetTopLeft((panel.Width() * 16 / 100) , panel.Height() * 13 / 100);
+	playerhead_1.ShowBitmap();
+	CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f, * fp;
+	f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp = pDC->SelectObject(&f);					// 選用 font f
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->SetBkColor(RGB(0, 0, 255));
+	pDC->SetTextColor(RGB(255, 255, 255));
+	pDC->TextOut((panel.Width() * 59 / 100), panel.Height() * 13 / 100, "X3");
+	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+
+	playerhead_2.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 56 / 100);
+	playerhead_2.ShowBitmap();
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (i == 0 && j < 4) {
+				heart[j].setTopLeft((panel.Width() * 15 / 100) + 17 * j, panel.Height() * 19 / 100);
+				heart[j].OnShow();
+			}
+			else if (i == 1 && j > 3 &&j < 8) {
+				heart[j].setTopLeft((panel.Width() * 15 / 100) + 17 * (j - 4), panel.Height() * 225 / 1000);
+				heart[j].OnShow();
+			}
+		}
+	}
+
 }
 
 void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -822,6 +866,62 @@ void GameStage_1::GetCoins() {
 	}
 
 }
+
+void GameStage_1::HealthState() {
+
+	for (int i = 0; i < 8; i++) {
+		heart[i].OnMove();
+
+		if (heart_num[i] == 1) {
+			heart[i].SetDescision(2);
+		}
+		else if (heart_num[i] == 0.5) {
+			heart[i].SetDescision(1);
+		}
+		else if (heart_num[i] == 0) {
+			heart[i].SetDescision(0);
+		}
+	}
+
+	int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
+	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
+	x = (x - 128) / 32;                                         //轉換成13*15地圖模式
+	y = (y - 32) / 32;
+
+	int x1 = (AI.GetX1() + AI.GetX2()) / 2;    //腳色中心點
+	int y1 = (AI.GetY1() + AI.GetY2()) / 2;    //腳色中心點
+	x1 = (x1 - 128) / 32;					   //轉換成13*15地圖模式
+	y1 = (y1 - 32) / 32;
+
+	if (x == x1 && y == y1) {
+		TRACE("you touch enemy\n");
+		blood_vol = blood_vol - 0.5;
+		TRACE("血量剩餘 %f\n", blood_vol);
+	}
+	
+	double value = std::fmod(blood_ori, blood_vol);
+	for (int i = 7; i >= 0; i--) {
+		if (heart_num[i] != 0) {
+			if (heart_num[i] - value < 0) {
+				value -= heart_num[i];
+				heart_num[i] = 0;
+				blood_ori = blood_vol;
+				value = 0;
+			}
+			else if (heart_num[i] - value == 0.5) {
+				heart_num[i] = 0.5;
+				blood_ori = blood_vol;
+				value = 0;
+			}
+			else if (heart_num[i] - value == 0) {
+				heart_num[i] = 0;
+				blood_ori = blood_vol;
+				value = 0;
+			}
+		}
+	}
+}
+
 /*
 int GameStage_1::gettime()
 {
@@ -1077,6 +1177,9 @@ void GamePrefences::OnInit()
 
 void GamePrefences::OnBeginState()
 {
+	form_ori = form_state;
+	form_state = 3;
+
 	FS_state = 0;
 	SF_state = 0;
 	Vsync_state = 1;
@@ -1089,17 +1192,28 @@ void GamePrefences::OnLButtonDown(UINT nFlags, CPoint point)
 		//OK
 		if (FS_state == 1) {
 			CDDraw::SetFullScreen(true);
-			//CMainFrame::OnButtonFullscreen();
+			//CMainFrame::SetFullScreen(true);
 		}
 		else if (FS_state == 0) {
 			CDDraw::SetFullScreen(false);
 		}
-		GotoGameState(GAME_STATE_INIT);
+
+		if (form_ori == 1) {
+			GotoGameState(GAME_STATE_INIT);
+		}
+		else if (form_ori == 2) {
+			GotoGameState(GAME_STATE_PAUSE);
+		}
 	}
 	else if (p.x > scr_cancel.Left() && p.x < scr_cancel.Left() + scr_cancel.Width() &&
 		p.y > scr_cancel.Top() && p.y < scr_cancel.Top() + scr_cancel.Height()) {
 		//Cancel
-		GotoGameState(GAME_STATE_INIT);
+		if (form_ori == 1) {
+			GotoGameState(GAME_STATE_INIT);
+		}
+		else if (form_ori == 2) {
+			GotoGameState(GAME_STATE_PAUSE);
+		}
 	}
 
 	if (p.x > scr_FS_no.Left() && p.x < scr_FS_no.Left() + scr_FS_no.Width() &&
