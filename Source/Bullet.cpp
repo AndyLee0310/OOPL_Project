@@ -40,13 +40,16 @@ namespace game_framework {
 		}
 	}
 	void Bullet::OnShow() {
-
+		if (active) {
+			bullet.SetTopLeft(x - 3, y - 3);            //中心點轉換成左上座標
+			bullet.OnShow();
+		}
 	}
 	void Bullet::setPath(int nx, int ny, int dir) {
 		x = nx;
 		y = ny;
 		direction = dir;
-
+		active = true;
 	}
 	void Bullet::setActive(bool a) {
 		active = a;
@@ -54,13 +57,13 @@ namespace game_framework {
 	bool Bullet::getActive() {
 		return active;
 	}
-	int  Bullet::isTouched() {
-		return 0;
-	}
 	int  Bullet::getX() {
 		return x + 3;
 	}
 	int  Bullet::getY() {
 		return y + 3;
+	}
+	void Bullet::isTouched() {
+		touched = true;
 	}
 }

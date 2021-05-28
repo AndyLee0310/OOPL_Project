@@ -6,7 +6,7 @@
 #include "gamelib.h"
 #include <cstdlib> /* 亂數相關函數 */
 #include "Enemy.h"
-#include "Bullet.h"
+
 namespace game_framework {
 	Enemy::Enemy() {
 		Initialize(0, 0);
@@ -17,6 +17,7 @@ namespace game_framework {
 		time = 0;
 		Animate_State = 1;
 		descision = 0;
+		upRange = downRange = leftRange = rightRange = 0;
 	}
 	void Enemy::LoadBitmap() {
 
@@ -25,41 +26,24 @@ namespace game_framework {
 		Character_down.AddBitmap(IDB_EM_DW_2, RGB(255, 255, 255));
 		Character_down.AddBitmap(IDB_EM_DW_3, RGB(255, 255, 255));
 		Character_down.AddBitmap(IDB_EM_DW_4, RGB(255, 255, 255));
-		TRACE("%d\n", IDB_EM_DW_1);
-		TRACE("%d\n", IDB_EM_DW_2);
-		TRACE("%d\n", IDB_EM_DW_3);
-		TRACE("%d\n", IDB_EM_DW_4);
 
 		Character_up.SetDelayCount(5);
 		Character_up.AddBitmap(IDB_EM_UP_1, RGB(255, 255, 255));
 		Character_up.AddBitmap(IDB_EM_UP_2, RGB(255, 255, 255));
 		Character_up.AddBitmap(IDB_EM_UP_3, RGB(255, 255, 255));
 		Character_up.AddBitmap(IDB_EM_UP_4, RGB(255, 255, 255));
-		TRACE("%d\n", IDB_EM_UP_1);
-		TRACE("%d\n", IDB_EM_UP_2);
-		TRACE("%d\n", IDB_EM_UP_3);
-		TRACE("%d\n", IDB_EM_UP_4);
 
 		Character_left.SetDelayCount(5);
 		Character_left.AddBitmap(IDB_EM_LE_1, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_EM_LE_2, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_EM_LE_3, RGB(255, 255, 255));
 		Character_left.AddBitmap(IDB_EM_LE_4, RGB(255, 255, 255));
-		TRACE("%d\n", IDB_EM_LE_1);
-		TRACE("%d\n", IDB_EM_LE_2);
-		TRACE("%d\n", IDB_EM_LE_3);
-		TRACE("%d\n", IDB_EM_LE_4);
-
 
 		Character_right.SetDelayCount(5);
 		Character_right.AddBitmap(IDB_EM_RE_1, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_2, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_3, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_4, RGB(255, 255, 255));
-		TRACE("%d\n", IDB_EM_RE_1);
-		TRACE("%d\n", IDB_EM_RE_2);
-		TRACE("%d\n", IDB_EM_RE_3);
-		TRACE("%d\n", IDB_EM_RE_4);
 
 	}
 	void Enemy::OnMove() {
@@ -85,6 +69,7 @@ namespace game_framework {
 			x += move_step;
 			Character_right.OnMove();
 		}
+		Attack();
 	}
 	void Enemy::OnShow() {
 		Character_down.SetTopLeft(x, y);
@@ -102,17 +87,11 @@ namespace game_framework {
 				bg[i][j] = maps[i][j];
 			}
 		}
-		for (int i = 0; i < 13 * 32; i++) {
-			for (int j = 0; j < 15 * 32; j++) {
-				map[i][j] = maps[i / 32][j / 32];
-			}
-		}
 	}
 	int  Enemy::GetPosition(int nx, int ny) {
 		return bg[ny][nx];
 	}
 	int  Enemy::GetPath() {
-		int upRange, downRange, leftRange, rightRange;        // 各方向可移動布數
 		int nx = (x - 128) / 32;
 		int ny = (y - 32) / 32;
 		for (int i = 1;; i++) {
@@ -145,6 +124,7 @@ namespace game_framework {
 		if (total == 0)return 0;
 		int Rand = rand() % total;
 		//TRACE("%d %d %d %d %d %d\n", x, y, upRange, downRange, leftRange, rightRange);
+		TRACE("%d \n",rand());
 		if (Rand < upRange && upRange != 0) {        //rand剛好整除且upRange又為0 AI不能往上 *只有向上才會有這種情況
 			return 1;                   // 向上
 		}
@@ -155,5 +135,33 @@ namespace game_framework {
 			return 3;                   // 向左
 		}
 		else return 4;                  // 向右
+	}
+	bool Enemy::BulletStatus() {
+		return b.getActive();
+	}
+	int  Enemy::BulletPosX() {
+		return b.getX();
+	}
+	int  Enemy::BulletPosY() {
+		return b.getY();
+	}
+	void Enemy::BulletTouch() {
+		
+	}
+	void Enemy::Attack(int Ax, int Ay, int Bx, int By) {  //A,B中心點座標
+		int nx = (x - 128) / 32;
+		int ny = (y - 32) / 32;
+		if (!b.getActive() && ((Ax == nx && Ay <= ny && Ay >= ny - upRange) || (Bx == nx && By <= ny && By >= ny - upRange))) {
+			b.setPath(x + 16, y + 16, 1);                                                                                                //子彈射出點為腳色中心
+		}
+		else if (!b.getActive() && ((Ax == nx && Ay >= ny && Ay <= ny + downRange) || (Bx == ny && By >= nx && By <= ny + downRange))) {
+			b.setPath(x + 16, y + 16, 2);                                                                                                //子彈射出點為腳色中心
+		}
+		else if (!b.getActive() && ((Ay == ny && Ax <= nx && Ax >= nx - leftRange) || (By == ny && Bx <= nx && Bx >= nx - leftRange))) {
+			b.setPath(x + 16, y + 16, 3);                                                                                                //子彈射出點為腳色中心
+		}
+		else if (!b.getActive() && ((Ay == ny && Ax >= nx && Ax <= nx + rightRange) || (By == ny && Bx >= nx && Bx <= nx + rightRange))) {
+			b.setPath(x + 16, y + 16, 4);                                                                                                //子彈射出點為腳色中心
+		}
 	}
 }
