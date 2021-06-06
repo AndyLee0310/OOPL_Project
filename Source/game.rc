@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文 (繁體，台灣) resources
+// Chinese (Traditional, Taiwan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHT)
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
@@ -132,6 +132,16 @@ IDB_BORDER_0            BITMAP                  "..\\RES\\Stage_1\\border1.bmp"
 
 IDB_Panel               BITMAP                  "..\\RES\\Stage_1\\panel.bmp"
 
+IDB_PLAYERHEAD1         BITMAP                  "..\\RES\\Stage_1\\player1head.bmp"
+
+IDB_PLAYERHEAD2         BITMAP                  "..\\RES\\Stage_1\\player2head.bmp"
+
+IDB_HEALTH_0            BITMAP                  "..\\RES\\Stage_1\\health0.bmp"
+
+IDB_HEALTH_1            BITMAP                  "..\\RES\\Stage_1\\health1.bmp"
+
+IDB_HEALTH_2            BITMAP                  "..\\RES\\Stage_1\\health2.bmp"
+
 IDB_PLAYER1_DW_1        BITMAP                  "..\\RES\\Character\\player1_dw_1.bmp"
 
 IDB_PLAYER1_DW_2        BITMAP                  "..\\RES\\Character\\player1_dw_2.bmp"
@@ -230,12 +240,12 @@ IDB_BITMAP20            BITMAP                  "..\\RES\\Stage_1\\shot_1.bmp"
 
 IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
 
-#endif    // 中文 (繁體，台灣) resources
+#endif    // Chinese (Traditional, Taiwan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英文 (美國) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -603,7 +613,7 @@ BEGIN
     ID_BUTTON_UNITTEST      "Perform Unit Test"
 END
 
-#endif    // 英文 (美國) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

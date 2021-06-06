@@ -46,6 +46,7 @@
 #include "Obstacle.h"
 #include "Enemy.h"
 #include "CoinsAnimation.h"
+#include "Healths.h"
 
 
 namespace game_framework {
@@ -58,6 +59,8 @@ namespace game_framework {
 		AUDIO_LAKE,				// 1
 		AUDIO_NTUT				// 2
 	};
+
+	static int form_state = 0;			//1為起始畫面  2為暫停畫面
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -120,6 +123,8 @@ namespace game_framework {
 		
 	};
 	*/
+
+	//static int form_flag;
 	class GameStage_1 : public CGameState {
 	public:
 		GameStage_1(CGame* g);
@@ -137,6 +142,8 @@ namespace game_framework {
 		void setBombRange(int,int,int,int);                                    // 爆炸時設置範圍
 		void GetCoins();				//偵測碰撞金幣
 		void CoinState();				//金幣動畫
+		void HealthState();
+		void HeartChange();
 	private:
 		int bg[13][15];              //0地板 1石塊 2粉色石 4未爆彈 5爆炸中
 		int coins_pos[5][2];         //硬幣位置
@@ -149,15 +156,20 @@ namespace game_framework {
 		Character     character_1;   //Range undone
 		CMovingBitmap character_2;   //類別之後改
 		Enemy         AI;
-		//CMovingBitmap coins;
 		int coins_num;	//金幣總數
 		int sc;		//紀錄吃到幾個金幣
 		CoinsAnimation* coin_Ani;
-
 		Bomb*         Bomb_ch1;
-		CInteger count_down;
 
-		int* tempTime = 0;
+		CMovingBitmap playerhead_1;
+		CMovingBitmap playerhead_2;
+
+		double heart_num[8];
+		double blood_ori, blood_vol;
+		Healths* heart;
+
+		CInteger count_down;
+		int* tempTime;
 		int timer;
 	};
 
@@ -236,6 +248,8 @@ namespace game_framework {
 		int Vsync_state;
 
 		POINT p;
+
+		int form_ori;		//讀取剛剛是從哪一個畫面進到此畫面
 	};
 
 	////////////////////////////////////////////////////////////////////////////

@@ -8,6 +8,7 @@ namespace game_framework {
 		CAnimation Character_right;
 		int  Animate_State;         // 腳色移動狀態 1為下 2為上 3為左 4為右
 		int  x, y;					// 腳色左上角座標
+		int  Ax, Ay, Bx, By;        // 玩家中心點位置
 		int  move_step = 2;         // 腳色步數
 		int  upRange, downRange, leftRange, rightRange;        // 各方向可移動布數
 		int  descision;             // 1上 2下 3左 4右
@@ -28,7 +29,7 @@ namespace game_framework {
 		void OnShow();					// 將腳色圖形貼到畫面
 		void LoadMap(int maps[13][15]);
 		int  GetPosition(int, int);
-		void Attack(int, int, int, int);//13*15地圖制的A,B中心點座標 -1-1代表死亡或不存在
+		void Attack();                  // -1-1代表死亡或不存在
 		int  BulletPosX();
 		int  BulletPosY();
 		void BulletTouch();

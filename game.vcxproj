@@ -257,6 +257,7 @@
     <None Include="res\Toolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Healths.cpp" />
     <ClCompile Include="Source\audio.cpp" />
     <ClCompile Include="Source\Bomb.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
@@ -309,6 +310,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Healths.h" />
     <ClInclude Include="Source\audio.h" />
     <ClInclude Include="Source\Bomb.h" />
     <ClInclude Include="Source\Bullet.h" />
@@ -450,7 +452,12 @@
     <Image Include="RES\Stage_1\coin_8.bmp" />
     <Image Include="RES\Stage_1\coin_9.bmp" />
     <Image Include="RES\Stage_1\fixed.bmp" />
+    <Image Include="RES\Stage_1\health0.bmp" />
+    <Image Include="RES\Stage_1\health1.bmp" />
+    <Image Include="RES\Stage_1\health2.bmp" />
     <Image Include="RES\Stage_1\panel.bmp" />
+    <Image Include="RES\Stage_1\player1head.bmp" />
+    <Image Include="RES\Stage_1\player2head.bmp" />
     <Image Include="RES\Stage_1\shot_1.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

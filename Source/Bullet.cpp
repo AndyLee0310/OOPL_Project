@@ -63,7 +63,9 @@ namespace game_framework {
 	int  Bullet::getY() {
 		return y + 3;
 	}
-	void Bullet::isTouched() {
+	void Bullet::isTouched(int nx, int ny) {
+		x = nx;
+		y = ny;
 		touched = true;
 	}
 }

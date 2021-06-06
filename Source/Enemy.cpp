@@ -6,6 +6,7 @@
 #include "gamelib.h"
 #include <cstdlib> /* 亂數相關函數 */
 #include "Enemy.h"
+#include "Bullet.h"
 
 namespace game_framework {
 	Enemy::Enemy() {
@@ -50,6 +51,8 @@ namespace game_framework {
 		time++;
 		if ((x - 128) % 32 == 0 && (y - 32) % 32 == 0) {
 			descision = GetPath();
+			//get Ax & Bx
+			Attack();
 		}
 		if (descision == 1) { 
 			y -= move_step;
@@ -69,7 +72,8 @@ namespace game_framework {
 			x += move_step;
 			Character_right.OnMove();
 		}
-		Attack();
+		b.OnMove();
+		BulletTouch();
 	}
 	void Enemy::OnShow() {
 		Character_down.SetTopLeft(x, y);
@@ -136,32 +140,53 @@ namespace game_framework {
 		}
 		else return 4;                  // 向右
 	}
-	bool Enemy::BulletStatus() {
-		return b.getActive();
+	int Enemy::GetX1() {
+		return x;
 	}
-	int  Enemy::BulletPosX() {
-		return b.getX();
+	int Enemy::GetY1() {
+		return y;
 	}
-	int  Enemy::BulletPosY() {
-		return b.getY();
+	int Enemy::GetX2() {
+		return x + Character_down.Width();
+	}
+	int Enemy::GetY2() {
+		return y + Character_down.Width();
+	}
+	void Enemy::Attack() {
+		if (Ax >= x && Ax <= x + 32) {            // 上下判斷
+			if (Ay <= y && Ay >= y - upRange * 32) {
+				b.setPath(x + 16,y,1);
+			}
+			else if (Ay >= y && Ay <= y + downRange * 32) {
+				b.setPath(x + 16, y + 32, 2);
+			}
+		}
+		else if (Ay >= y && Ay <= y + 32) {      // 左右判斷
+			if (Ax <= x && Ax >= x - leftRange * 32) {
+				b.setPath(x, y + 16,3);
+			}
+			else if (Ax >= x && Ax <= x + rightRange * 32) {
+				b.setPath(x + 32, y + 16,4);
+			}
+		}
+		else if (Bx >= x && Bx <= x + 32) {       // 上下判斷
+			if (By <= y && By >= y - upRange * 32) {
+				b.setPath(x + 16, y, 1);
+			}
+			else if (By >= y && By <= y + downRange * 32) {
+				b.setPath(x + 16, y + 32, 2);
+			}
+		}
+		else if (By >= y && By <= y + 32) {      // 左右判斷
+			if (Bx <= x && Bx >= x - leftRange * 32) {
+				b.setPath(x, y + 16, 3);
+			}
+			else if (Bx >= x && Bx <= x + rightRange * 32) {
+				b.setPath(x + 32, y + 16, 4);
+			}
+		}
 	}
 	void Enemy::BulletTouch() {
-		
-	}
-	void Enemy::Attack(int Ax, int Ay, int Bx, int By) {  //A,B中心點座標
-		int nx = (x - 128) / 32;
-		int ny = (y - 32) / 32;
-		if (!b.getActive() && ((Ax == nx && Ay <= ny && Ay >= ny - upRange) || (Bx == nx && By <= ny && By >= ny - upRange))) {
-			b.setPath(x + 16, y + 16, 1);                                                                                                //子彈射出點為腳色中心
-		}
-		else if (!b.getActive() && ((Ax == nx && Ay >= ny && Ay <= ny + downRange) || (Bx == ny && By >= nx && By <= ny + downRange))) {
-			b.setPath(x + 16, y + 16, 2);                                                                                                //子彈射出點為腳色中心
-		}
-		else if (!b.getActive() && ((Ay == ny && Ax <= nx && Ax >= nx - leftRange) || (By == ny && Bx <= nx && Bx >= nx - leftRange))) {
-			b.setPath(x + 16, y + 16, 3);                                                                                                //子彈射出點為腳色中心
-		}
-		else if (!b.getActive() && ((Ay == ny && Ax >= nx && Ax <= nx + rightRange) || (By == ny && Bx >= nx && Bx <= nx + rightRange))) {
-			b.setPath(x + 16, y + 16, 4);                                                                                                //子彈射出點為腳色中心
-		}
+
 	}
 }

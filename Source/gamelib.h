@@ -276,7 +276,6 @@ private:
 class CGameState;
 class CGameStateInit;
 class CGameStateRun;
-class CGamestatePause;
 class CGameStateOver;
 
 /////////////////////////////////////////////////////////////////////////////

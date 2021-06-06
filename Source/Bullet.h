@@ -3,7 +3,7 @@ namespace game_framework {
 	private:
 		CAnimation bullet;
 		int  x, y;                       
-		int  direction;                 // 1上 2下 3左 4右+
+		int  direction;                 // 1上 2下 3左 4右
 		int  speed = 8;
 		bool active;
 		bool touched;
