@@ -515,7 +515,7 @@ void GameStage_1::OnBeginState() {
 	character_1.LoadMap(bg);
 
 	coins_num = 5;		//該關卡共有5個金幣
-	sc = 0;		//預設吃到的金幣數為0個
+	sc = 0;			    //預設吃到的金幣數為0個
 
 	AI.Initialize(6 * 32 + 128, 4 * 32 + 32);
 	//AI.Initialize(128, 32);
@@ -588,8 +588,7 @@ void GameStage_1::OnMove() {
 	}
 	BombState();
 	character_1.OnMove();
-	AI.OnMove();
-
+	AI.OnMove(character_1.GetX1(), character_1.GetY1(), 0, 0);
 	GetCoins();
 
 	HealthState();

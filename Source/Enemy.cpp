@@ -6,8 +6,6 @@
 #include "gamelib.h"
 #include <cstdlib> /* 亂數相關函數 */
 #include "Enemy.h"
-#include "Bullet.h"
-
 namespace game_framework {
 	Enemy::Enemy() {
 		Initialize(0, 0);
@@ -46,13 +44,13 @@ namespace game_framework {
 		Character_right.AddBitmap(IDB_EM_RE_3, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_4, RGB(255, 255, 255));
 
+		b.LoadBitmap();
 	}
-	void Enemy::OnMove() {
+	void Enemy::OnMove(int ax, int ay, int bx, int by) {
 		time++;
 		if ((x - 128) % 32 == 0 && (y - 32) % 32 == 0) {
 			descision = GetPath();
-			//get Ax & Bx
-			Attack();
+			if(!b.getActive())Attack(ax, ay);
 		}
 		if (descision == 1) { 
 			y -= move_step;
@@ -72,8 +70,8 @@ namespace game_framework {
 			x += move_step;
 			Character_right.OnMove();
 		}
+		if (b.getActive())BulletTouch(ax, ay);
 		b.OnMove();
-		BulletTouch();
 	}
 	void Enemy::OnShow() {
 		Character_down.SetTopLeft(x, y);
@@ -84,6 +82,7 @@ namespace game_framework {
 		else if (descision == 4)Character_right.OnShow();
 		else if (descision == 3)Character_left.OnShow();
 		else Character_down.OnShow();
+		b.OnShow();
 	}
 	void Enemy::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 13; i++) {
@@ -128,7 +127,7 @@ namespace game_framework {
 		if (total == 0)return 0;
 		int Rand = rand() % total;
 		//TRACE("%d %d %d %d %d %d\n", x, y, upRange, downRange, leftRange, rightRange);
-		TRACE("%d \n",rand());
+		//TRACE("%d \n",rand());
 		if (Rand < upRange && upRange != 0) {        //rand剛好整除且upRange又為0 AI不能往上 *只有向上才會有這種情況
 			return 1;                   // 向上
 		}
@@ -152,41 +151,56 @@ namespace game_framework {
 	int Enemy::GetY2() {
 		return y + Character_down.Width();
 	}
-	void Enemy::Attack() {
-		if (Ax >= x && Ax <= x + 32) {            // 上下判斷
-			if (Ay <= y && Ay >= y - upRange * 32) {
-				b.setPath(x + 16,y,1);
-			}
-			else if (Ay >= y && Ay <= y + downRange * 32) {
-				b.setPath(x + 16, y + 32, 2);
-			}
-		}
-		else if (Ay >= y && Ay <= y + 32) {      // 左右判斷
-			if (Ax <= x && Ax >= x - leftRange * 32) {
-				b.setPath(x, y + 16,3);
-			}
-			else if (Ax >= x && Ax <= x + rightRange * 32) {
-				b.setPath(x + 32, y + 16,4);
-			}
-		}
-		else if (Bx >= x && Bx <= x + 32) {       // 上下判斷
-			if (By <= y && By >= y - upRange * 32) {
+	void Enemy::Attack(int nx, int ny) {
+		bool t = false;
+		nx = nx + 16;                                 // 腳色中心點
+		ny = ny + 16;
+		if (nx >= x && nx <= x + 32) {            // 上下判斷 先判斷x軸是否相同
+			if (ny <= y && ny >= y - upRange * 32) {
 				b.setPath(x + 16, y, 1);
 			}
-			else if (By >= y && By <= y + downRange * 32) {
+			else if (ny >= y && ny <= y + downRange * 32) {
 				b.setPath(x + 16, y + 32, 2);
 			}
 		}
-		else if (By >= y && By <= y + 32) {      // 左右判斷
-			if (Bx <= x && Bx >= x - leftRange * 32) {
+		else if (ny >= y && ny <= y + 32) {      // 左右判斷
+			if (nx <= x && nx >= x - leftRange * 32) {
 				b.setPath(x, y + 16, 3);
 			}
-			else if (Bx >= x && Bx <= x + rightRange * 32) {
+			else if (nx >= x && nx <= x + rightRange * 32) {
 				b.setPath(x + 32, y + 16, 4);
 			}
 		}
 	}
-	void Enemy::BulletTouch() {
-
+	bool Enemy::BulletTouch(int cx, int cy) {
+		int bx = b.getX();
+		int by = b.getY();
+		int dir = b.getDir();
+		if (bx >= cx && bx <= cx + 32 && by >= cy && by <= cy + 32) {    // 子彈打到玩家
+			// Character take damage
+			TRACE("hit player\n");
+			if (dir == 1) b.isTouched(bx, cy + 32);
+			else if (dir == 2) b.isTouched(bx, cy);
+			else if (dir == 3) b.isTouched(cx, by);
+			else if (dir == 4) b.isTouched(cx + 32, by);
+			return true;
+		}
+		else if (bx <= 128 || bx >= 128 + 32 * 15) {
+			int nx = 128 + 480 * (dir - 3);                              // 向左(dir = 3)超出邊界在x = 128爆裂 向右(dir = 4)設在x = 128 + 480
+			b.isTouched(nx, by);
+		}
+		else if (by <= 32 || by >= 32 + 32 * 13) {
+			int ny = 32 + 416 * (dir - 1);                               // 同上
+			b.isTouched(bx, ny);
+		}
+		else if (bg[ (by - 32) / 32  ][ (bx - 128) / 32 ] == 1 || bg[(by - 32) / 32][(bx - 128) / 32] == 2) {  // 子彈打到牆壁或障礙
+			int nx = (bx - 128) / 32;
+			int ny = (by - 32) / 32;
+			if (dir == 1) b.isTouched(bx, (ny + 1) * 32 + 31);
+			else if (dir == 2) b.isTouched(bx, ny * 32 + 32);
+			else if (dir == 3) b.isTouched((nx + 1) * 32 + 127 , by);
+			else if (dir == 4) b.isTouched(nx * 32 + 128, by);
+		}
+		return false;
 	}
 }

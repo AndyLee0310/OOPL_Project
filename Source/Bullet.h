@@ -14,7 +14,8 @@ namespace game_framework {
 		bool getActive();               // 20210516 - None used at this time
 		int  getX();                    // 中心點
 		int  getY();
-		void isTouched();               // 0未接觸 1玩家 2牆
+		int  getDir();
+		void isTouched(int, int);       // 0未接觸 1玩家 2牆
 		void Initialize(int, int);      // 設定腳色為初始值 對不同腳色設定初始位置
 		void LoadBitmap();				// 載入圖形
 		void OnMove();					// 移動腳色

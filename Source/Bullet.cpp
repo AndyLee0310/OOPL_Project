@@ -18,8 +18,13 @@ namespace game_framework {
 	void Bullet::LoadBitmap() {
 		bullet.SetDelayCount(5);
 		bullet.AddBitmap(IDB_BULLET_1, RGB(255, 255, 255));
+		bullet.AddBitmap(IDB_BULLET_2, RGB(255, 255, 255));
+		bullet.AddBitmap(IDB_BULLET_3, RGB(255, 255, 255));
+		bullet.AddBitmap(IDB_BULLET_4, RGB(255, 255, 255));
+		bullet.AddBitmap(IDB_BULLET_5, RGB(255, 255, 255));
 	}
 	void Bullet::OnMove() {
+		
 		if (!touched && direction == 1) {
 			y -= speed;
 		}
@@ -36,8 +41,11 @@ namespace game_framework {
 			bullet.OnMove();
 			if (bullet.IsFinalBitmap()) {
 				active = false;
+				Initialize(0, 0);
+				bullet.Reset();
 			}
 		}
+		
 	}
 	void Bullet::OnShow() {
 		if (active) {
@@ -62,6 +70,9 @@ namespace game_framework {
 	}
 	int  Bullet::getY() {
 		return y + 3;
+	}
+	int  Bullet::getDir() {
+		return direction;
 	}
 	void Bullet::isTouched(int nx, int ny) {
 		x = nx;

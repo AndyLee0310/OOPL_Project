@@ -579,5 +579,17 @@
     <Image Include="RES\Stage_1\player2head.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Stage_1\shot_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\shot_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\shot_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\shot_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

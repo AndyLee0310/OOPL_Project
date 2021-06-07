@@ -459,6 +459,10 @@
     <Image Include="RES\Stage_1\player1head.bmp" />
     <Image Include="RES\Stage_1\player2head.bmp" />
     <Image Include="RES\Stage_1\shot_1.bmp" />
+    <Image Include="RES\Stage_1\shot_2.bmp" />
+    <Image Include="RES\Stage_1\shot_3.bmp" />
+    <Image Include="RES\Stage_1\shot_4.bmp" />
+    <Image Include="RES\Stage_1\shot_5.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
