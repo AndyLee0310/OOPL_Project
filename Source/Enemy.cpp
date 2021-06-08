@@ -1,3 +1,5 @@
+
+
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -17,6 +19,7 @@ namespace game_framework {
 		Animate_State = 1;
 		descision = 0;
 		upRange = downRange = leftRange = rightRange = 0;
+		BulletHit = false;
 	}
 	void Enemy::LoadBitmap() {
 
@@ -104,7 +107,7 @@ namespace game_framework {
 			}
 		}
 		for (int i = 1;; i++) {
-			if (ny + i > 12 || bg[ny + i][nx] == 1 || bg[ny + i][nx] == 2 || bg[ny + i][nx] == 4) {
+			if (ny + i >= 12 || bg[ny + i][nx] == 1 || bg[ny + i][nx] == 2 || bg[ny + i][nx] == 4) {
 				downRange = --i;
 				break;
 			}
@@ -116,7 +119,7 @@ namespace game_framework {
 			}
 		}
 		for (int i = 1;; i++) {
-			if (nx + i > 14 || bg[ny][nx + i] == 1 || bg[ny][nx + i] == 2 || bg[ny][nx + i] == 4) {
+			if (nx + i >= 14 || bg[ny][nx + i] == 1 || bg[ny][nx + i] == 2 || bg[ny][nx + i] == 4) {
 				rightRange = --i;
 				break;
 			}
@@ -126,8 +129,6 @@ namespace game_framework {
 		int total = upRange + downRange + leftRange + rightRange;
 		if (total == 0)return 0;
 		int Rand = rand() % total;
-		//TRACE("%d %d %d %d %d %d\n", x, y, upRange, downRange, leftRange, rightRange);
-		//TRACE("%d \n",rand());
 		if (Rand < upRange && upRange != 0) {        //rand剛好整除且upRange又為0 AI不能往上 *只有向上才會有這種情況
 			return 1;                   // 向上
 		}
@@ -152,55 +153,59 @@ namespace game_framework {
 		return y + Character_down.Width();
 	}
 	void Enemy::Attack(int nx, int ny) {
-		bool t = false;
-		nx = nx + 16;                                 // 腳色中心點
+		nx = nx + 16;                                                   // 腳色中心點
 		ny = ny + 16;
-		if (nx >= x && nx <= x + 32) {            // 上下判斷 先判斷x軸是否相同
-			if (ny <= y && ny >= y - upRange * 32) {
+		if (nx >= x && nx <= x + 32) {                                  // 上下判斷 先判斷x軸是否相同
+			if (ny <= y && ny >= y - upRange * 32) {                    // 用ENEMY的左上做判斷
 				b.setPath(x + 16, y, 1);
 			}
-			else if (ny >= y && ny <= y + downRange * 32) {
+			else if (ny >= y + 32 && ny <= y + downRange * 32 + 32) {   // 用ENEMY的右下做判斷，不然腳色在最遠那格會判斷不到
 				b.setPath(x + 16, y + 32, 2);
 			}
 		}
-		else if (ny >= y && ny <= y + 32) {      // 左右判斷
+		else if (ny >= y && ny <= y + 32) {                             // 左右判斷
 			if (nx <= x && nx >= x - leftRange * 32) {
 				b.setPath(x, y + 16, 3);
 			}
-			else if (nx >= x && nx <= x + rightRange * 32) {
+			else if (nx >= x + 32 && nx <= x + rightRange * 32 + 32) {   // 用ENEMY的右下做判斷，不然腳色在最遠那格會判斷不到
 				b.setPath(x + 32, y + 16, 4);
 			}
 		}
 	}
-	bool Enemy::BulletTouch(int cx, int cy) {
+	void Enemy::BulletTouch(int cx, int cy) {
 		int bx = b.getX();
 		int by = b.getY();
 		int dir = b.getDir();
-		if (bx >= cx && bx <= cx + 32 && by >= cy && by <= cy + 32) {    // 子彈打到玩家
-			// Character take damage
-			TRACE("hit player\n");
-			if (dir == 1) b.isTouched(bx, cy + 32);
-			else if (dir == 2) b.isTouched(bx, cy);
-			else if (dir == 3) b.isTouched(cx, by);
-			else if (dir == 4) b.isTouched(cx + 32, by);
-			return true;
+		if (!b.isTouched()) {
+			if (bx >= cx && bx <= cx + 32 && by >= cy && by <= cy + 32) {    // 子彈打到玩家
+				BulletHit = true;
+				if (dir == 1) b.isTouched(bx, cy + 32);
+				else if (dir == 2) b.isTouched(bx, cy);
+				else if (dir == 3) b.isTouched(cx + 32, by);
+				else if (dir == 4) b.isTouched(cx, by);
+			}
+			else if (bx <= 128 || bx >= 128 + 32 * 15) {
+				int nx = 128 + 480 * (dir - 3);                              // 向左(dir = 3)超出邊界在x = 128爆裂 向右(dir = 4)設在x = 128 + 480
+				b.isTouched(nx, by);
+			}
+			else if (by <= 32 || by >= 32 + 32 * 13) {
+				int ny = 32 + 416 * (dir - 1);                               // 同上
+				b.isTouched(bx, ny);
+			}
+			else if (bg[(by - 32) / 32][(bx - 128) / 32] == 1 || bg[(by - 32) / 32][(bx - 128) / 32] == 2) {  // 子彈打到牆壁或障礙
+				int nx = (bx - 128) / 32;
+				int ny = (by - 32) / 32;
+				if (dir == 1) b.isTouched(bx, (ny + 1) * 32 + 31);
+				else if (dir == 2) b.isTouched(bx, ny * 32 + 32);
+				else if (dir == 3) b.isTouched((nx + 1) * 32 + 127, by);
+				else if (dir == 4) b.isTouched(nx * 32 + 128, by);
+			}
 		}
-		else if (bx <= 128 || bx >= 128 + 32 * 15) {
-			int nx = 128 + 480 * (dir - 3);                              // 向左(dir = 3)超出邊界在x = 128爆裂 向右(dir = 4)設在x = 128 + 480
-			b.isTouched(nx, by);
+		else {
+			BulletHit = false;
 		}
-		else if (by <= 32 || by >= 32 + 32 * 13) {
-			int ny = 32 + 416 * (dir - 1);                               // 同上
-			b.isTouched(bx, ny);
-		}
-		else if (bg[ (by - 32) / 32  ][ (bx - 128) / 32 ] == 1 || bg[(by - 32) / 32][(bx - 128) / 32] == 2) {  // 子彈打到牆壁或障礙
-			int nx = (bx - 128) / 32;
-			int ny = (by - 32) / 32;
-			if (dir == 1) b.isTouched(bx, (ny + 1) * 32 + 31);
-			else if (dir == 2) b.isTouched(bx, ny * 32 + 32);
-			else if (dir == 3) b.isTouched((nx + 1) * 32 + 127 , by);
-			else if (dir == 4) b.isTouched(nx * 32 + 128, by);
-		}
-		return false;
+	}
+	bool Enemy::BulletHitPlayer() {
+		return BulletHit;
 	}
 }

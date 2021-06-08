@@ -728,7 +728,6 @@ void GameStage_1::setBomb(int id) {
 					break;
 				}
 			}
-			TRACE("X,Y = %d %d set to %d\n", x, y, bg[y][x]);
 		}
 		else {
 			
@@ -886,7 +885,6 @@ void GameStage_1::HealthState() {
 	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
 	x = (x - 128) / 32;                                         //轉換成13*15地圖模式
 	y = (y - 32) / 32;
-
 	int x1 = (AI.GetX1() + AI.GetX2()) / 2;    //腳色中心點
 	int y1 = (AI.GetY1() + AI.GetY2()) / 2;    //腳色中心點
 	x1 = (x1 - 128) / 32;					   //轉換成13*15地圖模式
@@ -897,7 +895,10 @@ void GameStage_1::HealthState() {
 		blood_vol = blood_vol - 0.5;
 		TRACE("血量剩餘 %f\n", blood_vol);
 	}
-	
+	if (AI.BulletHitPlayer()) {
+		TRACE("bullet hit\n");
+		blood_vol = blood_vol - 0.5;
+	}
 	double value = std::fmod(blood_ori, blood_vol);
 	for (int i = 7; i >= 0; i--) {
 		if (heart_num[i] != 0) {

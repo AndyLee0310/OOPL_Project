@@ -1,3 +1,5 @@
+#ifndef ENEMY
+#define ENEMY
 #include "Bullet.h"
 namespace game_framework {
 	class Enemy {
@@ -16,6 +18,7 @@ namespace game_framework {
 		int  GetPath();
 		// int health;
 		Bullet b;
+		bool   BulletHit;           // 子彈打到玩家
 	public:
 		Enemy();
 		int  GetX1();					// 腳色左上角 x 座標
@@ -28,9 +31,12 @@ namespace game_framework {
 		void OnShow();					// 將腳色圖形貼到畫面
 		void LoadMap(int maps[13][15]);
 		int  GetPosition(int, int);
-		void Attack(int nx, int ny);    // 攻擊判斷 碰到玩家返回true
+		void Attack(int nx, int ny);
 		int  BulletPosX();
 		int  BulletPosY();
-		bool BulletTouch(int, int);             // 
+		void BulletTouch(int, int);
+		bool BulletHitPlayer();              // 攻擊判斷 碰到玩家返回true到mygame
 	};
 }
+
+#endif
