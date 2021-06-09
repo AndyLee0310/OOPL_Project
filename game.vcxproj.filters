@@ -591,5 +591,11 @@
     <Image Include="RES\Stage_1\shot_5.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Stage_1\enemy_death_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Stage_1\enemy_death_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

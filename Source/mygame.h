@@ -155,7 +155,7 @@ namespace game_framework {
 		CMovingBitmap border;
 		Character     character_1;   //Range undone
 		CMovingBitmap character_2;   //類別之後改
-		Enemy         AI;
+		Enemy         *AI;
 		int coins_num;	             //金幣總數
 		int sc;		                 //紀錄吃到幾個金幣
 		CoinsAnimation* coin_Ani;

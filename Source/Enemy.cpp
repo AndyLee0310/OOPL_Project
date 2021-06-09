@@ -19,6 +19,8 @@ namespace game_framework {
 		Animate_State = 1;
 		descision = 0;
 		upRange = downRange = leftRange = rightRange = 0;
+		DeathAnimateCount = 0;
+		isAlive = true;
 		BulletHit = false;
 	}
 	void Enemy::LoadBitmap() {
@@ -47,45 +49,71 @@ namespace game_framework {
 		Character_right.AddBitmap(IDB_EM_RE_3, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_EM_RE_4, RGB(255, 255, 255));
 
+		Character_death.SetDelayCount(1);
+		Character_death.AddBitmap(IDB_EM_DE_1, RGB(255, 255, 255));
+		Character_death.AddBitmap(IDB_EM_DE_2, RGB(255, 255, 255));
 		b.LoadBitmap();
 	}
 	void Enemy::OnMove(int ax, int ay, int bx, int by) {
-		time++;
-		if ((x - 128) % 32 == 0 && (y - 32) % 32 == 0) {
-			descision = GetPath();
-			if(!b.getActive())Attack(ax, ay);
-		}
-		if (descision == 1) { 
-			y -= move_step;
-			Character_up.OnMove();
+		if (isAlive) {
+			time++;
 
-		}
-		else if (descision == 2) { 
-			y += move_step;
-			Character_down.OnMove();
+			if (bg[(y - 32) / 32][(x - 128) / 32] == 5) {
+				isAlive = false;
+				time = -1;
+			}
 
+			if ((x - 128) % 32 == 0 && (y - 32) % 32 == 0) {
+				descision = GetPath();
+				if (!b.getActive())Attack(ax, ay);
+			}
+			if (descision == 1) {
+				y -= move_step;
+				Character_up.OnMove();
+
+			}
+			else if (descision == 2) {
+				y += move_step;
+				Character_down.OnMove();
+
+			}
+			else if (descision == 3) {
+				x -= move_step;
+				Character_left.OnMove();
+			}
+			else if (descision == 4) {
+				x += move_step;
+				Character_right.OnMove();
+			}
+			if (b.getActive())BulletTouch(ax, ay);
+			b.OnMove();
 		}
-		else if (descision == 3) { 
-			x -= move_step;
-			Character_left.OnMove();
+		else if (time == -1) {
+			Character_death.OnMove();
 		}
-		else if (descision == 4) { 
-			x += move_step;
-			Character_right.OnMove();
-		}
-		if (b.getActive())BulletTouch(ax, ay);
-		b.OnMove();
 	}
 	void Enemy::OnShow() {
-		Character_down.SetTopLeft(x, y);
-		Character_up.SetTopLeft(x, y);
-		Character_left.SetTopLeft(x, y);
-		Character_right.SetTopLeft(x, y);
-		if (descision == 1)Character_up.OnShow();
-		else if (descision == 4)Character_right.OnShow();
-		else if (descision == 3)Character_left.OnShow();
-		else Character_down.OnShow();
-		b.OnShow();
+		if (isAlive) {
+			Character_down.SetTopLeft(x, y);
+			Character_up.SetTopLeft(x, y);
+			Character_left.SetTopLeft(x, y);
+			Character_right.SetTopLeft(x, y);
+			if (descision == 1)Character_up.OnShow();
+			else if (descision == 4)Character_right.OnShow();
+			else if (descision == 3)Character_left.OnShow();
+			else Character_down.OnShow();
+			b.OnShow();
+		}
+		else if (time == -1) {
+			Character_death.SetTopLeft(x, y);
+			Character_death.OnShow();
+			if (Character_death.IsFinalBitmap()) {
+				DeathAnimateCount++;
+			}
+			if (DeathAnimateCount == 3) {
+				time = -2;
+			}
+		}
 	}
 	void Enemy::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 13; i++) {
@@ -207,5 +235,8 @@ namespace game_framework {
 	}
 	bool Enemy::BulletHitPlayer() {
 		return BulletHit;
+	}
+	bool Enemy::Alive() {
+		return isAlive;
 	}
 }

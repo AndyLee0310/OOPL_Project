@@ -426,6 +426,8 @@
     <Image Include="RES\Stage_1\breakable_2.bmp" />
     <Image Include="RES\Stage_1\breakable_3.bmp" />
     <Image Include="RES\Stage_1\coin_0.bmp" />
+    <Image Include="RES\Stage_1\enemy_death_1.bmp" />
+    <Image Include="RES\Stage_1\enemy_death_2.bmp" />
     <Image Include="RES\Stage_1\enemy_dw_1.bmp" />
     <Image Include="RES\Stage_1\enemy_dw_2.bmp" />
     <Image Include="RES\Stage_1\enemy_dw_3.bmp" />

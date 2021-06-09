@@ -451,12 +451,14 @@ GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 	block_2 = new Obstacle[42];
 	coin_Ani = new CoinsAnimation[5];
 	heart = new Healths[8];
+	AI = new Enemy[2];
 }
 GameStage_1::~GameStage_1() {
 	delete [] Bomb_ch1;
 	delete[] block_2;
 	delete[] coin_Ani;
 	delete[] heart;
+	delete[] AI;
 }
 void GameStage_1::OnBeginState() {
 	for (int i = 0; i < 7; i++) {
@@ -517,9 +519,11 @@ void GameStage_1::OnBeginState() {
 	coins_num = 5;		//該關卡共有5個金幣
 	sc = 0;			    //預設吃到的金幣數為0個
 
-	AI.Initialize(6 * 32 + 128, 4 * 32 + 32);
-	//AI.Initialize(128, 32);
-	AI.LoadMap(bg);
+	AI[0].Initialize(6 * 32 + 128, 4 * 32 + 32);
+	AI[1].Initialize(12 * 32 + 128,  8 * 32 + 32);
+	for (int i = 0; i < 2; i++) {
+		AI[i].LoadMap(bg);
+	}
 	timer = 0;
 }
 void GameStage_1::OnInit() {
@@ -542,7 +546,9 @@ void GameStage_1::OnInit() {
 		coin_Ani[i].LoadBitmap();
 	}
 
-	AI.LoadBitmap();
+	for (int i = 0; i < 2; i++) {
+		AI[i].LoadBitmap();
+	}
 
 	playerhead_1.LoadBitmap(IDB_PLAYERHEAD1, RGB(255, 255, 255));
 	playerhead_2.LoadBitmap(IDB_PLAYERHEAD2, RGB(255, 255, 255));
@@ -588,7 +594,11 @@ void GameStage_1::OnMove() {
 	}
 	BombState();
 	character_1.OnMove();
-	AI.OnMove(character_1.GetX1(), character_1.GetY1(), 0, 0);
+
+	for (int i = 0; i < 2; i++) {
+		AI[i].OnMove(character_1.GetX1(), character_1.GetY1(), 0, 0);
+	}
+	//AI.OnMove(character_1.GetX1(), character_1.GetY1(), 0, 0);
 	GetCoins();
 
 	HealthState();
@@ -631,7 +641,9 @@ void GameStage_1::OnShow() {                   //越後放的顯示會越上層
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].OnShow();
 	}
-	AI.OnShow();
+	for (int i = 0; i < 2; i++) {
+		AI[i].OnShow();
+	}
 
 	playerhead_1.SetTopLeft((panel.Width() * 16 / 100) , panel.Height() * 13 / 100);
 	playerhead_1.ShowBitmap();
@@ -739,10 +751,12 @@ void GameStage_1::setBomb(int id) {
 }
 
 void GameStage_1::mapChange(int x, int y, int value) {
-	if (bg[y][x] == 1)value = 1;    // bombState會把不可破壞的石頭取代 這是應急處理
 	bg[y][x] = value;
 	character_1.LoadMap(bg);
-	AI.LoadMap(bg);
+	for (int i = 0; i < 2; i++) {
+		AI[i].LoadMap(bg);
+	}
+	
 }
 void GameStage_1::BombState() {
 	for (int i = 0; i < 7; i++) {
@@ -758,10 +772,10 @@ void GameStage_1::BombState() {
 			mapChange(nx, ny, 5);
 			if(!Bomb_ch1[i].getObs())setBombRange(1, i, nx, ny);
 			
-			for (int i = 1; i <= Bomb_ch1[i].getUp(); i++)mapChange(nx, ny - i, 5);
-			for (int i = 1; i <= Bomb_ch1[i].getDown(); i++)mapChange(nx, ny + i, 5);
-			for (int i = 1; i <= Bomb_ch1[i].getRight(); i++)mapChange(nx + i, ny, 5);
-			for (int i = 1; i <= Bomb_ch1[i].getLeft(); i++)mapChange(nx - i, ny, 5);
+			for (int j = 1; j <= Bomb_ch1[i].getUp(); j++)mapChange(nx, ny - j, 5);
+			for (int j = 1; j <= Bomb_ch1[i].getDown(); j++)mapChange(nx, ny + j, 5);
+			for (int j = 1; j <= Bomb_ch1[i].getRight(); j++)mapChange(nx + j, ny, 5);
+			for (int j = 1; j <= Bomb_ch1[i].getLeft(); j++)mapChange(nx - j, ny, 5);
 			
 			
 		}
@@ -769,10 +783,10 @@ void GameStage_1::BombState() {
 			int nx = (Bomb_ch1[i].getTop_Bomb() - 128) / 32;
 			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
 			mapChange(nx, ny, 0);
-			for (int i = 1; i <= Bomb_ch1[i].getUp(); i++)mapChange(nx, ny - i, 0);
-			for (int i = 1; i <= Bomb_ch1[i].getDown(); i++)mapChange(nx, ny + i, 0);
-			for (int i = 1; i <= Bomb_ch1[i].getRight(); i++)mapChange(nx + i, ny, 0);
-			for (int i = 1; i <= Bomb_ch1[i].getLeft(); i++)mapChange(nx - i, ny, 0);
+			for (int j = 1; j <= Bomb_ch1[i].getUp(); j++)mapChange(nx, ny - j, 0);
+			for (int j = 1; j <= Bomb_ch1[i].getDown(); j++)mapChange(nx, ny + j, 0);
+			for (int j = 1; j <= Bomb_ch1[i].getRight(); j++)mapChange(nx + j, ny, 0);
+			for (int j = 1; j <= Bomb_ch1[i].getLeft(); j++)mapChange(nx - j, ny, 0);
 			
 			Bomb_ch1[i].Initialize();
 		}
@@ -885,19 +899,21 @@ void GameStage_1::HealthState() {
 	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
 	x = (x - 128) / 32;                                         //轉換成13*15地圖模式
 	y = (y - 32) / 32;
-	int x1 = (AI.GetX1() + AI.GetX2()) / 2;    //腳色中心點
-	int y1 = (AI.GetY1() + AI.GetY2()) / 2;    //腳色中心點
-	x1 = (x1 - 128) / 32;					   //轉換成13*15地圖模式
-	y1 = (y1 - 32) / 32;
+	for (int i = 0; i < 2; i++) {
+		int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    //腳色中心點
+		int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    //腳色中心點
+		x1 = (x1 - 128) / 32;					   //轉換成13*15地圖模式
+		y1 = (y1 - 32) / 32;
 
-	if (x == x1 && y == y1) {
-		TRACE("you touch enemy\n");
-		blood_vol = blood_vol - 0.5;
-		TRACE("血量剩餘 %f\n", blood_vol);
-	}
-	if (AI.BulletHitPlayer()) {
-		TRACE("bullet hit\n");
-		blood_vol = blood_vol - 0.5;
+		if (x == x1 && y == y1 && AI[i].Alive()) {
+			TRACE("you touch enemy\n");
+			blood_vol = blood_vol - 0.5;
+			TRACE("血量剩餘 %f\n", blood_vol);
+		}
+		if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+			TRACE("bullet hit\n");
+			blood_vol = blood_vol - 0.5;
+		}
 	}
 	double value = std::fmod(blood_ori, blood_vol);
 	for (int i = 7; i >= 0; i--) {

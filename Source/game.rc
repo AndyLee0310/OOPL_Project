@@ -238,6 +238,10 @@ IDB_BULLET_4            BITMAP                  "..\\RES\\Stage_1\\shot_4.bmp"
 
 IDB_BULLET_5            BITMAP                  "..\\RES\\Stage_1\\shot_5.bmp"
 
+IDB_EM_DE_1             BITMAP                  "..\\RES\\Stage_1\\enemy_death_1.bmp"
+
+IDB_EM_DE_2             BITMAP                  "..\\RES\\Stage_1\\enemy_death_2.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
