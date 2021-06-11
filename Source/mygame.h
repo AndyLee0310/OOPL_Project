@@ -38,6 +38,9 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 
+
+#ifndef _MYGAME_
+#define _MYGAME_
 #include "CEraser.h"
 #include "CBall.h"
 #include "CBouncingBall.h"
@@ -271,3 +274,5 @@ namespace game_framework {
 		POINT p;
 	};
 }
+
+#endif

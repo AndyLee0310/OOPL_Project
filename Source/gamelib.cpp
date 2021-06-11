@@ -713,6 +713,26 @@ void CGame::SetRunning(bool state)
 	running = state;
 }
 
+void CGame::saveData(int* data, int count) {
+	GAME_ASSERT(data != NULL, "Save Data error: input data is null");
+	if (Data != NULL) {
+		delete[] Data;
+	}
+	Data = new int[count];
+	for (int i = 0; i < count; i++) {
+		Data[i] = data[i];
+	}
+}
+
+void CGame::loadData(int* data) {
+	TRACE("Data size is %d and data size is %d\n", sizeof(Data), sizeof(data));
+	GAME_ASSERT(Data != NULL, "No data saved");
+	GAME_ASSERT(sizeof(Data) == sizeof(data), "load Data error: input data size is not match");
+	for (int i = 0; i < sizeof(Data); i++) {
+		data[i] = Data[i];
+	}
+	delete[] Data;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CSpecialEffect: Specail Effect functions

@@ -461,6 +461,7 @@ GameStage_1::~GameStage_1() {
 	delete[] AI;
 }
 void GameStage_1::OnBeginState() {
+	TRACE("%d %d\n", _test[0], _test[1]);
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].Initialize();
 	}
