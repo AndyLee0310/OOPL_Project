@@ -187,7 +187,7 @@ namespace game_framework {
 			if (ny <= y && ny >= y - upRange * 32) {                    // ノENEMYオ暗耞
 				b.setPath(x + 16, y, 1);
 			}
-			else if (ny >= y + 32 && ny <= y + downRange * 32 + 32) {   // ノENEMY暗耞ぃ礛竲︹程环ê穦耞ぃ
+			else if (ny >= y + 32 && ny <= y + downRange * 32 + 32) {   // ノENEMY暗耞ぃ礛竲︹程ê穦耞ぃ
 				b.setPath(x + 16, y + 32, 2);
 			}
 		}
@@ -195,7 +195,7 @@ namespace game_framework {
 			if (nx <= x && nx >= x - leftRange * 32) {
 				b.setPath(x, y + 16, 3);
 			}
-			else if (nx >= x + 32 && nx <= x + rightRange * 32 + 32) {   // ノENEMY暗耞ぃ礛竲︹程环ê穦耞ぃ
+			else if (nx >= x + 32 && nx <= x + rightRange * 32 + 32) {  // ノENEMY暗耞ぃ礛竲︹程ê穦耞ぃ
 				b.setPath(x + 32, y + 16, 4);
 			}
 		}

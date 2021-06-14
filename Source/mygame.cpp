@@ -461,6 +461,10 @@ GameStage_1::~GameStage_1() {
 	delete[] AI;
 }
 void GameStage_1::OnBeginState() {
+	int  test[2] = {1, 2};
+	int _test[2];
+	game->saveData(test, 2);
+	game->loadData(_test);
 	TRACE("%d %d\n", _test[0], _test[1]);
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].Initialize();
@@ -583,6 +587,15 @@ void GameStage_1::OnMove() {
 	if (!(timer % 30))
 		count_down.Add(-1);
 
+	bool nextState = false;               //下一關 為0就進下一關
+	for (int i = 0; i < 2; i++) {
+		nextState = nextState | AI[i].Alive();
+	}
+	if (!nextState) {
+		int HealthData[2] = {6, 0};
+		game->saveData(HealthData, 2);
+		//GotoGameState(GAME_STAGE_2);
+	}
 
 	for (int i = 0; i < 42; i++) {
 		block_2[i].OnMove();
@@ -599,7 +612,6 @@ void GameStage_1::OnMove() {
 	for (int i = 0; i < 2; i++) {
 		AI[i].OnMove(character_1.GetX1(), character_1.GetY1(), 0, 0);
 	}
-	//AI.OnMove(character_1.GetX1(), character_1.GetY1(), 0, 0);
 	GetCoins();
 
 	HealthState();
