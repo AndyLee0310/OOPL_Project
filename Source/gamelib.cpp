@@ -124,6 +124,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include "GameStage_2.h"
 #include "afxwin.h"
 
 namespace game_framework {
@@ -494,12 +495,13 @@ void CGameState::OnCycle() // Template Method
 CGame CGame::instance;
 
 CGame::CGame()
-: NUM_GAME_STATES(6)
+: NUM_GAME_STATES(7)
 {
 	running = true;
 	suspended = false;
 	gameStateTable[GAME_STATE_INIT] = new CGameStateInit(this);
-	gameStateTable[GAME_STAGE_1]  = new GameStage_1(this);
+	gameStateTable[GAME_STAGE_1] = new GameStage_1(this);
+	gameStateTable[GAME_STAGE_2] = new GameStage_2(this);
 	gameStateTable[GAME_STATE_PAUSE] = new CGamestatePause(this);
 	gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
 	gameStateTable[GAME_PREFENCES] = new GamePrefences(this);
@@ -509,6 +511,9 @@ CGame::CGame()
 
 CGame::~CGame()
 {
+	if (Data != NULL) {
+		delete[] Data;
+	}
 	for (int i = 0; i < NUM_GAME_STATES; i++)
 		delete gameStateTable[i];
 }
@@ -730,7 +735,6 @@ void CGame::loadData(int* data) {
 	for (int i = 0; i < sizeof(Data); i++) {
 		data[i] = Data[i];
 	}
-	delete[] Data;
 }
 
 /////////////////////////////////////////////////////////////////////////////

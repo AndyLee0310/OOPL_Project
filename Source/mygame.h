@@ -50,7 +50,7 @@
 #include "Enemy.h"
 #include "CoinsAnimation.h"
 #include "Healths.h"
-
+#include "GameStage_2.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////

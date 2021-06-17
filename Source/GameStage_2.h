@@ -1,3 +1,5 @@
+#ifndef _STAGE2_
+#define _STAGE2_
 namespace game_framework {
 	class GameStage_2 : public CGameState {
 	public:
@@ -20,11 +22,11 @@ namespace game_framework {
 		void HeartChange();
 	private:
 		int bg[13][15];              //0¦aªO 1¥Û¶ô 2¯»¦â¥Û 4¥¼Ãz¼u 5Ãz¬µ¤¤
-		int coins_pos[5][2];         //µw¹ô¦ì¸m
+		int coins_pos[9][2];         //µw¹ô¦ì¸m
 		CMovingBitmap block_0;
 		CMovingBitmap block_1;
 		Obstacle*     block_2;
-		int           block_2_pos[42][2];
+		int           block_2_pos[88][2],block2_num;
 		CMovingBitmap panel;
 		CMovingBitmap border;
 		Character     character_1;   //Range undone
@@ -47,3 +49,5 @@ namespace game_framework {
 		int timer;
 	};
 }
+
+#endif

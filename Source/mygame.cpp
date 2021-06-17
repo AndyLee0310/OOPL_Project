@@ -461,11 +461,16 @@ GameStage_1::~GameStage_1() {
 	delete[] AI;
 }
 void GameStage_1::OnBeginState() {
-	int  test[2] = {1, 2};
-	int _test[2];
-	game->saveData(test, 2);
-	game->loadData(_test);
-	TRACE("%d %d\n", _test[0], _test[1]);
+	int test1[2] = { 1, 2 };
+	int test2[2] = { 3, 4 };
+	int test[2];
+	game->saveData(test1, 2);
+	game->saveData(test2, 2);
+	game->loadData(test);
+	TRACE("%d %d\n", test[0], test[1]);
+	game->saveData(test1, 2);
+	game->loadData(test);
+	TRACE("%d %d\n", test[0], test[1]);
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].Initialize();
 	}
@@ -593,8 +598,8 @@ void GameStage_1::OnMove() {
 	}
 	if (!nextState) {
 		int HealthData[2] = {6, 0};
-		game->saveData(HealthData, 2);
-		//GotoGameState(GAME_STAGE_2);
+		//game->saveData(HealthData, 2);
+		GotoGameState(GAME_STAGE_2);
 	}
 
 	for (int i = 0; i < 42; i++) {
@@ -697,6 +702,7 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_ESC = 0x1B;
 	const char KEY_P = 0x50;
 	const char KEY_SPACE = 0x20;
+	const char KET_Y = 0x59;
 
 	
 	if (nChar == KEY_ESC || nChar == KEY_P) {
@@ -720,6 +726,9 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if (nChar == KEY_SPACE) {
 		setBomb(1);
+	}
+	if (nChar == KET_Y) {
+		GotoGameState(GAME_STAGE_2);
 	}
 }
 

@@ -83,6 +83,7 @@
 enum GAME_STATES {
 	GAME_STATE_INIT,
 	GAME_STAGE_1,
+	GAME_STAGE_2,
 	GAME_STATE_PAUSE,
 	GAME_STATE_OVER,
 	GAME_PREFENCES,
@@ -316,7 +317,7 @@ private:
 	const int		NUM_GAME_STATES;	// 遊戲的狀態數(3個狀態)
 	int*            Data;
 	CGameState		*gameState;			// pointer指向目前的遊戲狀態
-	CGameState		*gameStateTable[6];	// 遊戲狀態物件的pointer
+	CGameState		*gameStateTable[7];	// 遊戲狀態物件的pointer
 	static CGame	instance;			// 遊戲唯一的instance
 };
 
