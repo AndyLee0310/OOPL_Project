@@ -17,10 +17,9 @@ namespace game_framework {
 		void BombState();
 		void setBombRange(int, int, int, int);                                    // Ãz¬µ®É³]¸m½d³ò
 		void GetCoins();				//°»´ú¸I¼²ª÷¹ô
-		void CoinState();				//ª÷¹ô°Êµe
 		void HealthState();
-		void HeartChange();
 	private:
+		CMovingBitmap level;
 		int bg[13][15];              //0¦aªO 1¥Û¶ô 2¯»¦â¥Û 4¥¼Ãz¼u 5Ãz¬µ¤¤
 		int coins_pos[9][2];         //µw¹ô¦ì¸m
 		CMovingBitmap block_0;
@@ -45,7 +44,6 @@ namespace game_framework {
 		Healths* heart;
 
 		CInteger count_down;
-		int* tempTime;
 		int timer;
 	};
 }

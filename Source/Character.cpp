@@ -16,6 +16,7 @@ namespace game_framework {
 		Animate_State = 1;
 		isMovingDown = isMovingLeft = isMovingRight = isMovingUp = false;
 		Explosion_range = 5;
+		isDead = false;
 	}
 	int Character::GetX1() {
 		return x;
@@ -35,6 +36,9 @@ namespace game_framework {
 	int Character::GetRange() {
 		return Explosion_range;
 	}
+	bool Character::GetDead() {
+		return isDead;
+	}
 	void Character::LoadBitmap() {
 		Character_down.SetDelayCount(5);
 		Character_down.AddBitmap(IDB_PLAYER1_DW_1, RGB(255, 255, 255));   
@@ -48,6 +52,11 @@ namespace game_framework {
 		Character_right.SetDelayCount(5);
 		Character_right.AddBitmap(IDB_PLAYER1_RE_1, RGB(255, 255, 255));
 		Character_right.AddBitmap(IDB_PLAYER1_RE_2, RGB(255, 255, 255));
+		Character_dead.SetDelayCount(5);
+		Character_dead.AddBitmap(IDB_PLAYER1_DEAD_1, RGB(255, 255, 255));
+		Character_dead.AddBitmap(IDB_PLAYER1_DEAD_2, RGB(255, 255, 255));
+		Character_dead.AddBitmap(IDB_PLAYER1_DEAD_3, RGB(255, 255, 255));
+		Character_dead.AddBitmap(IDB_PLAYER1_DEAD_4, RGB(255, 255, 255));
 	}
 	void Character::OnMove() {
 		if (isMovingDown) {
@@ -118,6 +127,10 @@ namespace game_framework {
 				x += 2;
 			
 		}
+		if (isDead) {
+			Animate_State = 5;
+			Character_dead.OnMove();
+		}
 	}
 	void Character::SetMovingDown(bool flag)
 	{
@@ -139,6 +152,11 @@ namespace game_framework {
 		isMovingUp = flag;
 	}
 
+	void Character::SetDead(bool flag)
+	{
+		isDead = flag;
+	}
+
 	void Character::SetXY(int nx, int ny)
 	{
 		x = nx; y = ny;
@@ -147,16 +165,18 @@ namespace game_framework {
 	void Character::SetRange(int i) {
 		Explosion_range = i;
 	}
-	void Character::OnShow()
-	{
+
+	void Character::OnShow() {
 		Character_down.SetTopLeft(x, y);
 		Character_up.SetTopLeft(x, y);
 		Character_left.SetTopLeft(x, y);
 		Character_right.SetTopLeft(x, y);
+		Character_dead.SetTopLeft(x, y);
 		if (Animate_State == 1)     Character_down.OnShow();
 		else if (Animate_State == 2)Character_up.OnShow();
 		else if (Animate_State == 3)Character_left.OnShow();
 		else if (Animate_State == 4)Character_right.OnShow();
+		else if (Animate_State == 5)Character_dead.OnShow();
 	}
 	void Character::LoadMap(int maps[13][15]) {
 		for (int i = 0; i < 416; i++) {

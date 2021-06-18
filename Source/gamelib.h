@@ -308,14 +308,18 @@ public:
 	void SetGameState(int);
 	
 	void SetRunning(bool);
-	void saveData(int*, int);
-	void loadData(int*);
+	void saveData(int*, int);						// 儲存資料
+	void loadData(int*);							// 載入資料
+	void SaveState(CGameState*);					// 暫時存取遊戲狀態
+	void ContiuneState(CGameState*);				// 繼續遊戲
+	CGameState* getState();							// 讀取暫存的遊戲狀態
 	static CGame* Instance();
 private:
 	bool			running;			// 遊戲是否正在進行中(未被Pause)
 	bool            suspended;			// 遊戲是否被suspended
 	const int		NUM_GAME_STATES;	// 遊戲的狀態數(3個狀態)
 	int*            Data;
+	CGameState		*saveState;			// 暫時存取的狀態
 	CGameState		*gameState;			// pointer指向目前的遊戲狀態
 	CGameState		*gameStateTable[7];	// 遊戲狀態物件的pointer
 	static CGame	instance;			// 遊戲唯一的instance

@@ -8,6 +8,7 @@
 #include "gamelib.h"
 #include <cstdlib> /* 亂數相關函數 */
 #include "Enemy.h"
+#include "mygame.h"
 namespace game_framework {
 	Enemy::Enemy() {
 		Initialize(0, 0);
@@ -22,6 +23,7 @@ namespace game_framework {
 		DeathAnimateCount = 0;
 		isAlive = true;
 		BulletHit = false;
+		score = 0;
 	}
 	void Enemy::LoadBitmap() {
 

@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文 (繁體，台灣) resources
+// Chinese (Traditional, Taiwan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHT)
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
@@ -250,12 +250,12 @@ IDB_EM_DE_2             BITMAP                  "..\\RES\\Stage_1\\enemy_death_2
 
 IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
 
-#endif    // 中文 (繁體，台灣) resources
+#endif    // Chinese (Traditional, Taiwan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英文 (美國) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -306,9 +306,9 @@ IDB_SCREEN_SAVE_GAME_RED BITMAP                  "..\\RES\\scr_Pause\\save_game_
 
 IDB_SCREEN_PREFENCES    BITMAP                  "..\\RES\\scr_Prefences\\ScrPrefences.bmp"
 
-IDB_SCREEN_FR           BITMAP                  "..\\RES\\scr_Prefences\\-.bmp"
+IDB_SCREEN_MINUX        BITMAP                  "..\\RES\\scr_Prefences\\Minux.bmp"
 
-IDB_SCREEN_FR_RED       BITMAP                  "..\\RES\\scr_Prefences\\-_red.bmp"
+IDB_SCREEN_MINUX_RED    BITMAP                  "..\\RES\\scr_Prefences\\Minux_red.bmp"
 
 IDB_SCREEN_CANCEL       BITMAP                  "..\\RES\\scr_Prefences\\Cancel.bmp"
 
@@ -329,6 +329,22 @@ IDB_SCREEN_YES_RED      BITMAP                  "..\\RES\\scr_Prefences\\yes_red
 IDB_SCREEN_BACK         BITMAP                  "..\\RES\\scr_Prefences\\back.bmp"
 
 IDB_SCREEN_BACK_RED     BITMAP                  "..\\RES\\scr_Prefences\\back_red.bmp"
+
+IDB_SCREEN_PLUS         BITMAP                  "..\\RES\\scr_Prefences\\plus.bmp"
+
+IDB_SCREEN_PLUS_RED     BITMAP                  "..\\RES\\scr_Prefences\\plus_red.bmp"
+
+IDB_PLAYER1_DEAD_1      BITMAP                  "..\\RES\\Character\\player1_dead_1.bmp"
+
+IDB_PLAYER1_DEAD_2      BITMAP                  "..\\RES\\Character\\player1_dead_2.bmp"
+
+IDB_PLAYER1_DEAD_3      BITMAP                  "..\\RES\\Character\\player1_dead_3.bmp"
+
+IDB_PLAYER1_DEAD_4      BITMAP                  "..\\RES\\Character\\player1_dead_4.bmp"
+
+IDB_LEVEL_1             BITMAP                  "..\\res\\level_1.bmp"
+
+IDB_LEVEL_2             BITMAP                  "..\\RES\\level_2.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -623,7 +639,7 @@ BEGIN
     ID_BUTTON_UNITTEST      "Perform Unit Test"
 END
 
-#endif    // 英文 (美國) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

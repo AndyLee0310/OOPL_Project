@@ -41,9 +41,6 @@
 
 #ifndef _MYGAME_
 #define _MYGAME_
-#include "CEraser.h"
-#include "CBall.h"
-#include "CBouncingBall.h"
 #include "Character.h"
 #include "Bomb.h"
 #include "Obstacle.h"
@@ -58,12 +55,19 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_DING,				// 0
+		AUDIO_BOMB,				// 0
 		AUDIO_LAKE,				// 1
 		AUDIO_NTUT				// 2
 	};
 
-	static int form_state = 0;			//1為起始畫面  2為暫停畫面
+	static int form_state = 0;			// 1為起始畫面  2為暫停畫面	3為Preference
+	static int form_ori = 0;			// 讀取上一個離開的畫面是哪一個
+
+	static int FS_state = 0;
+	static int SF_state = 0;
+	static int Vsync_state = 1;
+
+	static int score;				// 遊戲分數
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -127,7 +131,6 @@ namespace game_framework {
 	};
 	*/
 
-	//static int form_flag;
 	class GameStage_1 : public CGameState {
 	public:
 		GameStage_1(CGame* g);
@@ -143,11 +146,10 @@ namespace game_framework {
 		void mapChange(int,int,int);                            // 地圖變動&通知character
 		void BombState();
 		void setBombRange(int,int,int,int);                                    // 爆炸時設置範圍
-		void GetCoins();				//偵測碰撞金幣
-		void CoinState();				//金幣動畫
+		void GetCoins();				// 偵測碰撞金幣&動畫
 		void HealthState();
-		void HeartChange();
 	private:
+		CMovingBitmap level;
 		int bg[13][15];              //0地板 1石塊 2粉色石 4未爆彈 5爆炸中
 		int coins_pos[5][2];         //硬幣位置
 		CMovingBitmap block_0;
@@ -158,21 +160,23 @@ namespace game_framework {
 		CMovingBitmap border;
 		Character     character_1;   //Range undone
 		CMovingBitmap character_2;   //類別之後改
+		int Enemy1_num;			// 敵人1的數量
+		int Enemy2_num;			// 敵人2的數量
 		Enemy         *AI;
 		int coins_num;	             //金幣總數
-		int sc;		                 //紀錄吃到幾個金幣
 		CoinsAnimation* coin_Ani;
 		Bomb*         Bomb_ch1;
 
 		CMovingBitmap playerhead_1;
 		CMovingBitmap playerhead_2;
 
-		double heart_num[8];
-		double blood_ori, blood_vol;
+		int life;
+		int heart_num[8];
+		int blood_ori, blood_vol;
 		Healths* heart;
-
+		bool taking_Damage;
+		int k = 0;
 		CInteger count_down;
-		int* tempTime;
 		int timer;
 	};
 
@@ -198,8 +202,6 @@ namespace game_framework {
 		CMovingBitmap scr_quitToMenu;
 		CMovingBitmap scr_exit;
 		POINT p;
-
-		//static int temp_time;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -235,24 +237,21 @@ namespace game_framework {
 		CMovingBitmap scr;
 		CMovingBitmap scr_ok;
 		CMovingBitmap scr_cancel;
+		CMovingBitmap scr_FX_down;		// FX音量減小
+		CMovingBitmap scr_FX_up;		// FX音量放大
+		CMovingBitmap scr_FS_yes;		// Fullscreen YES
+		CMovingBitmap scr_FS_no;		// Fullscreen NO
+		CMovingBitmap scr_FR;			// Fllscr. Res.
+		CMovingBitmap scr_SF_yes;		// Show FPS YES
+		CMovingBitmap scr_SF_no;		// Show FPS NO
+		CMovingBitmap scr_Vsync_yes;	// Vsync YES
+		CMovingBitmap scr_Vsync_no;		// Vsync NO
 
-		CMovingBitmap scr_FS_yes;
-		CMovingBitmap scr_FS_no;
-		int FS_state;
-
-		CMovingBitmap scr_FR;
-
-		CMovingBitmap scr_SF_yes;
-		CMovingBitmap scr_SF_no;
-		int SF_state;
-
-		CMovingBitmap scr_Vsync_yes;
-		CMovingBitmap scr_Vsync_no;
-		int Vsync_state;
+		int FS_ori_state;
+		int SF_ori_state;
+		int Vsync_ori_state;
 
 		POINT p;
-
-		int form_ori;		//讀取剛剛是從哪一個畫面進到此畫面
 	};
 
 	////////////////////////////////////////////////////////////////////////////

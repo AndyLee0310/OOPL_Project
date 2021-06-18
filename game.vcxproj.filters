@@ -603,5 +603,38 @@
     <Image Include="RES\Stage_1\enemy_death_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\scr_Prefences\Minux.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\Minux_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\plus.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Prefences\plus_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_dead_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_dead_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_dead_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player1_dead_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\stage_1\bitmap25.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\level_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\level_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

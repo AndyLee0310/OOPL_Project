@@ -18,7 +18,7 @@ namespace game_framework {
 	{
 		block2_num = 88;
 		coins_num = 9;
-		sc = 0;	
+		sc = 0;
 		Bomb_ch1 = new Bomb[7];
 		block_2 = new Obstacle[88];
 		coin_Ani = new CoinsAnimation[9];
@@ -74,11 +74,11 @@ namespace game_framework {
 			coin_Ani[i].Initialize(coins_pos[i][1] * 32 + 128, coins_pos[i][0] * 32 + 32);
 		}
 
-		double health_reset[8] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+		int health_reset[8] = { 2, 2, 2, 2, 2, 2, 2, 2 };
 		for (int i = 0; i < 8; i++) {
 			heart_num[i] = health_reset[i];
 		}
-		blood_ori = blood_vol = 8;		//預設血量總值為8
+		blood_ori = blood_vol = 16;		//預設血量總值為8
 
 		//腳色數值重置
 		character_1.Initialize(128, 32);
@@ -95,6 +95,7 @@ namespace game_framework {
 	}
 	void GameStage_2::OnInit() {
 		timer = 250;
+		level.LoadBitmap(IDB_LEVEL_2);
 		block_0.LoadBitmap(IDB_Bg_1, RGB(255, 255, 255));
 		block_1.LoadBitmap(IDB_Blocks, RGB(255, 255, 255));
 		for (int i = 0; i < block2_num; i++) {
@@ -122,29 +123,17 @@ namespace game_framework {
 			heart[i].LoadBitmap();
 		}
 
-		//因撰寫關卡內容須測試，故先將時間倒數註解
-		/*
-		if (tempTime == 0) {
-			count_down.SetInteger(60);
-		}
-		else {
-			count_down.SetInteger(tempTime);
-			tempTime = 0;
-		}
-		*/
+		// 因撰寫關卡內容須測試，故先將時間倒數註解
+		count_down.SetInteger(60);
 	}
 	void GameStage_2::OnMove() {
 		timer++;
 		int second = timer / 30;
 		int min = second / 60;
 		second %= 60;
-
 		//TRACE("second %d\n", second);
 		//TRACE("min %d\n", min);
 
-		if (min == 2) {
-			//下一關的關卡
-		}
 		if (!(timer % 30))
 			count_down.Add(-1);
 
@@ -184,6 +173,8 @@ namespace game_framework {
 		panel.ShowBitmap();
 		border.SetTopLeft(96, 0);
 		border.ShowBitmap();
+		level.SetTopLeft(609, 0);
+		level.ShowBitmap();
 		for (int i = 0; i < 13; i++) {             //方塊顯示    j是X軸 i是Y軸
 			for (int j = 0; j < 15; j++) {
 				if (bg[i][j] == 1) {
@@ -204,8 +195,6 @@ namespace game_framework {
 		for (int i = 0; i < coins_num; i++) {
 			coin_Ani[i].setTopLeft(128 + coins_pos[i][1] * 32, 32 * (coins_pos[i][0] + 1));
 			coin_Ani[i].OnShow();
-			//coins.SetTopLeft(128 + coins_pos[i][1] * 32, 32* (coins_pos[i][0] + 1));
-			//coins.ShowBitmap();
 		}
 
 		count_down.SetTopLeft(panel.Width() * 25 / 100, panel.Height() * 48 / 100);
@@ -219,18 +208,34 @@ namespace game_framework {
 			AI[i].OnShow();
 		}
 
-		playerhead_1.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 13 / 100);
-		playerhead_1.ShowBitmap();
-		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-		CFont f, * fp;
-		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetBkColor(RGB(0, 0, 255));
-		pDC->SetTextColor(RGB(255, 255, 255));
-		pDC->TextOut((panel.Width() * 59 / 100), panel.Height() * 13 / 100, "X3");
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	playerhead_1.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 13 / 100);
+	playerhead_1.ShowBitmap();
+	CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f, * fp;
+	f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp = pDC->SelectObject(&f);					// 選用 font f
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->SetBkColor(RGB(0, 0, 255));
+	pDC->SetTextColor(RGB(255, 255, 255));
+	char str[80];								// Demo 數字對字串的轉換
+	sprintf(str, "*%d", 3);
+	pDC->TextOut((panel.Width() * 59 / 100), panel.Height() * 13 / 100, str);
+	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+
+	CDC* pDC1 = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f1, * fp1;
+	f1.CreatePointFont(140, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp1 = pDC1->SelectObject(&f1);					// 選用 font f
+	pDC1->SetBkMode(TRANSPARENT);
+	pDC1->SetBkColor(RGB(0, 0, 255));
+	pDC1->SetTextColor(RGB(255, 255, 255));
+	pDC1->TextOut((panel.Width() * 16 / 100), panel.Height() * 375 / 1000, "SCORE");
+	char str1[80];								// Demo 數字對字串的轉換
+	sprintf(str1, "%06d", 0);
+	pDC1->TextOut((panel.Width() * 20 / 100), panel.Height() * 41 / 100, str1);
+	pDC1->SelectObject(fp1);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 
 		playerhead_2.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 56 / 100);
 		playerhead_2.ShowBitmap();
@@ -262,8 +267,7 @@ namespace game_framework {
 
 		if (nChar == KEY_ESC || nChar == KEY_P) {
 			game_framework::CGame::Instance()->OnFilePause();
-			//*tempTime = count_down.GetInteger();
-			this->count_down.GetInteger();
+			game_framework::CGame::Instance()->SaveState(this);
 			GotoGameState(GAME_STATE_PAUSE);
 		}
 
@@ -286,10 +290,10 @@ namespace game_framework {
 
 	void GameStage_2::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
+		const char KEY_LEFT = 0x25;		// keyboard左箭頭
+		const char KEY_UP = 0x26;		// keyboard上箭頭
+		const char KEY_RIGHT = 0x27;	// keyboard右箭頭
+		const char KEY_DOWN = 0x28;		// keyboard下箭頭
 		if (nChar == KEY_LEFT)
 			character_1.SetMovingLeft(false);
 		if (nChar == KEY_RIGHT)
@@ -299,6 +303,7 @@ namespace game_framework {
 		if (nChar == KEY_DOWN)
 			character_1.SetMovingDown(false);
 	}
+
 	void GameStage_2::setBomb(int id) {
 		if (id == 1) {                                                  //[y][x]
 			int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
@@ -320,7 +325,7 @@ namespace game_framework {
 			}
 		}
 		else if (id == 2) {
-
+			// player2's operating
 		}
 	}
 
@@ -330,7 +335,6 @@ namespace game_framework {
 		for (int i = 0; i < 4; i++) {
 			AI[i].LoadMap(bg);
 		}
-
 	}
 	void GameStage_2::BombState() {
 		for (int i = 0; i < 7; i++) {
@@ -350,7 +354,6 @@ namespace game_framework {
 				for (int j = 1; j <= Bomb_ch1[i].getDown(); j++)mapChange(nx, ny + j, 5);
 				for (int j = 1; j <= Bomb_ch1[i].getRight(); j++)mapChange(nx + j, ny, 5);
 				for (int j = 1; j <= Bomb_ch1[i].getLeft(); j++)mapChange(nx - j, ny, 5);
-
 
 			}
 			if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {
@@ -381,7 +384,6 @@ namespace game_framework {
 							break;
 						}
 					}
-
 					break;
 				}
 			}
@@ -414,7 +416,6 @@ namespace game_framework {
 					}
 					break;
 				}
-
 			}
 			Bomb_ch1[i].setRight(--j);
 			for (j = 1; j <= range; j++) {
@@ -437,9 +438,9 @@ namespace game_framework {
 	}
 	void GameStage_2::GetCoins() {
 		//找出腳色所在位置(x,y)
-		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
-		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
-		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
+		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // 腳色中心點
+		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
+		x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
 		y = (y - 32) / 32;
 		for (int i = 0; i < coins_num; i++) {
 			coin_Ani[i].OnMove();
@@ -454,14 +455,13 @@ namespace game_framework {
 	}
 
 	void GameStage_2::HealthState() {
-
 		for (int i = 0; i < 8; i++) {
 			heart[i].OnMove();
 
-			if (heart_num[i] == 1) {
+			if (heart_num[i] == 2) {
 				heart[i].SetDescision(2);
 			}
-			else if (heart_num[i] == 0.5) {
+			else if (heart_num[i] == 1) {
 				heart[i].SetDescision(1);
 			}
 			else if (heart_num[i] == 0) {
@@ -469,26 +469,26 @@ namespace game_framework {
 			}
 		}
 
-		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //腳色中心點
-		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //腳色中心點
-		x = (x - 128) / 32;                                         //轉換成13*15地圖模式
+		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // 腳色中心點
+		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
+		x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
 		y = (y - 32) / 32;
 		for (int i = 0; i < 4; i++) {
-			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    //腳色中心點
-			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    //腳色中心點
+			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
+			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
 			x1 = (x1 - 128) / 32;					   //轉換成13*15地圖模式
 			y1 = (y1 - 32) / 32;
 
 			if (x == x1 && y == y1 && AI[i].Alive()) {
 				TRACE("you touch enemy\n");
-				blood_vol = blood_vol - 0.5;
-				TRACE("血量剩餘 %f\n", blood_vol);
+				blood_vol = blood_vol - 1;
 			}
 			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
 				TRACE("bullet hit\n");
-				blood_vol = blood_vol - 0.5;
+				blood_vol = blood_vol - 1;
 			}
 		}
+		TRACE("血量剩餘 %f\n", blood_vol);
 		double value = std::fmod(blood_ori, blood_vol);
 		for (int i = 7; i >= 0; i--) {
 			if (heart_num[i] != 0) {

@@ -721,7 +721,7 @@ void CGame::SetRunning(bool state)
 void CGame::saveData(int* data, int count) {
 	GAME_ASSERT(data != NULL, "Save Data error: input data is null");
 	if (Data != NULL) {
-		delete[] Data;
+		// delete[] Data;
 	}
 	Data = new int[count];
 	for (int i = 0; i < count; i++) {
@@ -735,6 +735,18 @@ void CGame::loadData(int* data) {
 	for (int i = 0; i < sizeof(Data); i++) {
 		data[i] = Data[i];
 	}
+}
+
+void CGame::SaveState(CGameState* state) {
+	saveState = state;
+}
+
+void CGame::ContiuneState(CGameState* state) {
+	gameState = state;
+}
+
+CGameState* CGame::getState() {
+	return saveState;
 }
 
 /////////////////////////////////////////////////////////////////////////////
