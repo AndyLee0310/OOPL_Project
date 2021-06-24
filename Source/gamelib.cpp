@@ -554,6 +554,7 @@ void  CGame::OnFilePause()
 		else
 			CAudio::Instance()->Resume();
 		running = !running;
+		TRACE("%d\n", running);
 	} else {
 		CAudio::Instance()->Resume();
 		running = true;
@@ -721,7 +722,7 @@ void CGame::SetRunning(bool state)
 void CGame::saveData(int* data, int count) {
 	GAME_ASSERT(data != NULL, "Save Data error: input data is null");
 	if (Data != NULL) {
-		// delete[] Data;
+		delete[] Data;
 	}
 	Data = new int[count];
 	for (int i = 0; i < count; i++) {

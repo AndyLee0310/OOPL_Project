@@ -54,11 +54,6 @@ namespace game_framework {
 	// Constants
 	/////////////////////////////////////////////////////////////////////////////
 
-	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_BOMB,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2
-	};
 
 	static int form_state = 0;			// 1為起始畫面  2為暫停畫面	3為Preference
 	static int form_ori = 0;			// 讀取上一個離開的畫面是哪一個

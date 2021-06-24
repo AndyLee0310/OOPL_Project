@@ -92,6 +92,7 @@ namespace game_framework {
 			AI[i].LoadMap(bg);
 		}
 		timer = 0;
+		CAudio::Instance()->Play(AUDIO_BGM2, true);
 	}
 	void GameStage_2::OnInit() {
 		timer = 250;
@@ -125,6 +126,7 @@ namespace game_framework {
 
 		// 因撰寫關卡內容須測試，故先將時間倒數註解
 		count_down.SetInteger(60);
+		CAudio::Instance()->Load(AUDIO_BGM2, "sounds\\stage2BGM.mp3");
 	}
 	void GameStage_2::OnMove() {
 		timer++;
@@ -143,7 +145,8 @@ namespace game_framework {
 		}
 		if (!nextState) {
 			int HealthData[2] = { 6, 0 };
-			game->saveData(HealthData, 2);
+			//game->saveData(HealthData, 2);
+			CAudio::Instance()->Stop(AUDIO_BGM2);
 			//GotoGameState(GAME_STAGE_2);
 		}
 
@@ -349,7 +352,7 @@ namespace game_framework {
 				int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
 				mapChange(nx, ny, 5);
 				if (!Bomb_ch1[i].getObs())setBombRange(1, i, nx, ny);
-
+				if (Bomb_ch1[i].getAud())CAudio::Instance()->Play(AUDIO_BOMB, false);
 				for (int j = 1; j <= Bomb_ch1[i].getUp(); j++)mapChange(nx, ny - j, 5);
 				for (int j = 1; j <= Bomb_ch1[i].getDown(); j++)mapChange(nx, ny + j, 5);
 				for (int j = 1; j <= Bomb_ch1[i].getRight(); j++)mapChange(nx + j, ny, 5);
@@ -473,22 +476,36 @@ namespace game_framework {
 		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
 		x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
 		y = (y - 32) / 32;
-		for (int i = 0; i < 4; i++) {
-			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
-			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
-			x1 = (x1 - 128) / 32;					   //轉換成13*15地圖模式
-			y1 = (y1 - 32) / 32;
+		if (!character_1.GetDead()) {
+			for (int i = 0; i < 2; i++) {
+				int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
+				int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
+				x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
+				y1 = (y1 - 32) / 32;
 
-			if (x == x1 && y == y1 && AI[i].Alive()) {
-				TRACE("you touch enemy\n");
-				blood_vol = blood_vol - 1;
+				if (x == x1 && y == y1 && AI[i].Alive()) {
+					blood_vol = blood_vol - 1;
+				}
+				if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+					blood_vol = blood_vol - 1;
+				}
 			}
-			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
-				TRACE("bullet hit\n");
-				blood_vol = blood_vol - 1;
+			// player碰到爆炸火花會扣血(不知道為什麼血量明明正常扣減，但是圖片卻沒更正)
+			if (taking_Damage) {
+				// wait two seconds
+				k++;
+				if (k >= 60) {
+					taking_Damage = false;
+					k = 0;
+				}
+			}
+			else {
+				if (bg[y][x] == 5) {
+					blood_vol = blood_vol - 7;
+					taking_Damage = true;
+				}
 			}
 		}
-		TRACE("血量剩餘 %f\n", blood_vol);
 		double value = std::fmod(blood_ori, blood_vol);
 		for (int i = 7; i >= 0; i--) {
 			if (heart_num[i] != 0) {
@@ -498,8 +515,8 @@ namespace game_framework {
 					blood_ori = blood_vol;
 					value = 0;
 				}
-				else if (heart_num[i] - value == 0.5) {
-					heart_num[i] = 0.5;
+				else if (heart_num[i] - value == 1) {
+					heart_num[i] = 1;
 					blood_ori = blood_vol;
 					value = 0;
 				}

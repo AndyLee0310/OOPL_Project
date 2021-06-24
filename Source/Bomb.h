@@ -24,6 +24,7 @@ namespace game_framework {
 		bool getActive();
 		bool getExp();
 		bool getObs();
+		bool getAud();
 	private:
 		CAnimation waiting;
 		CAnimation Explosion;
@@ -32,6 +33,7 @@ namespace game_framework {
 		bool       active;        // 00等待 10未爆 11爆炸中 01結束
 		bool       isExp;
 		bool       Obs_break;     // 是否範圍設置
+		bool       audio_played;  // 音效是否播放 以防重複執行撥放
 		int        x, y;
 		int        range_up;
 		int        range_down;

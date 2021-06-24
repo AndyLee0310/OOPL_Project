@@ -19,6 +19,7 @@ namespace game_framework {
 		active = false;
 		isExp  = false;
 		Obs_break = false;
+		audio_played = false;
 		timer = 0;
 		Obs_break=range_up = range_down = range_left = range_right = 0;
 		Explosion.Reset();
@@ -64,6 +65,7 @@ namespace game_framework {
 			if (timer == 30 * 2) {            //30FPS * 2¬í
 				timer = 0;
 				isExp  = true;
+				audio_played = true;
 			}
 		}
 		else if (active && isExp && Obs_break) {
@@ -92,6 +94,7 @@ namespace game_framework {
 			if (Explosion.IsFinalBitmap()) {
 				active = false;
 			}
+			audio_played = false;
 		}
 	}
 	void Bomb::setActive(bool act) {
@@ -155,5 +158,8 @@ namespace game_framework {
 	}
 	bool Bomb::getObs() {
 		return Obs_break;
+	}
+	bool Bomb::getAud() {
+		return audio_played;
 	}
 }

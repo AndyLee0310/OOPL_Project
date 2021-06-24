@@ -274,6 +274,7 @@ void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 	if (p.x > scr_resume.Left() && p.x < scr_resume.Left() + scr_resume.Width() &&
 		p.y > scr_resume.Top() && p.y < scr_resume.Top() + scr_resume.Height()) {
 		//Resume
+		CAudio::Instance()->Resume();
 		game_framework::CGame::Instance()->ContiuneState(game_framework::CGame::Instance()->getState());
 		game_framework::CGame::Instance()->SaveState(nullptr);		// clean savestate
 	}
@@ -454,16 +455,6 @@ GameStage_1::~GameStage_1() {
 	delete[] AI;
 }
 void GameStage_1::OnBeginState() {
-	int test1[2] = { 1, 2 };
-	int test2[2] = { 3, 4 };
-	int test[2];
-	game->saveData(test1, 2);
-	game->saveData(test2, 2);
-	game->loadData(test);
-	TRACE("%d %d\n", test[0], test[1]);
-	game->saveData(test1, 2);
-	game->loadData(test);
-	TRACE("%d %d\n", test[0], test[1]);
 	for (int i = 0; i < 7; i++) {
 		Bomb_ch1[i].Initialize();
 	}
@@ -530,6 +521,7 @@ void GameStage_1::OnBeginState() {
 	}
 	score = 0;
 	timer = 0;
+	CAudio::Instance()->Play(AUDIO_BGM1, true);
 }
 void GameStage_1::OnInit() {
 	timer = 250;
@@ -563,6 +555,14 @@ void GameStage_1::OnInit() {
 
 	// 因撰寫關卡內容須測試，故先將時間倒數註解
 	count_down.SetInteger(60);
+	/*
+	for (int i = 0; i < 7; i++) {
+		CAudio::Instance()->Load(AUDIO_BOMB + i, "sounds\\POWER.wav");
+		TRACE("%d\n", AUDIO_BOMB + i);
+	}
+	*/
+	CAudio::Instance()->Load(AUDIO_BOMB, "sounds\\POWER.wav");
+	CAudio::Instance()->Load(AUDIO_BGM1, "sounds\\stage1BGM.wav");
 }
 void GameStage_1::OnMove() {
 	timer++;
@@ -582,6 +582,7 @@ void GameStage_1::OnMove() {
 	if (!nextState) {
 		int HealthData[2] = { 6, 0 };
 		//game->saveData(HealthData, 2);
+		CAudio::Instance()->Stop(AUDIO_BGM1);
 		GotoGameState(GAME_STAGE_2);
 	}
 
@@ -728,7 +729,8 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	
 	if (nChar == KEY_ESC || nChar == KEY_P) {
-		game_framework::CGame::Instance()->OnFilePause();
+		//game_framework::CGame::Instance()->OnFilePause();
+		CAudio::Instance()->Pause();
 		game_framework::CGame::Instance()->SaveState(this);
 		GotoGameState(GAME_STATE_PAUSE);
 	}
@@ -749,6 +751,7 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		setBomb(1);
 	}
 	if (nChar == KET_Y) {
+		CAudio::Instance()->Stop(AUDIO_BGM1);
 		GotoGameState(GAME_STAGE_2);
 	}
 }
@@ -815,12 +818,11 @@ void GameStage_1::BombState() {
 			int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
 			mapChange(nx, ny, 5);
 			if(!Bomb_ch1[i].getObs())setBombRange(1, i, nx, ny);
-			
+			if(Bomb_ch1[i].getAud())CAudio::Instance()->Play(AUDIO_BOMB, false);
 			for (int j = 1; j <= Bomb_ch1[i].getUp(); j++)mapChange(nx, ny - j, 5);
 			for (int j = 1; j <= Bomb_ch1[i].getDown(); j++)mapChange(nx, ny + j, 5);
 			for (int j = 1; j <= Bomb_ch1[i].getRight(); j++)mapChange(nx + j, ny, 5);
 			for (int j = 1; j <= Bomb_ch1[i].getLeft(); j++)mapChange(nx - j, ny, 5);
-			
 			
 		}
 		if (!Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {
@@ -941,7 +943,6 @@ void GameStage_1::HealthState() {
 	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
 	x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
 	y = (y - 32) / 32;
-	TRACE(" %d\n", character_1.GetDead());
 	if (!character_1.GetDead()) {
 		for (int i = 0; i < 2; i++) {
 			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
@@ -950,11 +951,9 @@ void GameStage_1::HealthState() {
 			y1 = (y1 - 32) / 32;
 
 			if (x == x1 && y == y1 && AI[i].Alive()) {
-				TRACE("you touch enemy\n");
 				blood_vol = blood_vol - 1;
 			}
 			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
-				TRACE("bullet hit\n");
 				blood_vol = blood_vol - 1;
 			}
 		}
@@ -969,12 +968,10 @@ void GameStage_1::HealthState() {
 		} else {
 			if (bg[y][x] == 5) {
 				blood_vol = blood_vol - 7;
-				TRACE("u touch fire\n");
 				taking_Damage = true;
 			}
 		}
 	}
-	TRACE("血量剩餘 %d\n", blood_vol);
 	double value = std::fmod(blood_ori, blood_vol);
 	for (int i = 7; i >= 0; i--) {
 		if (heart_num[i] != 0) {
