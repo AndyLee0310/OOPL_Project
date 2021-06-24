@@ -98,6 +98,8 @@ void CGameStateInit::OnInit()
 void CGameStateInit::OnBeginState()
 {
 	form_state = 1;
+	CAudio::Instance()->Load(AUDIO_MEUM, "sounds\\meum.mp3");
+	CAudio::Instance()->Play(AUDIO_MEUM, true);
 }
 
 void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -117,6 +119,7 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
 		p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
+		CAudio::Instance()->Stop(AUDIO_MEUM);
 		GotoGameState(GAME_STAGE_1);		// 切換至GAME_STATE_RUN
 	}else if (p.x > scr_load.Left() && p.x < scr_load.Left() + scr_load.Width() &&
 			  p.y > scr_load.Top() && p.y < scr_load.Top() + scr_load.Height()) {
@@ -563,6 +566,7 @@ void GameStage_1::OnInit() {
 	*/
 	CAudio::Instance()->Load(AUDIO_BOMB, "sounds\\POWER.wav");
 	CAudio::Instance()->Load(AUDIO_BGM1, "sounds\\stage1BGM.wav");
+	CAudio::Instance()->Load(AUDIO_OOF, "sounds\\player1_hurt.mp3");
 }
 void GameStage_1::OnMove() {
 	timer++;
@@ -951,9 +955,11 @@ void GameStage_1::HealthState() {
 			y1 = (y1 - 32) / 32;
 
 			if (x == x1 && y == y1 && AI[i].Alive()) {
+				CAudio::Instance()->Play(AUDIO_OOF, false);
 				blood_vol = blood_vol - 1;
 			}
 			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+				CAudio::Instance()->Play(AUDIO_OOF, false);
 				blood_vol = blood_vol - 1;
 			}
 		}
@@ -967,6 +973,7 @@ void GameStage_1::HealthState() {
 			}
 		} else {
 			if (bg[y][x] == 5) {
+				CAudio::Instance()->Play(AUDIO_OOF, false);
 				blood_vol = blood_vol - 7;
 				taking_Damage = true;
 			}
