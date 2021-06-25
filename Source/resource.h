@@ -43,7 +43,6 @@
 #define IDB_BITMAP4                     172
 #define IDB_SCREEN_START                172
 #define IDB_BITMAP5                     173
-#define IDB_SCREEN_LOAD                 173
 #define IDB_SCREEN_PREFERENCES          174
 #define IDB_BITMAP7                     175
 #define IDB_SCREEN_EXIT                 175
@@ -51,7 +50,6 @@
 #define IDB_SCREEN_ABOUT                177
 #define IDB_SCREEN_START_RED            178
 #define IDB_BITMAP8                     179
-#define IDB_SCREEN_LOAD_RED             179
 #define IDB_SCREEN_PREFERENCES_RED      181
 #define IDB_SCREEN_ABOUT_RED            182
 #define IDB_BITMAP9                     183
@@ -175,6 +173,15 @@
 #define IDB_LEVEL_1                     292
 #define IDB_BITMAP25                    294
 #define IDB_LEVEL_2                     294
+#define IDB_SCR_ABOUT                   295
+#define IDB_BITMAP28                    296
+#define IDB_SCR_GAMEINFO                296
+#define IDB_CLOSE                       297
+#define IDB_SCREEN_GI                   298
+#define IDB_SCREEN_GI_RED               299
+#define IDB_PLAYER_GAMEOVER             300
+#define IDB_BITMAP29                    301
+#define IDB_SCREEN_GAMEOVER             301
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -187,7 +194,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        295
+#define _APS_NEXT_RESOURCE_VALUE        305
 #define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101

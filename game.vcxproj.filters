@@ -636,5 +636,44 @@
     <Image Include="RES\level_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\about.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\gameInstruction.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\stage_1\bitmap29.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\Gie.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\gie_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\Gi.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\scr_Menu\gi_red.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Character\player_gameover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\gameover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\game1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\game2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

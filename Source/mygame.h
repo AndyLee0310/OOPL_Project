@@ -57,7 +57,7 @@ namespace game_framework {
 
 	static int form_state = 0;			// 1為起始畫面  2為暫停畫面	3為Preference
 	static int form_ori = 0;			// 讀取上一個離開的畫面是哪一個
-
+	static int show = 1;				// 是否顯示遊戲說明對話框(show:1 unshow:0)
 	static int FS_state = 0;
 	static int SF_state = 0;
 	static int Vsync_state = 1;
@@ -74,57 +74,26 @@ namespace game_framework {
 		CGameStateInit(CGame *g);
 		void OnInit();  								// 遊戲的初值及圖形設定
 		void OnBeginState();							// 設定每次重玩所需的變數
-		void OnKeyDown(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 	protected:
 		void OnMove();
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMovingBitmap logo;								// csie的logo
-
 		CMovingBitmap scr_start;
-		CMovingBitmap scr_load;
+		CMovingBitmap scr_gie;
 		CMovingBitmap scr_preferences;
 		CMovingBitmap scr_about;
 		CMovingBitmap scr_exit;
+		CMovingBitmap gameInstruction;
+		CMovingBitmap close;
 
 		POINT p;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-	// 每個Member function的Implementation都要弄懂
+	// 這個class為遊戲的第一關執行物件
 	/////////////////////////////////////////////////////////////////////////////
-	/*
-	class CGameStateRun : public CGameState {
-	public:
-		CGameStateRun(CGame *g);
-		~CGameStateRun();
-		void OnBeginState();							// 設定每次重玩所需的變數
-		void OnInit();  								// 遊戲的初值及圖形設定
-		void OnKeyDown(UINT, UINT, UINT);
-		void OnKeyUp(UINT, UINT, UINT);
-		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
-		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-
-	protected:
-		void OnMove();									// 移動遊戲元素
-		void OnShow();									// 顯示這個狀態的遊戲畫面
-	private:
-		const int		NUMBALLS;	// 球的總數
-		CMovingBitmap	background;	// 背景圖
-		CMovingBitmap	help;		// 說明圖
-		CBall			*ball;		// 球的陣列
-		CMovingBitmap	corner;		// 角落圖
-		CEraser			eraser;		// 拍子
-		CInteger		hits_left;	// 剩下的撞擊數
-		CBouncingBall   bball;		// 反覆彈跳的球
-		
-	};
-	*/
 
 	class GameStage_1 : public CGameState {
 	public:
@@ -186,16 +155,17 @@ namespace game_framework {
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnMouseMove(UINT nFlags, CPoint point);
-		//void setTemp(int t);
 	protected:
 		void OnShow();
 	private:
 		CMovingBitmap bg;
 		CMovingBitmap scr_resume;
-		CMovingBitmap scr_saveGame;
+		CMovingBitmap scr_gie;
 		CMovingBitmap scr_preferences;
 		CMovingBitmap scr_quitToMenu;
 		CMovingBitmap scr_exit;
+		CMovingBitmap gameInstruction;
+		CMovingBitmap close;
 		POINT p;
 	};
 
@@ -213,7 +183,8 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		int counter;	// 倒數之計數器
+		CMovingBitmap over;
+		int counter;									// 倒數之計數器
 	};
 	////////////////////////////////////////////////////////////////////////////
 	//Prefences畫面
@@ -241,11 +212,9 @@ namespace game_framework {
 		CMovingBitmap scr_SF_no;		// Show FPS NO
 		CMovingBitmap scr_Vsync_yes;	// Vsync YES
 		CMovingBitmap scr_Vsync_no;		// Vsync NO
-
-		int FS_ori_state;
-		int SF_ori_state;
-		int Vsync_ori_state;
-
+		int FS_ori_state;				// Fullscreen 原狀態
+		int SF_ori_state;				// Show FPS 原狀態
+		int Vsync_ori_state;			// Vsync 原狀態
 		POINT p;
 	};
 
@@ -263,8 +232,8 @@ namespace game_framework {
 		void OnShow();
 	private:
 		CMovingBitmap bg;
+		CMovingBitmap aboutForm;
 		CMovingBitmap scr_back;
-
 		POINT p;
 	};
 }

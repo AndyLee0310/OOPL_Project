@@ -84,12 +84,11 @@ void CGameStateInit::OnInit()
 	logo.LoadBitmap(IDB_LOGO, RGB(255, 255, 255));
 
 	scr_start.LoadBitmap(IDB_SCREEN_START, RGB(0, 0, 255));
-	scr_load.LoadBitmapA(IDB_SCREEN_LOAD, RGB(0, 0, 255));
-	scr_preferences.LoadBitmapA(IDB_SCREEN_PREFERENCES, RGB(0, 0, 255));
+	scr_gie.LoadBitmap(IDB_SCREEN_GI, RGB(0, 0, 255));
+	scr_preferences.LoadBitmap(IDB_SCREEN_PREFERENCES, RGB(0, 0, 255));
 	scr_about.LoadBitmap(IDB_SCREEN_ABOUT, RGB(0, 0, 255));
 	scr_exit.LoadBitmapA(IDB_SCREEN_EXIT, RGB(0, 0, 255));
 
-	Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -100,39 +99,34 @@ void CGameStateInit::OnBeginState()
 	form_state = 1;
 }
 
-void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	// const char KEY_ESC = 27;
-	// const char KEY_SPACE = ' ';
-	/*
-	if (nChar == KEY_SPACE)
-		GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
-
-	else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
-		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE,0,0);	// 關閉遊戲
-	*/
-}
-
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
-		p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
-		GotoGameState(GAME_STAGE_1);		// 切換至GAME_STATE_RUN
-	}else if (p.x > scr_load.Left() && p.x < scr_load.Left() + scr_load.Width() &&
-			  p.y > scr_load.Top() && p.y < scr_load.Top() + scr_load.Height()) {
-		//Load Game
-	}else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
-			  p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
-		//Preferences
-		GotoGameState(GAME_PREFENCES);
-	}else if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
-			  p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
-		//About
-		GotoGameState(GAME_ABOUT);
-	}
-	else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
-		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
-		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+	if (show == 1) {
+		if (p.x > close.Left() && p.x < close.Left() + close.Width() &&
+			p.y > close.Top() && p.y < close.Top() + close.Height()) {
+			show = 0;
+		}
+	} else {
+		if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
+			p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
+			GotoGameState(GAME_STAGE_1);		// 切換至第一關
+		}
+		else if (p.x > scr_gie.Left() && p.x < scr_gie.Left() + scr_gie.Width() &&
+			p.y > scr_gie.Top() && p.y < scr_gie.Top() + scr_gie.Height()) {
+			show = 1;							// 顯示遊戲說明
+		}
+		else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
+			p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
+			GotoGameState(GAME_PREFENCES);		// 切換至Prefences畫面
+		}
+		else if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
+			p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
+			GotoGameState(GAME_ABOUT);			// 切換至About畫面
+		}
+		else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
+			p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+		}
 	}
 }
 
@@ -141,7 +135,6 @@ void CGameStateInit::OnMove()
 	GetCursorPos(&p);
 	ScreenToClient(AfxGetMainWnd()->m_hWnd, &p);	// 把螢幕座標轉換為視窗座標，並讀取出來
 	//TRACE("mouse:: x: %d, y: %d\n", p.x, p.y);
-	//TRACE("image:: x: %d-%d, y: %d-%d\n", scr_start.Left(), scr_start.Left() + scr_start.Width(), scr_start.Top(), scr_start.Top() + scr_start.Height());
 }
 
 void CGameStateInit::OnShow()
@@ -160,90 +153,74 @@ void CGameStateInit::OnShow()
 	//
 	logo.SetTopLeft((SIZE_X - logo.Width())/2, SIZE_Y/8);
 	logo.ShowBitmap();
-	//
-	// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
-	//
-
 	//Screen_Start
 	if (p.x > scr_start.Left() && p.x < scr_start.Left() + scr_start.Width() &&
 		p.y > scr_start.Top() && p.y < scr_start.Top() + scr_start.Height()) {
-		CMovingBitmap scr_about_red;
-		scr_about_red.LoadBitmap(IDB_SCREEN_START_RED, RGB(0, 0, 255));
-		scr_about_red.SetTopLeft((SIZE_X - scr_about_red.Width()) / 2, SIZE_Y / 2);
-		scr_about_red.ShowBitmap();
+		CMovingBitmap scr_start_red;
+		scr_start_red.LoadBitmap(IDB_SCREEN_START_RED, RGB(0, 0, 255));
+		scr_start_red.SetTopLeft((SIZE_X - scr_start_red.Width()) / 2, SIZE_Y / 2);
+		scr_start_red.ShowBitmap();
 	} else {
 		scr_start.SetTopLeft((SIZE_X - scr_start.Width()) / 2, SIZE_Y / 2);
 		scr_start.ShowBitmap();
 	}
-	
-
-	//Screen_Load
-	if (p.x > scr_load.Left() && p.x < scr_load.Left() + scr_load.Width() &&
-		p.y > scr_load.Top() && p.y < scr_load.Top() + scr_load.Height()) {
-		CMovingBitmap scr_load_red;
-		scr_load_red.LoadBitmap(IDB_SCREEN_LOAD_RED, RGB(0, 0, 255));
-		scr_load_red.SetTopLeft((SIZE_X - scr_load_red.Width()) / 2, SIZE_Y / 2 + scr_start.Height());
-		scr_load_red.ShowBitmap();
+	//Screen_Game_Instructions
+	if (p.x > scr_gie.Left() && p.x < scr_gie.Left() + scr_gie.Width() &&
+		p.y > scr_gie.Top() && p.y < scr_gie.Top() + scr_gie.Height()) {
+		CMovingBitmap scr_gie_red;
+		scr_gie_red.LoadBitmap(IDB_SCREEN_GI_RED, RGB(0, 0, 255));
+		scr_gie_red.SetTopLeft((SIZE_X - scr_gie_red.Width()) / 2, SIZE_Y / 2 + scr_start.Height());
+		scr_gie_red.ShowBitmap();
 	}
 	else {
-		scr_load.SetTopLeft((SIZE_X - scr_load.Width()) / 2, SIZE_Y / 2 + scr_load.Height());
-		scr_load.ShowBitmap();
+		scr_gie.SetTopLeft((SIZE_X - scr_gie.Width()) / 2, SIZE_Y / 2 + scr_gie.Height());
+		scr_gie.ShowBitmap();
 	}
-
 	//Screen_Preferences
 	if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
 		p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
 		CMovingBitmap scr_preferences_red;
 		scr_preferences_red.LoadBitmap(IDB_SCREEN_PREFERENCES_RED, RGB(0, 0, 255));
-		scr_preferences_red.SetTopLeft((SIZE_X - scr_preferences_red.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height());
+		scr_preferences_red.SetTopLeft((SIZE_X - scr_preferences_red.Width()) / 2, SIZE_Y / 2 + scr_gie.Height() + scr_preferences.Height());
 		scr_preferences_red.ShowBitmap();
 	}
 	else {
-		scr_preferences.SetTopLeft((SIZE_X - scr_preferences.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height());
+		scr_preferences.SetTopLeft((SIZE_X - scr_preferences.Width()) / 2, SIZE_Y / 2 + scr_gie.Height() + scr_preferences.Height());
 		scr_preferences.ShowBitmap();
 	}
-	
 	//Screen_about
 	if (p.x > scr_about.Left() && p.x < scr_about.Left() + scr_about.Width() &&
 		p.y > scr_about.Top() && p.y < scr_about.Top() + scr_about.Height()) {
 		CMovingBitmap scr_about_red;
 		scr_about_red.LoadBitmap(IDB_SCREEN_ABOUT_RED, RGB(0, 0, 255));
-		scr_about_red.SetTopLeft((SIZE_X - scr_about_red.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height());
+		scr_about_red.SetTopLeft((SIZE_X - scr_about_red.Width()) / 2, SIZE_Y / 2 + scr_gie.Height() + scr_preferences.Height() + scr_about.Height());
 		scr_about_red.ShowBitmap();
 	}
 	else {
-		scr_about.SetTopLeft((SIZE_X - scr_about.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height());
+		scr_about.SetTopLeft((SIZE_X - scr_about.Width()) / 2, SIZE_Y / 2 + scr_gie.Height() + scr_preferences.Height() + scr_about.Height());
 		scr_about.ShowBitmap();
 	}
-
 	//Screen_Exit
 	if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
 		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
 		CMovingBitmap scr_exit_red;
 		scr_exit_red.LoadBitmap(IDB_SCREEN_EXIT_RED, RGB(0, 0, 255));
-		scr_exit_red.SetTopLeft((SIZE_X - scr_exit_red.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height() + scr_exit.Height());
+		scr_exit_red.SetTopLeft((SIZE_X - scr_exit_red.Width()) / 2, SIZE_Y / 2 + scr_gie.Height() + scr_preferences.Height() + scr_about.Height() + scr_exit.Height());
 		scr_exit_red.ShowBitmap();
 	}
 	else {
-		scr_exit.SetTopLeft((SIZE_X - scr_exit.Width()) / 2, SIZE_Y / 2 + scr_load.Height() + scr_preferences.Height() + scr_about.Height() + scr_exit.Height());
+		scr_exit.SetTopLeft((SIZE_X - scr_exit.Width()) / 2, SIZE_Y / 2 + scr_gie.Height() + scr_preferences.Height() + scr_about.Height() + scr_exit.Height());
 		scr_exit.ShowBitmap();
 	}
-
-
-	int width = GetSystemMetrics(SM_CXSCREEN);
-	int height = GetSystemMetrics(SM_CYSCREEN);
-	
-	CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-	CFont f, * fp;
-	f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-	fp = pDC->SelectObject(&f);					// 選用 font f
-	pDC->SetBkMode(TRANSPARENT);
-	pDC->SetBkColor(RGB(0, 0, 255));
-	pDC->SetTextColor(RGB(255, 255, 0));
-	pDC->TextOut(5, 455, "test");
-	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-
+	// 顯示遊戲說明
+	if (show == 1) {
+		gameInstruction.LoadBitmap(IDB_SCR_GAMEINFO);
+		close.LoadBitmap(IDB_CLOSE);
+		gameInstruction.SetTopLeft((SIZE_X - gameInstruction.Width()) / 2, (SIZE_Y - gameInstruction.Height()) / 2);
+		close.SetTopLeft((SIZE_X - gameInstruction.Width()) / 2 + (gameInstruction.Width() - close.Width()), (SIZE_Y - gameInstruction.Height()) / 2);
+		gameInstruction.ShowBitmap();
+		close.ShowBitmap();
+	}
 }								
 
 //////////////////////////////////////////////////////////////////////////////
@@ -258,7 +235,7 @@ CGamestatePause::CGamestatePause(CGame* g)
 void CGamestatePause::OnInit()
 {
 	scr_resume.LoadBitmap(IDB_SCREEN_RESUME, RGB(0, 0, 255));
-	scr_saveGame.LoadBitmapA(IDB_SCREEN_SAVE_GAME, RGB(0, 0, 255));
+	scr_gie.LoadBitmapA(IDB_SCREEN_GI, RGB(0, 0, 255));
 	scr_preferences.LoadBitmapA(IDB_SCREEN_PREFERENCES, RGB(0, 0, 255));
 	scr_quitToMenu.LoadBitmap(IDB_SCREEN_QUIT_TO_MENU, RGB(0, 0, 255));
 	scr_exit.LoadBitmapA(IDB_SCREEN_EXIT, RGB(0, 0, 255));
@@ -271,29 +248,35 @@ void CGamestatePause::OnBeginState()
 
 void CGamestatePause::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (p.x > scr_resume.Left() && p.x < scr_resume.Left() + scr_resume.Width() &&
-		p.y > scr_resume.Top() && p.y < scr_resume.Top() + scr_resume.Height()) {
-		//Resume
-		CAudio::Instance()->Resume();
-		game_framework::CGame::Instance()->ContiuneState(game_framework::CGame::Instance()->getState());
-		game_framework::CGame::Instance()->SaveState(nullptr);		// clean savestate
+	if (show == 1) {
+		if (p.x > close.Left() && p.x < close.Left() + close.Width() &&
+			p.y > close.Top() && p.y < close.Top() + close.Height()) {
+			show = 0;
+		}
 	}
-	else if (p.x > scr_saveGame.Left() && p.x < scr_saveGame.Left() + scr_saveGame.Width() &&
-		p.y > scr_saveGame.Top() && p.y < scr_saveGame.Top() + scr_saveGame.Height()) {
-		//Save Game
-	}
-	else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
-		p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
-		//Preferences
-		GotoGameState(GAME_PREFENCES);
-	}
-	else if (p.x > scr_quitToMenu.Left() && p.x < scr_quitToMenu.Left() + scr_quitToMenu.Width() &&
-		p.y > scr_quitToMenu.Top() && p.y < scr_quitToMenu.Top() + scr_quitToMenu.Height()) {
-		GotoGameState(GAME_STATE_INIT);
-	}
-	else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
-		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
-		PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+	else {
+		if (p.x > scr_resume.Left() && p.x < scr_resume.Left() + scr_resume.Width() &&
+			p.y > scr_resume.Top() && p.y < scr_resume.Top() + scr_resume.Height()) {
+			//Resume
+			game_framework::CGame::Instance()->ContiuneState(game_framework::CGame::Instance()->getState());
+			game_framework::CGame::Instance()->SaveState(nullptr);		// clean savestate
+		}
+		else if (p.x > scr_gie.Left() && p.x < scr_gie.Left() + scr_gie.Width() &&
+			p.y > scr_gie.Top() && p.y < scr_gie.Top() + scr_gie.Height()) {
+			show = 1;
+		}
+		else if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
+			p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
+			GotoGameState(GAME_PREFENCES);
+		}
+		else if (p.x > scr_quitToMenu.Left() && p.x < scr_quitToMenu.Left() + scr_quitToMenu.Width() &&
+			p.y > scr_quitToMenu.Top() && p.y < scr_quitToMenu.Top() + scr_quitToMenu.Height()) {
+			GotoGameState(GAME_STATE_INIT);
+		}
+		else if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
+			p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+		}
 	}
 }
 
@@ -302,7 +285,6 @@ void CGamestatePause::OnMouseMove(UINT nFlags, CPoint point)
 	GetCursorPos(&p);
 	ScreenToClient(AfxGetMainWnd()->m_hWnd, &p);	// 把螢幕座標轉換為視窗座標，並讀取出來
 	//TRACE("mouse:: x: %d, y: %d\n", p.x, p.y);
-	//TRACE("image:: x: %d-%d, y: %d-%d\n", scr_start.Left(), scr_start.Left() + scr_start.Width(), scr_start.Top(), scr_start.Top() + scr_start.Height());
 }
 
 void CGamestatePause::OnShow()
@@ -315,7 +297,6 @@ void CGamestatePause::OnShow()
 			bg.ShowBitmap();
 		}
 	}
-
 	//Resume
 	if (p.x > scr_resume.Left() && p.x < scr_resume.Left() + scr_resume.Width() &&
 		p.y > scr_resume.Top() && p.y < scr_resume.Top() + scr_resume.Height()) {
@@ -328,21 +309,18 @@ void CGamestatePause::OnShow()
 		scr_resume.SetTopLeft((SIZE_X - scr_resume.Width()) / 2, SIZE_Y * 25 / 100);
 		scr_resume.ShowBitmap();
 	}
-
-
-	//Save Game
-	if (p.x > scr_saveGame.Left() && p.x < scr_saveGame.Left() + scr_saveGame.Width() &&
-		p.y > scr_saveGame.Top() && p.y < scr_saveGame.Top() + scr_saveGame.Height()) {
-		CMovingBitmap scr_saveGame_red;
-		scr_saveGame_red.LoadBitmap(IDB_SCREEN_SAVE_GAME_RED, RGB(0, 0, 255));
-		scr_saveGame_red.SetTopLeft((SIZE_X - scr_saveGame_red.Width()) / 2, SIZE_Y * 35 / 100);
-		scr_saveGame_red.ShowBitmap();
+	//Game Instruction
+	if (p.x > scr_gie.Left() && p.x < scr_gie.Left() + scr_gie.Width() &&
+		p.y > scr_gie.Top() && p.y < scr_gie.Top() + scr_gie.Height()) {
+		CMovingBitmap scr_gie_red;
+		scr_gie_red.LoadBitmap(IDB_SCREEN_GI_RED, RGB(0, 0, 255));
+		scr_gie_red.SetTopLeft((SIZE_X - scr_gie_red.Width()) / 2, SIZE_Y * 35 / 100);
+		scr_gie_red.ShowBitmap();
 	}
 	else {
-		scr_saveGame.SetTopLeft((SIZE_X - scr_saveGame.Width()) / 2, SIZE_Y * 35 / 100);
-		scr_saveGame.ShowBitmap();
+		scr_gie.SetTopLeft((SIZE_X - scr_gie.Width()) / 2, SIZE_Y * 35 / 100);
+		scr_gie.ShowBitmap();
 	}
-
 	//Preferences
 	if (p.x > scr_preferences.Left() && p.x < scr_preferences.Left() + scr_preferences.Width() &&
 		p.y > scr_preferences.Top() && p.y < scr_preferences.Top() + scr_preferences.Height()) {
@@ -355,7 +333,6 @@ void CGamestatePause::OnShow()
 		scr_preferences.SetTopLeft((SIZE_X - scr_preferences.Width()) / 2, SIZE_Y * 45 / 100);
 		scr_preferences.ShowBitmap();
 	}
-
 	//Quit to Menu
 	if (p.x > scr_quitToMenu.Left() && p.x < scr_quitToMenu.Left() + scr_quitToMenu.Width() &&
 		p.y > scr_quitToMenu.Top() && p.y < scr_quitToMenu.Top() + scr_quitToMenu.Height()) {
@@ -368,7 +345,6 @@ void CGamestatePause::OnShow()
 		scr_quitToMenu.SetTopLeft((SIZE_X - scr_quitToMenu.Width()) / 2, SIZE_Y * 55 / 100);
 		scr_quitToMenu.ShowBitmap();
 	}
-
 	//Screen_Exit
 	if (p.x > scr_exit.Left() && p.x < scr_exit.Left() + scr_exit.Width() &&
 		p.y > scr_exit.Top() && p.y < scr_exit.Top() + scr_exit.Height()) {
@@ -380,6 +356,15 @@ void CGamestatePause::OnShow()
 	else {
 		scr_exit.SetTopLeft((SIZE_X - scr_exit.Width()) / 2, SIZE_Y * 70 / 100);
 		scr_exit.ShowBitmap();
+	}
+	// 顯示遊戲說明
+	if (show == 1) {
+		gameInstruction.LoadBitmap(IDB_SCR_GAMEINFO);
+		close.LoadBitmap(IDB_CLOSE);
+		gameInstruction.SetTopLeft((SIZE_X - gameInstruction.Width()) / 2, (SIZE_Y - gameInstruction.Height()) / 2);
+		close.SetTopLeft((SIZE_X - gameInstruction.Width()) / 2 + (gameInstruction.Width() - close.Width()), (SIZE_Y - gameInstruction.Height()) / 2);
+		gameInstruction.ShowBitmap();
+		close.ShowBitmap();
 	}
 }
 
@@ -402,6 +387,7 @@ void CGameStateOver::OnMove()
 void CGameStateOver::OnBeginState()
 {
 	counter = 30 * 5; // 5 seconds
+	over.LoadBitmap(IDB_SCREEN_GAMEOVER, RGB(255, 255, 255));
 }
 
 void CGameStateOver::OnInit()
@@ -414,7 +400,7 @@ void CGameStateOver::OnInit()
 	//
 	// 開始載入資料
 	//
-	Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//
 	//
 	// 最終進度為100%
 	//
@@ -423,21 +409,35 @@ void CGameStateOver::OnInit()
 
 void CGameStateOver::OnShow()
 {
+	over.SetTopLeft((SIZE_X - over.Width()) / 2, SIZE_Y * 25 / 100);
+	over.ShowBitmap();
 	CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 	CFont f, * fp;
-	f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	f.CreatePointFont(200, "Times New Roman");	// 產生 font f; 160表示16 point的字
 	fp = pDC->SelectObject(&f);					// 選用 font f
 	pDC->SetBkColor(RGB(0, 0, 0));
 	pDC->SetTextColor(RGB(255, 255, 0));
 	char str[80];								// Demo 數字對字串的轉換
-	sprintf(str, "Game Over ! (%d)", counter / 30);
-	pDC->TextOut(240, 210, str);
+	sprintf(str, "You got %d points in this game!", score);
+	pDC->TextOut(140, SIZE_Y * 40 / 100, str);
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+
+	CDC* pDC1 = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f1, * fp1;
+	f1.CreatePointFont(140, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp1 = pDC1->SelectObject(&f1);					// 選用 font f
+	pDC1->SetBkColor(RGB(0, 0, 0));
+	pDC1->SetTextColor(RGB(255, 255, 255));
+	char str1[80];								// Demo 數字對字串的轉換
+	sprintf(str1, "Wait %d second back to Menu !", counter / 30);
+	pDC1->TextOut(220, SIZE_Y * 50 / 100, str1);
+	pDC1->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// 第一關
+// 這個class為遊戲的第一關
 /////////////////////////////////////////////////////////////////////////////
 GameStage_1::GameStage_1(CGame* g) : CGameState(g)
 {
@@ -553,7 +553,6 @@ void GameStage_1::OnInit() {
 		heart[i].LoadBitmap();
 	}
 
-	// 因撰寫關卡內容須測試，故先將時間倒數註解
 	count_down.SetInteger(60);
 	/*
 	for (int i = 0; i < 7; i++) {
@@ -680,8 +679,8 @@ void GameStage_1::OnShow() {                   // 越後放的顯示會越上層
 	pDC->SetBkColor(RGB(0, 0, 255));
 	pDC->SetTextColor(RGB(255, 255, 255));
 	char str[80];								// Demo 數字對字串的轉換
-	sprintf(str, "*%d", life);
-	pDC->TextOut((panel.Width() * 59 / 100), panel.Height() * 13 / 100, str);
+	sprintf(str, "X %d", life);
+	pDC->TextOut((panel.Width() * 57 / 100), panel.Height() * 13 / 100, str);
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 
@@ -701,6 +700,22 @@ void GameStage_1::OnShow() {                   // 越後放的顯示會越上層
 
 	playerhead_2.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 56 / 100);
 	playerhead_2.ShowBitmap();
+	CDC* pDC2 = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f2, * fp2;
+	f2.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp2 = pDC2->SelectObject(&f2);					// 選用 font f
+	pDC2->SetBkMode(TRANSPARENT);
+	pDC2->SetBkColor(RGB(0, 0, 255));
+	pDC2->SetTextColor(RGB(255, 255, 255));
+	char str2[80];								// Demo 數字對字串的轉換
+	sprintf(str2, "X %d", 0);
+	pDC2->TextOut((panel.Width() * 57 / 100), panel.Height() * 56 / 100, str2);
+	pDC2->SelectObject(fp2);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	CMovingBitmap playerover;
+	playerover.LoadBitmap(IDB_PLAYER_GAMEOVER, RGB(255, 255, 0));
+	playerover.SetTopLeft(panel.Width() * 10 / 100, panel.Height() * 61 / 100);
+	playerover.ShowBitmap();
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 8; j++) {
 			if (i == 0 && j < 4) {
@@ -713,7 +728,6 @@ void GameStage_1::OnShow() {                   // 越後放的顯示會越上層
 			}
 		}
 	}
-
 }
 
 void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -943,6 +957,7 @@ void GameStage_1::HealthState() {
 	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
 	x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
 	y = (y - 32) / 32;
+	// TRACE(" %d\n", character_1.GetDead());
 	if (!character_1.GetDead()) {
 		for (int i = 0; i < 2; i++) {
 			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
@@ -957,7 +972,6 @@ void GameStage_1::HealthState() {
 				blood_vol = blood_vol - 1;
 			}
 		}
-		// player碰到爆炸火花會扣血(不知道為什麼血量明明正常扣減，但是圖片卻沒更正)
 		if (taking_Damage) {
 			// wait two seconds
 			k++;
@@ -972,6 +986,7 @@ void GameStage_1::HealthState() {
 			}
 		}
 	}
+	TRACE("血量剩餘 %d\n", blood_vol);
 	double value = std::fmod(blood_ori, blood_vol);
 	for (int i = 7; i >= 0; i--) {
 		if (heart_num[i] != 0) {
@@ -979,7 +994,6 @@ void GameStage_1::HealthState() {
 				value -= heart_num[i];
 				heart_num[i] = 0;
 				blood_ori = blood_vol;
-				value = 0;
 			}
 			else if (heart_num[i] - value == 1) {
 				heart_num[i] = 1;
@@ -994,226 +1008,6 @@ void GameStage_1::HealthState() {
 		}
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-/////////////////////////////////////////////////////////////////////////////
-/*
-CGameStateRun::CGameStateRun(CGame *g)
-: CGameState(g), NUMBALLS(28)
-{
-	ball = new CBall [NUMBALLS];
-}
-
-CGameStateRun::~CGameStateRun()
-{
-	delete [] ball;
-}
-
-void CGameStateRun::OnBeginState()
-{
-	const int BALL_GAP = 90;
-	const int BALL_XY_OFFSET = 45;
-	const int BALL_PER_ROW = 7;
-	const int HITS_LEFT = 10;
-	const int HITS_LEFT_X = 590;
-	const int HITS_LEFT_Y = 0;
-	const int BACKGROUND_X = 60;
-	const int ANIMATION_SPEED = 15;
-	for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-		int x_pos = i % BALL_PER_ROW;
-		int y_pos = i / BALL_PER_ROW;
-		ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-		ball[i].SetDelay(x_pos);
-		ball[i].SetIsAlive(true);
-	}
-	eraser.Initialize();
-	//background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
-	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
-	hits_left.SetTopLeft(HITS_LEFT_X,HITS_LEFT_Y);		// 指定剩下撞擊數的座標
-	CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-	CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-	CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
-}
-
-void CGameStateRun::OnMove()							// 移動遊戲元素
-{
-	//
-	// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
-	//
-	// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-	//
-
-	// 移動背景圖的座標
-	//
-	if (background.Top() > SIZE_Y)
-		background.SetTopLeft(60 ,-background.Height());
-	background.SetTopLeft(background.Left(),background.Top()+1);
-
-
-	//
-	// 移動球
-	//
-	int i;
-	for (i=0; i < NUMBALLS; i++)
-		ball[i].OnMove();
-	//
-	// 移動擦子
-	//
-	eraser.OnMove();
-	//
-	// 判斷擦子是否碰到球
-	//
-	for (i=0; i < NUMBALLS; i++)
-		if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
-			ball[i].SetIsAlive(false);
-			CAudio::Instance()->Play(AUDIO_DING);
-			hits_left.Add(-1);
-			//
-			// 若剩餘碰撞次數為0，則跳到Game Over狀態
-			//
-			if (hits_left.GetInteger() <= 0) {
-				CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
-				CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-	//
-	// 移動彈跳的球
-	//
-	bball.OnMove();
-}
-
-void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
-{
-	//
-	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-	//
-	ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-	//
-	// 開始載入資料
-	//
-	int i;
-	for (i = 0; i < NUMBALLS; i++)
-		ball[i].LoadBitmap();								// 載入第i個球的圖形
-	eraser.LoadBitmap();
-	background.LoadBitmap(IDB_LOGO);					// 載入背景的圖形
-	//
-	// 完成部分Loading動作，提高進度
-	//
-	ShowInitProgress(50);
-	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-	//
-	// 繼續載入其他資料
-	//
-	help.LoadBitmap(IDB_HELP,RGB(255,255,255));				// 載入說明的圖形
-	corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
-	//corner.ShowBitmap(background);							// 將corner貼到background
-	bball.LoadBitmap();										// 載入圖形
-	hits_left.LoadBitmap();
-	CAudio::Instance()->Load(AUDIO_DING,  "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
-	CAudio::Instance()->Load(AUDIO_LAKE,  "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
-	CAudio::Instance()->Load(AUDIO_NTUT,  "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
-	//
-	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
-	//
-}
-
-
-void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	const char KEY_LEFT  = 0x25; // keyboard左箭頭
-	const char KEY_UP    = 0x26; // keyboard上箭頭
-	const char KEY_RIGHT = 0x27; // keyboard右箭頭
-	const char KEY_DOWN  = 0x28; // keyboard下箭頭
-	const char KEY_ESC	 = 0x1B;
-	const char KEY_P     = 0x50;
-
-	if (nChar == KEY_ESC || nChar == KEY_P) {
-		game_framework::CGame::Instance()->OnFilePause();
-
-	}
-
-	if (nChar == KEY_LEFT)
-		eraser.SetMovingLeft(true);
-	if (nChar == KEY_RIGHT)
-		eraser.SetMovingRight(true);
-	if (nChar == KEY_UP)
-		eraser.SetMovingUp(true);
-	if (nChar == KEY_DOWN)
-		eraser.SetMovingDown(true);
-}
-
-void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	const char KEY_LEFT  = 0x25; // keyboard左箭頭
-	const char KEY_UP    = 0x26; // keyboard上箭頭
-	const char KEY_RIGHT = 0x27; // keyboard右箭頭
-	const char KEY_DOWN  = 0x28; // keyboard下箭頭
-	if (nChar == KEY_LEFT)
-		eraser.SetMovingLeft(false);
-	if (nChar == KEY_RIGHT)
-		eraser.SetMovingRight(false);
-	if (nChar == KEY_UP)
-		eraser.SetMovingUp(false);
-	if (nChar == KEY_DOWN)
-		eraser.SetMovingDown(false);
-}
-
-void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{
-	eraser.SetMovingLeft(true);
-}
-
-void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-	eraser.SetMovingLeft(false);
-}
-
-void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-	// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
-}
-
-void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{
-	eraser.SetMovingRight(true);
-}
-
-void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-	eraser.SetMovingRight(false);
-}
-
-void CGameStateRun::OnShow()
-{
-	//
-	//  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
-	//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
-	//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
-	//
-	//
-	//  貼上背景圖、撞擊數、球、擦子、彈跳的球
-	//
-	background.ShowBitmap();			// 貼上背景圖
-	help.ShowBitmap();					// 貼上說明圖
-	hits_left.ShowBitmap();
-	for (int i=0; i < NUMBALLS; i++)
-		ball[i].OnShow();				// 貼上第i號球
-	bball.OnShow();						// 貼上彈跳的球
-	eraser.OnShow();					// 貼上擦子
-	//
-	//  貼上左上及右下角落的圖
-	//
-	corner.SetTopLeft(0,0);
-	corner.ShowBitmap();
-	corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
-	corner.ShowBitmap();
-
-}
-*/
 
 //////////////////////////////////////////////////////////////////////////////
 //Prefences
@@ -1491,6 +1285,7 @@ GameAbout::GameAbout(CGame* g) : CGameState(g)
 
 void GameAbout::OnInit()
 {
+	aboutForm.LoadBitmap(IDB_SCR_ABOUT, RGB(0, 0, 255));
 	scr_back.LoadBitmap(IDB_SCREEN_BACK, RGB(0, 0, 255));
 }
 
@@ -1515,7 +1310,6 @@ void GameAbout::OnMouseMove(UINT nFlags, CPoint point)
 
 void GameAbout::OnShow()
 {
-	//??I??
 	bg.LoadBitmap(IDB_SCREENBG1, RGB(0, 0, 0));
 	for (int x = 0; x < SIZE_X; x += bg.Width()) {
 		for (int y = 0; y < SIZE_Y; y += bg.Height()) {
@@ -1523,37 +1317,18 @@ void GameAbout::OnShow()
 			bg.ShowBitmap();
 		}
 	}
-
-	CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-	CFont f, * fp;
-	f.CreatePointFont(140, "Times New Roman");	// 產生 font f; 160表示16 point的字
-	fp = pDC->SelectObject(&f);					// 選用 font f
-	pDC->SetBkColor(RGB(0, 0, 255));
-	pDC->SetTextColor(RGB(255, 255, 0));
-	pDC->TextOut(SIZE_X * 30 / 100, SIZE_Y * 15 / 100, "Lifish - (c) 2018 Giacomo Parolini");
-	pDC->TextOut(SIZE_X * 29 / 100, SIZE_Y * 22 / 100, "Lifish is free software, licnsed under");
-	pDC->TextOut(SIZE_X * 40 / 100, SIZE_Y * 29 / 100, "the Lifish License");
-	pDC->TextOut(SIZE_X * 29 / 100, SIZE_Y * 36 / 100, "(silverweed.github.io/lifish-license.txt)");
-	pDC->TextOut(SIZE_X * 27 / 100, SIZE_Y * 43 / 100, "This game uses the Lifish engine to create");
-	pDC->TextOut(SIZE_X * 27 / 100, SIZE_Y * 50 / 100, "a clone of \"BOOM\" by Federico Filipponi.");
-	pDC->TextOut(SIZE_X * 26 / 100, SIZE_Y * 57 / 100, "Create by Giacomo Parolini, aka silverweed.");
-	pDC->TextOut(SIZE_X * 28 / 100, SIZE_Y * 64 / 100, "Contact: silverweed1991@gmail.com");
-	pDC->TextOut(SIZE_X * 30 / 100, SIZE_Y * 71 / 100, "Code: github.com/silverweed/lifish");
-
-	pDC->TextOut(SIZE_X * 1 / 100, SIZE_Y * 95 / 100, "lifish v.BOOM_1.5 rev.1.5-5-dirty RELEASE (64 bit) by Giacomo Parolini");
-	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-
+	aboutForm.SetTopLeft(0, 0);
+	aboutForm.ShowBitmap();
 	//Back
 	if (p.x > scr_back.Left() && p.x < scr_back.Left() + scr_back.Width() &&
 		p.y > scr_back.Top() && p.y < scr_back.Top() + scr_back.Height()) {
 		CMovingBitmap scr_back_red;
 		scr_back_red.LoadBitmap(IDB_SCREEN_BACK_RED, RGB(0, 0, 255));
-		scr_back_red.SetTopLeft((SIZE_X - scr_back_red.Width()) / 2, SIZE_Y * 80 / 100);
+		scr_back_red.SetTopLeft((SIZE_X - scr_back_red.Width()) / 2, SIZE_Y * 88 / 100);
 		scr_back_red.ShowBitmap();
 	}
 	else {
-		scr_back.SetTopLeft((SIZE_X - scr_back.Width()) / 2, SIZE_Y * 80 / 100);
+		scr_back.SetTopLeft((SIZE_X - scr_back.Width()) / 2, SIZE_Y * 88 / 100);
 		scr_back.ShowBitmap();
 	}
 }

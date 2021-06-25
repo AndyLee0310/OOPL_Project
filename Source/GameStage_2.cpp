@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
@@ -73,17 +73,21 @@ namespace game_framework {
 
 			coin_Ani[i].Initialize(coins_pos[i][1] * 32 + 128, coins_pos[i][0] * 32 + 32);
 		}
-
+		life = 3;
 		int health_reset[8] = { 2, 2, 2, 2, 2, 2, 2, 2 };
 		for (int i = 0; i < 8; i++) {
 			heart_num[i] = health_reset[i];
 		}
-		blood_ori = blood_vol = 16;		//¹w³]¦å¶qÁ`­È¬°8
+		blood_ori = blood_vol = 16;		//é è¨­è¡€é‡ç¸½å€¼ç‚º8
 
-		//¸}¦â¼Æ­È­«¸m
+		//è…³è‰²æ•¸å€¼é‡ç½®
 		character_1.Initialize(128, 32);
 		character_1.LoadMap(bg);
-
+		int Enemy1_num = 1;			// æ•µäºº1çš„æ•¸é‡
+		int Enemy2_num = 1;			// æ•µäºº2çš„æ•¸é‡
+		int Enemy3_num = 1;			// æ•µäºº3çš„æ•¸é‡
+		int Enemy4_num = 1;			// æ•µäºº4çš„æ•¸é‡
+		int Enemy5_num = 1;			// æ•µäºº5çš„æ•¸é‡
 		AI[0].Initialize(7 * 32 + 128, 2 * 32 + 32);
 		AI[1].Initialize(7 * 32 + 128, 4 * 32 + 32);
 		AI[2].Initialize(7 * 32 + 128, 8 * 32 + 32);
@@ -91,6 +95,7 @@ namespace game_framework {
 		for (int i = 0; i < 4; i++) {
 			AI[i].LoadMap(bg);
 		}
+		score = 0;
 		timer = 0;
 		CAudio::Instance()->Play(AUDIO_BGM2, true);
 	}
@@ -124,14 +129,13 @@ namespace game_framework {
 			heart[i].LoadBitmap();
 		}
 
-		// ¦]¼¶¼gÃö¥d¤º®e¶·´ú¸Õ¡A¬G¥ı±N®É¶¡­Ë¼Æµù¸Ñ
 		count_down.SetInteger(60);
 		CAudio::Instance()->Load(AUDIO_BGM2, "sounds\\stage2BGM.mp3");
 	}
 	void GameStage_2::OnMove() {
 		timer++;
 		int second = timer / 30;
-		int min = second / 60;
+		// int min = second / 60;
 		second %= 60;
 		//TRACE("second %d\n", second);
 		//TRACE("min %d\n", min);
@@ -139,7 +143,7 @@ namespace game_framework {
 		if (!(timer % 30))
 			count_down.Add(-1);
 
-		bool nextState = false;               //¤U¤@Ãö ¬°0´N¶i¤U¤@Ãö
+		bool nextState = false;               //ä¸‹ä¸€é—œ ç‚º0å°±é€²ä¸‹ä¸€é—œ
 		for (int i = 0; i < 4; i++) {
 			nextState = nextState | AI[i].Alive();
 		}
@@ -147,7 +151,7 @@ namespace game_framework {
 			int HealthData[2] = { 6, 0 };
 			//game->saveData(HealthData, 2);
 			CAudio::Instance()->Stop(AUDIO_BGM2);
-			//GotoGameState(GAME_STAGE_2);
+			GotoGameState(GAME_STATE_OVER);
 		}
 
 		for (int i = 0; i < block2_num; i++) {
@@ -168,17 +172,51 @@ namespace game_framework {
 		GetCoins();
 
 		HealthState();
-		if (blood_vol == 0) {
+		if (blood_vol > 0) {
+			character_1.SetDead(false);
+		}
+		if (blood_vol == 0 && life != 1) {
+			character_1.SetDead(true);
+			life--;
+			int health_reset[8] = { 2, 2, 2, 2, 2, 2, 2, 2 };
+			for (int i = 0; i < 8; i++) {
+				heart_num[i] = health_reset[i];
+			}
+			blood_ori = blood_vol = 16;		// é è¨­è¡€é‡ç¸½å€¼ç‚º16
+		}
+		else if (blood_vol == 0 && life == 1) {
+			life--;
+			GotoGameState(GAME_STATE_OVER);
+		}
+		if (!(AI[0].Alive()) && Enemy1_num > 0) {
+			score += 100;
+			Enemy1_num--;
+		}
+		if (!(AI[1].Alive()) && Enemy2_num > 0) {
+			score += 100;
+			Enemy2_num--;
+		}
+		if (!(AI[2].Alive()) && Enemy3_num > 0) {
+			score += 100;
+			Enemy3_num--;
+		}
+		if (!(AI[3].Alive()) && Enemy4_num > 0) {
+			score += 100;
+			Enemy4_num--;
+		}
+		if (!(AI[4].Alive()) && Enemy5_num > 0) {
+			score += 100;
+			Enemy5_num--;
 		}
 	}
-	void GameStage_2::OnShow() {                   //¶V«á©ñªºÅã¥Ü·|¶V¤W¼h
+	void GameStage_2::OnShow() {                   //è¶Šå¾Œæ”¾çš„é¡¯ç¤ºæœƒè¶Šä¸Šå±¤
 		panel.SetTopLeft(0, 0);
 		panel.ShowBitmap();
 		border.SetTopLeft(96, 0);
 		border.ShowBitmap();
 		level.SetTopLeft(609, 0);
 		level.ShowBitmap();
-		for (int i = 0; i < 13; i++) {             //¤è¶ôÅã¥Ü    j¬OX¶b i¬OY¶b
+		for (int i = 0; i < 13; i++) {             //æ–¹å¡Šé¡¯ç¤º    jæ˜¯Xè»¸ iæ˜¯Yè»¸
 			for (int j = 0; j < 15; j++) {
 				if (bg[i][j] == 1) {
 					block_1.SetTopLeft(128 + 32 * j, 32 * (i + 1));
@@ -211,37 +249,54 @@ namespace game_framework {
 			AI[i].OnShow();
 		}
 
-	playerhead_1.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 13 / 100);
-	playerhead_1.ShowBitmap();
-	CDC* pDC = CDDraw::GetBackCDC();			// ¨ú±o Back Plain ªº CDC 
-	CFont f, * fp;
-	f.CreatePointFont(160, "Times New Roman");	// ²£¥Í font f; 160ªí¥Ü16 pointªº¦r
-	fp = pDC->SelectObject(&f);					// ¿ï¥Î font f
-	pDC->SetBkMode(TRANSPARENT);
-	pDC->SetBkColor(RGB(0, 0, 255));
-	pDC->SetTextColor(RGB(255, 255, 255));
-	char str[80];								// Demo ¼Æ¦r¹ï¦r¦êªºÂà´«
-	sprintf(str, "*%d", 3);
-	pDC->TextOut((panel.Width() * 59 / 100), panel.Height() * 13 / 100, str);
-	pDC->SelectObject(fp);						// ©ñ±¼ font f (¤d¸U¤£­nº|¤F©ñ±¼)
-	CDDraw::ReleaseBackCDC();					// ©ñ±¼ Back Plain ªº CDC
+		playerhead_1.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 13 / 100);
+		playerhead_1.ShowBitmap();
+		CDC* pDC = CDDraw::GetBackCDC();			// å–å¾— Back Plain çš„ CDC 
+		CFont f, * fp;
+		f.CreatePointFont(160, "Times New Roman");	// ç”¢ç”Ÿ font f; 160è¡¨ç¤º16 pointçš„å­—
+		fp = pDC->SelectObject(&f);					// é¸ç”¨ font f
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetBkColor(RGB(0, 0, 255));
+		pDC->SetTextColor(RGB(255, 255, 255));
+		char str[80];								// Demo æ•¸å­—å°å­—ä¸²çš„è½‰æ›
+		sprintf(str, "X %d", life);
+		pDC->TextOut((panel.Width() * 57 / 100), panel.Height() * 13 / 100, str);
+		pDC->SelectObject(fp);						// æ”¾æ‰ font f (åƒè¬ä¸è¦æ¼äº†æ”¾æ‰)
+		CDDraw::ReleaseBackCDC();					// æ”¾æ‰ Back Plain çš„ CDC
 
-	CDC* pDC1 = CDDraw::GetBackCDC();			// ¨ú±o Back Plain ªº CDC 
-	CFont f1, * fp1;
-	f1.CreatePointFont(140, "Times New Roman");	// ²£¥Í font f; 160ªí¥Ü16 pointªº¦r
-	fp1 = pDC1->SelectObject(&f1);					// ¿ï¥Î font f
-	pDC1->SetBkMode(TRANSPARENT);
-	pDC1->SetBkColor(RGB(0, 0, 255));
-	pDC1->SetTextColor(RGB(255, 255, 255));
-	pDC1->TextOut((panel.Width() * 16 / 100), panel.Height() * 375 / 1000, "SCORE");
-	char str1[80];								// Demo ¼Æ¦r¹ï¦r¦êªºÂà´«
-	sprintf(str1, "%06d", 0);
-	pDC1->TextOut((panel.Width() * 20 / 100), panel.Height() * 41 / 100, str1);
-	pDC1->SelectObject(fp1);						// ©ñ±¼ font f (¤d¸U¤£­nº|¤F©ñ±¼)
-	CDDraw::ReleaseBackCDC();					// ©ñ±¼ Back Plain ªº CDC
+		CDC* pDC1 = CDDraw::GetBackCDC();			// å–å¾— Back Plain çš„ CDC 
+		CFont f1, * fp1;
+		f1.CreatePointFont(140, "Times New Roman");	// ç”¢ç”Ÿ font f; 160è¡¨ç¤º16 pointçš„å­—
+		fp1 = pDC1->SelectObject(&f1);					// é¸ç”¨ font f
+		pDC1->SetBkMode(TRANSPARENT);
+		pDC1->SetBkColor(RGB(0, 0, 255));
+		pDC1->SetTextColor(RGB(255, 255, 255));
+		pDC1->TextOut((panel.Width() * 16 / 100), panel.Height() * 375 / 1000, "SCORE");
+		char str1[80];								// Demo æ•¸å­—å°å­—ä¸²çš„è½‰æ›
+		sprintf(str1, "%06d", score);
+		pDC1->TextOut((panel.Width() * 20 / 100), panel.Height() * 41 / 100, str1);
+		pDC1->SelectObject(fp1);						// æ”¾æ‰ font f (åƒè¬ä¸è¦æ¼äº†æ”¾æ‰)
+		CDDraw::ReleaseBackCDC();					// æ”¾æ‰ Back Plain çš„ CDC
 
 		playerhead_2.SetTopLeft((panel.Width() * 16 / 100), panel.Height() * 56 / 100);
 		playerhead_2.ShowBitmap();
+		CDC* pDC2 = CDDraw::GetBackCDC();			// å–å¾— Back Plain çš„ CDC 
+		CFont f2, * fp2;
+		f2.CreatePointFont(160, "Times New Roman");	// ç”¢ç”Ÿ font f; 160è¡¨ç¤º16 pointçš„å­—
+		fp2 = pDC2->SelectObject(&f2);					// é¸ç”¨ font f
+		pDC2->SetBkMode(TRANSPARENT);
+		pDC2->SetBkColor(RGB(0, 0, 255));
+		pDC2->SetTextColor(RGB(255, 255, 255));
+		char str2[80];								// Demo æ•¸å­—å°å­—ä¸²çš„è½‰æ›
+		sprintf(str2, "X %d", 0);
+		pDC2->TextOut((panel.Width() * 57 / 100), panel.Height() * 56 / 100, str2);
+		pDC2->SelectObject(fp2);						// æ”¾æ‰ font f (åƒè¬ä¸è¦æ¼äº†æ”¾æ‰)
+		CDDraw::ReleaseBackCDC();					// æ”¾æ‰ Back Plain çš„ CDC
+		CMovingBitmap playerover;
+		playerover.LoadBitmap(IDB_PLAYER_GAMEOVER, RGB(255, 255, 0));
+		playerover.SetTopLeft(panel.Width() * 10 / 100, panel.Height() * 61 / 100);
+		playerover.ShowBitmap();
+
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (i == 0 && j < 4) {
@@ -259,10 +314,10 @@ namespace game_framework {
 
 	void GameStage_2::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25;  // keyboard¥ª½bÀY
-		const char KEY_UP = 0x26;    // keyboard¤W½bÀY
-		const char KEY_RIGHT = 0x27; // keyboard¥k½bÀY
-		const char KEY_DOWN = 0x28;  // keyboard¤U½bÀY
+		const char KEY_LEFT = 0x25;  // keyboardå·¦ç®­é ­
+		const char KEY_UP = 0x26;    // keyboardä¸Šç®­é ­
+		const char KEY_RIGHT = 0x27; // keyboardå³ç®­é ­
+		const char KEY_DOWN = 0x28;  // keyboardä¸‹ç®­é ­
 		const char KEY_ESC = 0x1B;
 		const char KEY_P = 0x50;
 		const char KEY_SPACE = 0x20;
@@ -293,10 +348,10 @@ namespace game_framework {
 
 	void GameStage_2::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25;		// keyboard¥ª½bÀY
-		const char KEY_UP = 0x26;		// keyboard¤W½bÀY
-		const char KEY_RIGHT = 0x27;	// keyboard¥k½bÀY
-		const char KEY_DOWN = 0x28;		// keyboard¤U½bÀY
+		const char KEY_LEFT = 0x25;		// keyboardå·¦ç®­é ­
+		const char KEY_UP = 0x26;		// keyboardä¸Šç®­é ­
+		const char KEY_RIGHT = 0x27;	// keyboardå³ç®­é ­
+		const char KEY_DOWN = 0x28;		// keyboardä¸‹ç®­é ­
 		if (nChar == KEY_LEFT)
 			character_1.SetMovingLeft(false);
 		if (nChar == KEY_RIGHT)
@@ -309,9 +364,9 @@ namespace game_framework {
 
 	void GameStage_2::setBomb(int id) {
 		if (id == 1) {                                                  //[y][x]
-			int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //¸}¦â¤¤¤ßÂI
-			int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //¸}¦â¤¤¤ßÂI
-			x = (x - 128) / 32;                                         //Âà´«¦¨13*15¦a¹Ï¼Ò¦¡
+			int x = (character_1.GetX1() + character_1.GetX2()) / 2;    //è…³è‰²ä¸­å¿ƒé»
+			int y = (character_1.GetY1() + character_1.GetY2()) / 2;    //è…³è‰²ä¸­å¿ƒé»
+			x = (x - 128) / 32;                                         //è½‰æ›æˆ13*15åœ°åœ–æ¨¡å¼
 			y = (y - 32) / 32;
 			if (bg[y][x] == 0) {
 				for (int i = 0; i < 7; i++) {
@@ -347,7 +402,7 @@ namespace game_framework {
 				int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
 				if (bg[ny][nx] != 4)mapChange(nx, ny, 4);            // 
 			}
-			if (Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {  //Ãz¬µ¤¤ªº¬µ¼u¦ì¸m­«³]¦¨¥i¦æ¨«
+			if (Bomb_ch1[i].getActive() && Bomb_ch1[i].getExp()) {  //çˆ†ç‚¸ä¸­çš„ç‚¸å½ˆä½ç½®é‡è¨­æˆå¯è¡Œèµ°
 				int nx = (Bomb_ch1[i].getTop_Bomb() - 128) / 32;
 				int ny = (Bomb_ch1[i].getLeft_Bomb() - 32) / 32;
 				mapChange(nx, ny, 5);
@@ -384,6 +439,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y - j && block_2_pos[k][1] == x) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -399,6 +455,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y + j && block_2_pos[k][1] == x) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -414,6 +471,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y && block_2_pos[k][1] == x + j) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -440,18 +498,16 @@ namespace game_framework {
 		}
 	}
 	void GameStage_2::GetCoins() {
-		//§ä¥X¸}¦â©Ò¦b¦ì¸m(x,y)
-		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // ¸}¦â¤¤¤ßÂI
-		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // ¸}¦â¤¤¤ßÂI
-		x = (x - 128) / 32;                                         // Âà´«¦¨13*15¦a¹Ï¼Ò¦¡
+		//æ‰¾å‡ºè…³è‰²æ‰€åœ¨ä½ç½®(x,y)
+		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // è…³è‰²ä¸­å¿ƒé»
+		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // è…³è‰²ä¸­å¿ƒé»
+		x = (x - 128) / 32;                                         // è½‰æ›æˆ13*15åœ°åœ–æ¨¡å¼
 		y = (y - 32) / 32;
 		for (int i = 0; i < coins_num; i++) {
 			coin_Ani[i].OnMove();
 			if (x == coins_pos[i][1] && y == coins_pos[i][0] && !coin_Ani[i].getActive() && !coin_Ani[i].getExp()) {
 				coin_Ani[i].setActive();
-				/*¦Y±¼ªºµw¹ô+1*/
-				sc++;
-				TRACE("you get %d coins\n", sc);
+				score += 150;
 			}
 		}
 
@@ -472,25 +528,26 @@ namespace game_framework {
 			}
 		}
 
-		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // ¸}¦â¤¤¤ßÂI
-		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // ¸}¦â¤¤¤ßÂI
-		x = (x - 128) / 32;                                         // Âà´«¦¨13*15¦a¹Ï¼Ò¦¡
+		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // è…³è‰²ä¸­å¿ƒé»
+		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // è…³è‰²ä¸­å¿ƒé»
+		x = (x - 128) / 32;                                         // è½‰æ›æˆ13*15åœ°åœ–æ¨¡å¼
 		y = (y - 32) / 32;
 		if (!character_1.GetDead()) {
-			for (int i = 0; i < 2; i++) {
-				int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // ¼Ä¤H¤¤¤ßÂI
-				int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // ¼Ä¤H¤¤¤ßÂI
-				x1 = (x1 - 128) / 32;							 // Âà´«¦¨13*15¦a¹Ï¼Ò¦¡
+			for (int i = 0; i < 4; i++) {
+				int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // æ•µäººä¸­å¿ƒé»
+				int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // æ•µäººä¸­å¿ƒé»
+				x1 = (x1 - 128) / 32;					   //è½‰æ›æˆ13*15åœ°åœ–æ¨¡å¼
 				y1 = (y1 - 32) / 32;
 
 				if (x == x1 && y == y1 && AI[i].Alive()) {
+					TRACE("you touch enemy\n");
 					blood_vol = blood_vol - 1;
 				}
 				if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+					TRACE("bullet hit\n");
 					blood_vol = blood_vol - 1;
 				}
 			}
-			// player¸I¨ìÃz¬µ¤õªá·|¦©¦å(¤£ª¾¹D¬°¤°»ò¦å¶q©ú©ú¥¿±`¦©´î¡A¦ı¬O¹Ï¤ù«o¨S§ó¥¿)
 			if (taking_Damage) {
 				// wait two seconds
 				k++;
@@ -502,10 +559,12 @@ namespace game_framework {
 			else {
 				if (bg[y][x] == 5) {
 					blood_vol = blood_vol - 7;
+					TRACE("u touch fire\n");
 					taking_Damage = true;
 				}
 			}
 		}
+		TRACE("è¡€é‡å‰©é¤˜ %f\n", blood_vol);
 		double value = std::fmod(blood_ori, blood_vol);
 		for (int i = 7; i >= 0; i--) {
 			if (heart_num[i] != 0) {
@@ -513,7 +572,6 @@ namespace game_framework {
 					value -= heart_num[i];
 					heart_num[i] = 0;
 					blood_ori = blood_vol;
-					value = 0;
 				}
 				else if (heart_num[i] - value == 1) {
 					heart_num[i] = 1;

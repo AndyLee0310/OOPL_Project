@@ -344,6 +344,7 @@
     <Image Include="graphics\bitmaps\border1.bmp" />
     <Image Include="graphics\bitmaps\fixed.bmp" />
     <Image Include="graphics\bitmaps\panel.bmp" />
+    <Image Include="RES\about.bmp" />
     <Image Include="RES\boom_logo.bmp" />
     <Image Include="res\character\bitmap20.bmp" />
     <Image Include="RES\Character\bomb_1.bmp" />
@@ -373,7 +374,14 @@
     <Image Include="RES\Character\player1_re_2.bmp" />
     <Image Include="RES\Character\player1_up_1.bmp" />
     <Image Include="RES\Character\player1_up_2.bmp" />
+    <Image Include="RES\Character\player_gameover.bmp" />
     <Image Include="res\character\test2.bmp" />
+    <Image Include="res\game1.ico" />
+    <Image Include="RES\game2.ico" />
+    <Image Include="RES\gameInstruction.bmp" />
+    <Image Include="RES\gameover.bmp" />
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\icon2.ico" />
     <Image Include="res\level_1.bmp" />
     <Image Include="RES\level_2.bmp" />
     <Image Include="RES\Menu\about.bmp" />
@@ -401,6 +409,10 @@
     <Image Include="RES\scr_Menu\boom_logo.bmp" />
     <Image Include="RES\scr_Menu\exit.bmp" />
     <Image Include="RES\scr_Menu\exit_red.bmp" />
+    <Image Include="RES\scr_Menu\Gi.bmp" />
+    <Image Include="RES\scr_Menu\Gie.bmp" />
+    <Image Include="RES\scr_Menu\gie_red.bmp" />
+    <Image Include="RES\scr_Menu\gi_red.bmp" />
     <Image Include="RES\scr_Menu\loadgame.bmp" />
     <Image Include="RES\scr_Menu\loadgame_red.bmp" />
     <Image Include="RES\scr_Menu\preferences.bmp" />
@@ -433,6 +445,7 @@
     <Image Include="RES\scr_Prefences\yes_red.bmp" />
     <Image Include="RES\Stage_1\bg1.bmp" />
     <Image Include="res\stage_1\bitmap25.bmp" />
+    <Image Include="res\stage_1\bitmap29.bmp" />
     <Image Include="RES\Stage_1\border1.bmp" />
     <Image Include="RES\Stage_1\breakable_0.bmp" />
     <Image Include="RES\Stage_1\breakable_1.bmp" />
