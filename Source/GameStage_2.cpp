@@ -459,73 +459,72 @@ namespace game_framework {
 
 	void GameStage_2::HealthState() {
 		for (int i = 0; i < 8; i++) {
-			heart[i].OnMove();
+		heart[i].OnMove();
 
-			if (heart_num[i] == 2) {
-				heart[i].SetDescision(2);
+		if (heart_num[i] == 2) {
+			heart[i].SetDescision(2);
+		}
+		else if (heart_num[i] == 1) {
+			heart[i].SetDescision(1);
+		}
+		else if (heart_num[i] == 0) {
+			heart[i].SetDescision(0);
+		}
+	}
+
+	int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // 腳色中心點
+	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
+	x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
+	y = (y - 32) / 32;
+	if (!character_1.GetDead()) {
+		for (int i = 0; i < 2; i++) {
+			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
+			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
+			x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
+			y1 = (y1 - 32) / 32;
+
+			if (x == x1 && y == y1 && AI[i].Alive()) {
+				blood_vol = blood_vol - 1;
 			}
-			else if (heart_num[i] == 1) {
-				heart[i].SetDescision(1);
-			}
-			else if (heart_num[i] == 0) {
-				heart[i].SetDescision(0);
+			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+				blood_vol = blood_vol - 1;
 			}
 		}
-
-		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // 腳色中心點
-		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
-		x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
-		y = (y - 32) / 32;
-		if (!character_1.GetDead()) {
-			for (int i = 0; i < 2; i++) {
-				int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
-				int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
-				x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
-				y1 = (y1 - 32) / 32;
-
-				if (x == x1 && y == y1 && AI[i].Alive()) {
-					blood_vol = blood_vol - 1;
-				}
-				if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
-					blood_vol = blood_vol - 1;
-				}
+		// player碰到爆炸火花會扣血(不知道為什麼血量明明正常扣減，但是圖片卻沒更正)
+		if (taking_Damage) {
+			// wait two seconds
+			k++;
+			if (k >= 60) {
+				taking_Damage = false;
+				k = 0;
 			}
-			// player碰到爆炸火花會扣血(不知道為什麼血量明明正常扣減，但是圖片卻沒更正)
-			if (taking_Damage) {
-				// wait two seconds
-				k++;
-				if (k >= 60) {
-					taking_Damage = false;
-					k = 0;
-				}
-			}
-			else {
-				if (bg[y][x] == 5) {
-					blood_vol = blood_vol - 7;
-					taking_Damage = true;
-				}
+		} else {
+			if (bg[y][x] == 5) {
+				blood_vol = blood_vol - 7;
+				taking_Damage = true;
 			}
 		}
-		double value = std::fmod(blood_ori, blood_vol);
-		for (int i = 7; i >= 0; i--) {
-			if (heart_num[i] != 0) {
-				if (heart_num[i] - value < 0) {
-					value -= heart_num[i];
-					heart_num[i] = 0;
-					blood_ori = blood_vol;
-					value = 0;
-				}
-				else if (heart_num[i] - value == 1) {
-					heart_num[i] = 1;
-					blood_ori = blood_vol;
-					value = 0;
-				}
-				else if (heart_num[i] - value == 0) {
-					heart_num[i] = 0;
-					blood_ori = blood_vol;
-					value = 0;
-				}
+	}
+	double value = std::fmod(blood_ori, blood_vol);
+	for (int i = 7; i >= 0; i--) {
+		if (heart_num[i] != 0) {
+			if (heart_num[i] - value < 0) {
+				value -= heart_num[i];
+				heart_num[i] = 0;
+				blood_ori = blood_vol;
+				value = 0;
+			}
+			else if (heart_num[i] - value == 1) {
+				heart_num[i] = 1;
+				blood_ori = blood_vol;
+				value = 0;
+			}
+			else if (heart_num[i] - value == 0) {
+				heart_num[i] = 0;
+				blood_ori = blood_vol;
+				value = 0;
 			}
 		}
+	}
 	}
 }
