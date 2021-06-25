@@ -94,7 +94,8 @@ enum AUDIO_ID {				// 定義各種音效的編號
 	AUDIO_MEUM,
 	AUDIO_BGM1,
 	AUDIO_BGM2,
-	AUDIO_BOMB
+	AUDIO_BOMB,
+	AUDIO_OOF
 };
 
 /////////////////////////////////////////////////////////////////////////////
