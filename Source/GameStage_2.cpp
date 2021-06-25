@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -147,7 +148,7 @@ namespace game_framework {
 			int HealthData[2] = { 6, 0 };
 			//game->saveData(HealthData, 2);
 			CAudio::Instance()->Stop(AUDIO_BGM2);
-			//GotoGameState(GAME_STAGE_2);
+			GotoGameState(GAME_STATE_OVER);
 		}
 
 		for (int i = 0; i < block2_num; i++) {
@@ -477,7 +478,7 @@ namespace game_framework {
 	x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
 	y = (y - 32) / 32;
 	if (!character_1.GetDead()) {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
 			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
 			x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式

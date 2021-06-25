@@ -201,9 +201,11 @@ void CMainFrame::SetFullScreen(bool isFull)
 		//
 		SetMenu(pMenu);
 		if (isToolBarVisible)
-			m_wndToolBar.ShowWindow(SW_NORMAL);
+			// m_wndToolBar.ShowWindow(SW_NORMAL);
+			m_wndToolBar.ShowWindow(SW_HIDE);
 		if (isStatusBarVisible)
-			m_wndStatusBar.ShowWindow(SW_NORMAL);
+			// m_wndStatusBar.ShowWindow(SW_NORMAL);
+			m_wndStatusBar.ShowWindow(SW_HIDE);
 		ModifyStyle(0, WS_DLGFRAME);
 		//
 		// Restore window position

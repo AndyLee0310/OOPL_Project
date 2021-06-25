@@ -1,30 +1,28 @@
-#ifndef _STAGE2_
+ï»¿#ifndef _STAGE2_
 #define _STAGE2_
 namespace game_framework {
-
-	
 
 	class GameStage_2 : public CGameState {
 	public:
 		GameStage_2(CGame* g);
 		~GameStage_2();
-		void OnBeginState();							// ³]©w¨C¦¸­«ª±©Ò»İªºÅÜ¼Æ
-		void OnInit();                                  // ¹CÀ¸ªºªì­È¤Î¹Ï§Î³]©w
-		void OnKeyDown(UINT, UINT, UINT);               // Áä½L°Ê§@
+		void OnBeginState();							// è¨­å®šæ¯æ¬¡é‡ç©æ‰€éœ€çš„è®Šæ•¸
+		void OnInit();                                  // éŠæˆ²çš„åˆå€¼åŠåœ–å½¢è¨­å®š
+		void OnKeyDown(UINT, UINT, UINT);               // éµç›¤å‹•ä½œ
 		void OnKeyUp(UINT, UINT, UINT);
 	protected:
-		void OnMove();									// ²¾°Ê¹CÀ¸¤¸¯À
-		void OnShow();									// Åã¥Ü³o­Óª¬ºAªº¹CÀ¸µe­±
+		void OnMove();									// ç§»å‹•éŠæˆ²å…ƒç´ 
+		void OnShow();									// é¡¯ç¤ºé€™å€‹ç‹€æ…‹çš„éŠæˆ²ç•«é¢
 		void setBomb(int);
-		void mapChange(int, int, int);                            // ¦a¹ÏÅÜ°Ê&³qª¾character
+		void mapChange(int, int, int);                            // åœ°åœ–è®Šå‹•&é€šçŸ¥character
 		void BombState();
-		void setBombRange(int, int, int, int);                                    // Ãz¬µ®É³]¸m½d³ò
-		void GetCoins();				//°»´ú¸I¼²ª÷¹ô
+		void setBombRange(int, int, int, int);                                    // çˆ†ç‚¸æ™‚è¨­ç½®ç¯„åœ
+		void GetCoins();				//åµæ¸¬ç¢°æ’é‡‘å¹£
 		void HealthState();
 	private:
 		CMovingBitmap level;
-		int bg[13][15];              //0¦aªO 1¥Û¶ô 2¯»¦â¥Û 4¥¼Ãz¼u 5Ãz¬µ¤¤
-		int coins_pos[9][2];         //µw¹ô¦ì¸m
+		int bg[13][15];              //0åœ°æ¿ 1çŸ³å¡Š 2ç²‰è‰²çŸ³ 4æœªçˆ†å½ˆ 5çˆ†ç‚¸ä¸­
+		int coins_pos[9][2];         //ç¡¬å¹£ä½ç½®
 		CMovingBitmap block_0;
 		CMovingBitmap block_1;
 		Obstacle*     block_2;
@@ -32,24 +30,28 @@ namespace game_framework {
 		CMovingBitmap panel;
 		CMovingBitmap border;
 		Character     character_1;   //Range undone
-		CMovingBitmap character_2;   //Ãş§O¤§«á§ï
+		CMovingBitmap character_2;   //é¡åˆ¥ä¹‹å¾Œæ”¹
+		int Enemy1_num;			// æ•µäºº1çš„æ•¸é‡
+		int Enemy2_num;			// æ•µäºº2çš„æ•¸é‡
+		int Enemy3_num;			// æ•µäºº3çš„æ•¸é‡
+		int Enemy4_num;			// æ•µäºº4çš„æ•¸é‡
+		int Enemy5_num;			// æ•µäºº5çš„æ•¸é‡
 		Enemy* AI;
-		int coins_num;	             //ª÷¹ôÁ`¼Æ
-		int sc;		                 //¬ö¿ı¦Y¨ì´X­Óª÷¹ô
+		int coins_num;	             //é‡‘å¹£ç¸½æ•¸
+		int sc;		                 //ç´€éŒ„åƒåˆ°å¹¾å€‹é‡‘å¹£
 		CoinsAnimation* coin_Ani;
 		Bomb* Bomb_ch1;
-
 		CMovingBitmap playerhead_1;
 		CMovingBitmap playerhead_2;
-
-		int life;
-		int heart_num[8];
-		int blood_ori, blood_vol;
+		double heart_num[8];
+		double blood_ori, blood_vol;
 		Healths* heart;
 		bool taking_Damage;
 		int k = 0;
 		CInteger count_down;
 		int timer;
+		int score;
+		int life;
 	};
 }
 

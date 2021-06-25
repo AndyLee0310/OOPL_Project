@@ -274,8 +274,6 @@ IDB_SCREENBG1           BITMAP                  "..\\RES\\scr_Menu\\screenbg1.bm
 
 IDB_SCREEN_START        BITMAP                  "..\\RES\\scr_Menu\\startgame.bmp"
 
-IDB_SCREEN_LOAD         BITMAP                  "..\\RES\\scr_Menu\\loadgame.bmp"
-
 IDB_SCREEN_PREFERENCES  BITMAP                  "..\\RES\\scr_Menu\\preferences.bmp"
 
 IDB_SCREEN_EXIT         BITMAP                  "..\\RES\\scr_Menu\\exit.bmp"
@@ -283,8 +281,6 @@ IDB_SCREEN_EXIT         BITMAP                  "..\\RES\\scr_Menu\\exit.bmp"
 IDB_SCREEN_ABOUT        BITMAP                  "..\\RES\\scr_Menu\\about.bmp"
 
 IDB_SCREEN_START_RED    BITMAP                  "..\\RES\\scr_Menu\\startgame_red.bmp"
-
-IDB_SCREEN_LOAD_RED     BITMAP                  "..\\RES\\scr_Menu\\loadgame_red.bmp"
 
 IDB_SCREEN_PREFERENCES_RED BITMAP                  "..\\RES\\scr_Menu\\preferences_red.bmp"
 
@@ -345,6 +341,20 @@ IDB_PLAYER1_DEAD_4      BITMAP                  "..\\RES\\Character\\player1_dea
 IDB_LEVEL_1             BITMAP                  "..\\res\\level_1.bmp"
 
 IDB_LEVEL_2             BITMAP                  "..\\RES\\level_2.bmp"
+
+IDB_SCR_ABOUT           BITMAP                  "..\\RES\\about.bmp"
+
+IDB_SCR_GAMEINFO        BITMAP                  "..\\RES\\gameInstruction.bmp"
+
+IDB_CLOSE               BITMAP                  "..\\res\\stage_1\\bitmap29.bmp"
+
+IDB_SCREEN_GI           BITMAP                  "..\\RES\\scr_Menu\\Gi.bmp"
+
+IDB_SCREEN_GI_RED       BITMAP                  "..\\RES\\scr_Menu\\gi_red.bmp"
+
+IDB_PLAYER_GAMEOVER     BITMAP                  "..\\RES\\Character\\player_gameover.bmp"
+
+IDB_SCREEN_GAMEOVER     BITMAP                  "..\\RES\\gameover.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
