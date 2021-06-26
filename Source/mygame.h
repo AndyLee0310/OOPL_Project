@@ -62,7 +62,7 @@ namespace game_framework {
 	static int SF_state = 0;
 	static int Vsync_state = 1;
 
-	static int score;				// 遊戲分數
+	
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -142,6 +142,7 @@ namespace game_framework {
 		int k = 0;
 		CInteger count_down;
 		int timer;
+		int score;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -185,6 +186,7 @@ namespace game_framework {
 	private:
 		CMovingBitmap over;
 		int counter;									// 倒數之計數器
+		int score;
 	};
 	////////////////////////////////////////////////////////////////////////////
 	//Prefences畫面

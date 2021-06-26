@@ -23,7 +23,6 @@ namespace game_framework {
 		DeathAnimateCount = 0;
 		isAlive = true;
 		BulletHit = false;
-		score = 0;
 	}
 	void Enemy::LoadBitmap() {
 

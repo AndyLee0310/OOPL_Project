@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -75,15 +74,22 @@ namespace game_framework {
 			coin_Ani[i].Initialize(coins_pos[i][1] * 32 + 128, coins_pos[i][0] * 32 + 32);
 		}
 
-		int health_reset[8] = { 2, 2, 2, 2, 2, 2, 2, 2 };
-		int health[9];
-		game->loadData(health);
+		int data[3];
+		game->loadData(data, 3);
+		score = data[0];
+		life = data[1];
+		int blood_reset = blood_ori = blood_vol = data[2];		//預設血量總值為8
 		for (int i = 0; i < 8; i++) {
-			heart_num[i] = health_reset[i];
-			// heart_num[i] = health[i];
-			// blood_vol += health[i];
+			if (blood_reset >= 2) {
+				heart_num[i] = 2; 
+				blood_reset -= 2;
+			}
+			else if (blood_reset == 1) {
+				heart_num[i] = 1;
+				blood_reset = 0;
+			}
+			else heart_num[i] = 0;
 		}
-		blood_ori = blood_vol; // = 16;		//預設血量總值為8
 
 		//腳色數值重置
 		character_1.Initialize(128, 32);
@@ -138,8 +144,7 @@ namespace game_framework {
 		int second = timer / 30;
 		int min = second / 60;
 		second %= 60;
-		//TRACE("second %d\n", second);
-		//TRACE("min %d\n", min);
+
 
 		if (!(timer % 30))
 			count_down.Add(-1);
@@ -149,9 +154,9 @@ namespace game_framework {
 			nextState = nextState | AI[i].Alive();
 		}
 		if (!nextState) {
-			int HealthData[2] = { 6, 0 };
-			//game->saveData(HealthData, 2);
 			CAudio::Instance()->Stop(AUDIO_BGM2);
+			int data[1] = {score};
+			game->saveData(data, 1);
 			GotoGameState(GAME_STATE_OVER);
 		}
 
@@ -173,7 +178,33 @@ namespace game_framework {
 		GetCoins();
 
 		HealthState();
-		if (blood_vol == 0) {
+		if (blood_vol > 0) {
+			character_1.SetDead(false);
+		}
+		if (blood_vol == 0 && life != 1) {
+			character_1.SetDead(true);
+			life--;
+			int health_reset[8] = { 2, 2, 2, 2, 2, 2, 2, 2 };
+			for (int i = 0; i < 8; i++) {
+				heart_num[i] = health_reset[i];
+			}
+			blood_ori = blood_vol = 16;		// 預設血量總值為16
+		}
+		else if (blood_vol == 0 && life == 1) {
+			life--;
+			CAudio::Instance()->Stop(AUDIO_BGM2);
+			int data[1] = { score };
+			game->saveData(data, 1);
+			GotoGameState(GAME_STATE_OVER);
+		}
+		// 判斷敵人被殺死後給予得分
+		if (!(AI[0].Alive()) && Enemy1_num > 0) {
+			score += 100;
+			Enemy1_num--;
+		}
+		if (!(AI[1].Alive()) && Enemy2_num > 0) {
+			score += 100;
+			Enemy2_num--;
 		}
 	}
 	void GameStage_2::OnShow() {                   //越後放的顯示會越上層
@@ -226,7 +257,7 @@ namespace game_framework {
 	pDC->SetBkColor(RGB(0, 0, 255));
 	pDC->SetTextColor(RGB(255, 255, 255));
 	char str[80];								// Demo 數字對字串的轉換
-	sprintf(str, "*%d", 3);
+	sprintf(str, "X %d", life);
 	pDC->TextOut((panel.Width() * 59 / 100), panel.Height() * 13 / 100, str);
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
@@ -240,7 +271,7 @@ namespace game_framework {
 	pDC1->SetTextColor(RGB(255, 255, 255));
 	pDC1->TextOut((panel.Width() * 16 / 100), panel.Height() * 375 / 1000, "SCORE");
 	char str1[80];								// Demo 數字對字串的轉換
-	sprintf(str1, "%06d", 0);
+	sprintf(str1, "%06d", score);
 	pDC1->TextOut((panel.Width() * 20 / 100), panel.Height() * 41 / 100, str1);
 	pDC1->SelectObject(fp1);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
@@ -271,7 +302,7 @@ namespace game_framework {
 		const char KEY_ESC = 0x1B;
 		const char KEY_P = 0x50;
 		const char KEY_SPACE = 0x20;
-
+		const char KET_Y = 0x59;
 
 		if (nChar == KEY_ESC || nChar == KEY_P) {
 			game_framework::CGame::Instance()->OnFilePause();
@@ -293,6 +324,12 @@ namespace game_framework {
 		}
 		if (nChar == KEY_SPACE) {
 			setBomb(1);
+		}
+		if (nChar == KET_Y) {
+			CAudio::Instance()->Stop(AUDIO_BGM2);
+			int data[2] = { score};
+			game->saveData(data, 1);
+			GotoGameState(GAME_STATE_OVER);
 		}
 	}
 
@@ -389,6 +426,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y - j && block_2_pos[k][1] == x) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -404,6 +442,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y + j && block_2_pos[k][1] == x) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -419,6 +458,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y && block_2_pos[k][1] == x + j) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -434,6 +474,7 @@ namespace game_framework {
 					for (int k = 0; k < block2_num; k++) {
 						if (block_2_pos[k][0] == y && block_2_pos[k][1] == x - j) {
 							block_2[k].setActive();
+							score += 10;
 							break;
 						}
 					}
@@ -456,7 +497,6 @@ namespace game_framework {
 				coin_Ani[i].setActive();
 				/*吃掉的硬幣+1*/
 				sc++;
-				TRACE("you get %d coins\n", sc);
 			}
 		}
 
@@ -464,72 +504,80 @@ namespace game_framework {
 
 	void GameStage_2::HealthState() {
 		for (int i = 0; i < 8; i++) {
-		heart[i].OnMove();
+			heart[i].OnMove();
 
-		if (heart_num[i] == 2) {
-			heart[i].SetDescision(2);
+			if (heart_num[i] == 2) {
+				heart[i].SetDescision(2);
+			}
+			else if (heart_num[i] == 1) {
+				heart[i].SetDescision(1);
+			}
+			else if (heart_num[i] == 0) {
+				heart[i].SetDescision(0);
+			}
 		}
-		else if (heart_num[i] == 1) {
-			heart[i].SetDescision(1);
-		}
-		else if (heart_num[i] == 0) {
-			heart[i].SetDescision(0);
-		}
-	}
 
-	int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // 腳色中心點
-	int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
-	x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
-	y = (y - 32) / 32;
-	if (!character_1.GetDead()) {
-		for (int i = 0; i < 4; i++) {
-			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
-			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
-			x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
-			y1 = (y1 - 32) / 32;
+		int x = (character_1.GetX1() + character_1.GetX2()) / 2;    // 腳色中心點
+		int y = (character_1.GetY1() + character_1.GetY2()) / 2;    // 腳色中心點
+		x = (x - 128) / 32;                                         // 轉換成13*15地圖模式
+		y = (y - 32) / 32;
+		// TRACE(" %d\n", character_1.GetDead());
+		if (!character_1.GetDead()) {
+			if (taking_Damage) {
+				// wait two seconds
+				k++;
+				if (k == 60) {
+					taking_Damage = false;
+					k = 0;
+				}
+			}
+			else {
+				if (bg[y][x] == 5) {
+					CAudio::Instance()->Play(AUDIO_OOF, false);
+					blood_vol = blood_vol - 1;
+					taking_Damage = true;
+					TRACE("%d %d %d\n", life, blood_vol, blood_ori);
+				}
+				for (int i = 0; i < 4; i++) {
+					int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
+					int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
+					x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
+					y1 = (y1 - 32) / 32;
 
-			if (x == x1 && y == y1 && AI[i].Alive()) {
-				blood_vol = blood_vol - 1;
-			}
-			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
-				blood_vol = blood_vol - 1;
-			}
-		}
-		// player碰到爆炸火花會扣血(不知道為什麼血量明明正常扣減，但是圖片卻沒更正)
-		if (taking_Damage) {
-			// wait two seconds
-			k++;
-			if (k >= 60) {
-				taking_Damage = false;
-				k = 0;
-			}
-		} else {
-			if (bg[y][x] == 5) {
-				blood_vol = blood_vol - 7;
-				taking_Damage = true;
+					if (x == x1 && y == y1 && AI[i].Alive()) {
+						CAudio::Instance()->Play(AUDIO_OOF, false);
+						blood_vol = blood_vol - 1;
+						taking_Damage = true;
+						TRACE("%d %d %d\n", life, blood_vol, blood_ori);
+					}
+					if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+						CAudio::Instance()->Play(AUDIO_OOF, false);
+						blood_vol = blood_vol - 1;
+						taking_Damage = true;
+						TRACE("%d %d %d\n", life, blood_vol, blood_ori);
+					}
+				}
 			}
 		}
-	}
-	double value = std::fmod(blood_ori, blood_vol);
-	for (int i = 7; i >= 0; i--) {
-		if (heart_num[i] != 0) {
-			if (heart_num[i] - value < 0) {
-				value -= heart_num[i];
-				heart_num[i] = 0;
-				blood_ori = blood_vol;
-				value = 0;
-			}
-			else if (heart_num[i] - value == 1) {
-				heart_num[i] = 1;
-				blood_ori = blood_vol;
-				value = 0;
-			}
-			else if (heart_num[i] - value == 0) {
-				heart_num[i] = 0;
-				blood_ori = blood_vol;
-				value = 0;
+		double value = std::fmod(blood_ori, blood_vol);
+		for (int i = 7; i >= 0; i--) {
+			if (heart_num[i] != 0) {
+				if (heart_num[i] - value < 0) {
+					value -= heart_num[i];
+					heart_num[i] = 0;
+					blood_ori = blood_vol;
+				}
+				else if (heart_num[i] - value == 1) {
+					heart_num[i] = 1;
+					blood_ori = blood_vol;
+					value = 0;
+				}
+				else if (heart_num[i] - value == 0) {
+					heart_num[i] = 0;
+					blood_ori = blood_vol;
+					value = 0;
+				}
 			}
 		}
-	}
 	}
 }

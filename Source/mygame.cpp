@@ -97,7 +97,7 @@ void CGameStateInit::OnInit()
 void CGameStateInit::OnBeginState()
 {
 	form_state = 1;
-	CAudio::Instance()->Load(AUDIO_MEUM, "sounds\\meum.mp3");
+	if (!CAudio::Instance()->loadCheck(AUDIO_MEUM))CAudio::Instance()->Load(AUDIO_MEUM, "sounds\\meum.mp3");
 	CAudio::Instance()->Play(AUDIO_MEUM, true);
 }
 
@@ -391,6 +391,9 @@ void CGameStateOver::OnBeginState()
 {
 	counter = 30 * 5; // 5 seconds
 	over.LoadBitmap(IDB_SCREEN_GAMEOVER, RGB(255, 255, 255));
+	int data[1] = {0};
+	game->loadData(data, 1);
+	score = data[0];
 }
 
 void CGameStateOver::OnInit()
@@ -578,15 +581,15 @@ void GameStage_1::OnMove() {
 	if (!(timer % 30))
 		count_down.Add(-1);
 
-	bool nextState = false;               // 下一關 為0就進下一關
+	bool nextState = false; 
 	for (int i = 0; i < 2; i++) {
 		nextState = nextState | AI[i].Alive();
 	}
 	if (!nextState) {
-		int HealthData[2] = { 6, 0 };
-		//game->saveData(HealthData, 2);
-		CAudio::Instance()->Stop(AUDIO_BGM1);
-		game->saveData(heart_num, 8);
+
+		CAudio::Instance()->Stop(AUDIO_BGM2);
+		int data[3] = {score, life, blood_vol };
+		game->saveData(data, 3);
 		GotoGameState(GAME_STAGE_2);
 	}
 
@@ -622,6 +625,9 @@ void GameStage_1::OnMove() {
 	}
 	else if (blood_vol == 0 && life == 1) {
 		life--;
+		CAudio::Instance()->Stop(AUDIO_BGM1);
+		int data[1] = { score };
+		game->saveData(data, 1);
 		GotoGameState(GAME_STATE_OVER);
 	}
 	// 判斷敵人被殺死後給予得分
@@ -771,7 +777,8 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if (nChar == KET_Y) {
 		CAudio::Instance()->Stop(AUDIO_BGM1);
-		game->saveData(heart_num, 8);
+		int data[3] = { score, life, blood_vol };
+		game->saveData(data, 3);
 		GotoGameState(GAME_STAGE_2);
 	}
 }
@@ -965,37 +972,41 @@ void GameStage_1::HealthState() {
 	y = (y - 32) / 32;
 	// TRACE(" %d\n", character_1.GetDead());
 	if (!character_1.GetDead()) {
-		for (int i = 0; i < 2; i++) {
-			int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
-			int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
-			x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
-			y1 = (y1 - 32) / 32;
-
-			if (x == x1 && y == y1 && AI[i].Alive()) {
-				CAudio::Instance()->Play(AUDIO_OOF, false);
-				blood_vol = blood_vol - 1;
-			}
-			if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
-				CAudio::Instance()->Play(AUDIO_OOF, false);
-				blood_vol = blood_vol - 1;
-			}
-		}
 		if (taking_Damage) {
 			// wait two seconds
 			k++;
-			if (k >= 60) {
+			if (k == 60) {
 				taking_Damage = false;
 				k = 0;
 			}
 		} else {
 			if (bg[y][x] == 5) {
 				CAudio::Instance()->Play(AUDIO_OOF, false);
-				blood_vol = blood_vol - 7;
+				blood_vol = blood_vol - 1;
 				taking_Damage = true;
+				TRACE("%d %d %d\n", life, blood_vol, blood_ori);
+			}
+			for (int i = 0; i < 2; i++) {
+				int x1 = (AI[i].GetX1() + AI[i].GetX2()) / 2;    // 敵人中心點
+				int y1 = (AI[i].GetY1() + AI[i].GetY2()) / 2;    // 敵人中心點
+				x1 = (x1 - 128) / 32;							 // 轉換成13*15地圖模式
+				y1 = (y1 - 32) / 32;
+
+				if (x == x1 && y == y1 && AI[i].Alive()) {
+					CAudio::Instance()->Play(AUDIO_OOF, false);
+					blood_vol = blood_vol - 1;
+					taking_Damage = true;
+					TRACE("%d %d %d\n", life, blood_vol, blood_ori);
+				}
+				if (AI[i].BulletHitPlayer() && AI[i].Alive()) {
+					CAudio::Instance()->Play(AUDIO_OOF, false);
+					blood_vol = blood_vol - 1;
+					taking_Damage = true;
+					TRACE("%d %d %d\n", life, blood_vol, blood_ori);
+				}
 			}
 		}
 	}
-	TRACE("血量剩餘 %d\n", blood_vol);
 	double value = std::fmod(blood_ori, blood_vol);
 	for (int i = 7; i >= 0; i--) {
 		if (heart_num[i] != 0) {

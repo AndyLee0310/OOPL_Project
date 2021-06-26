@@ -317,7 +317,7 @@ public:
 	
 	void SetRunning(bool);
 	void saveData(int*, int);						// 儲存資料
-	void loadData(int*);							// 載入資料
+	void loadData(int*, int);   					// 載入資料
 	void SaveState(CGameState*);					// 暫時存取遊戲狀態
 	void ContiuneState(CGameState*);				// 繼續遊戲
 	CGameState* getState();							// 讀取暫存的遊戲狀態

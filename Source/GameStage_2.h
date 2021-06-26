@@ -2,6 +2,8 @@
 #define _STAGE2_
 namespace game_framework {
 
+	//static int score;				// 遊戲分數
+
 	class GameStage_2 : public CGameState {
 	public:
 		GameStage_2(CGame* g);
@@ -35,23 +37,24 @@ namespace game_framework {
 		int Enemy2_num;			// 敵人2的數量
 		int Enemy3_num;			// 敵人3的數量
 		int Enemy4_num;			// 敵人4的數量
-		int Enemy5_num;			// 敵人5的數量
 		Enemy* AI;
 		int coins_num;	             //金幣總數
 		int sc;		                 //紀錄吃到幾個金幣
 		CoinsAnimation* coin_Ani;
 		Bomb* Bomb_ch1;
+
 		CMovingBitmap playerhead_1;
 		CMovingBitmap playerhead_2;
-		double heart_num[8];
-		double blood_ori, blood_vol;
+
+		int life;
+		int heart_num[8];
+		int blood_ori, blood_vol;
 		Healths* heart;
 		bool taking_Damage;
 		int k = 0;
 		CInteger count_down;
 		int timer;
 		int score;
-		int life;
 	};
 }
 

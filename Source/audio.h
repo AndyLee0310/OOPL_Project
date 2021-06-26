@@ -86,6 +86,7 @@ public:
 	static CAudio* Instance();					// 取得CAudio的Instance
 	bool           Load(unsigned, char *);		// 載入編號i的聲音，指定MIDI檔案
 	bool           Open();						// 開啟Direct Sound介面
+	bool           loadCheck(unsigned);         // 確認是否有指定的音檔
 	void		   Pause();						// 暫停播放所有音效
 	void           Play(unsigned, bool=false);	// 開始撥放編號i的聲音，指定是否重覆撥放
 	void		   Resume();					// 復原暫停播放的音效

@@ -730,10 +730,10 @@ void CGame::saveData(int* data, int count) {
 	}
 }
 
-void CGame::loadData(int* data) {
+void CGame::loadData(int* data, int count) {
 	GAME_ASSERT(Data != NULL, "No data saved");
 	GAME_ASSERT(sizeof(Data) == sizeof(data), "load Data error: input data size is not match");
-	for (int i = 0; i < sizeof(Data); i++) {
+	for (int i = 0; i < count; i++) {
 		data[i] = Data[i];
 	}
 }

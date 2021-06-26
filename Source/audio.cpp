@@ -273,6 +273,11 @@ bool CAudio::Open()
 	return isOpened;
 }
 
+bool CAudio::loadCheck(unsigned int id) {
+	map<int, Info>::iterator i = info.find(id);
+	if (i == info.end())return false;
+	return true;
+}
 void CAudio::Pause()
 {
 	if (!isOpened)
