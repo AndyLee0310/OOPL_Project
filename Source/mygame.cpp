@@ -586,6 +586,7 @@ void GameStage_1::OnMove() {
 		int HealthData[2] = { 6, 0 };
 		//game->saveData(HealthData, 2);
 		CAudio::Instance()->Stop(AUDIO_BGM1);
+		game->saveData(heart_num, 8);
 		GotoGameState(GAME_STAGE_2);
 	}
 
@@ -770,6 +771,7 @@ void GameStage_1::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if (nChar == KET_Y) {
 		CAudio::Instance()->Stop(AUDIO_BGM1);
+		game->saveData(heart_num, 8);
 		GotoGameState(GAME_STAGE_2);
 	}
 }

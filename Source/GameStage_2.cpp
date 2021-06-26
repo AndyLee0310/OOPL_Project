@@ -76,10 +76,14 @@ namespace game_framework {
 		}
 
 		int health_reset[8] = { 2, 2, 2, 2, 2, 2, 2, 2 };
+		int health[9];
+		game->loadData(health);
 		for (int i = 0; i < 8; i++) {
 			heart_num[i] = health_reset[i];
+			// heart_num[i] = health[i];
+			// blood_vol += health[i];
 		}
-		blood_ori = blood_vol = 16;		//預設血量總值為8
+		blood_ori = blood_vol; // = 16;		//預設血量總值為8
 
 		//腳色數值重置
 		character_1.Initialize(128, 32);
