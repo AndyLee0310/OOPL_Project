@@ -224,7 +224,7 @@ namespace game_framework {
 			else if (bg[(by - 32) / 32][(bx - 128) / 32] == 1 || bg[(by - 32) / 32][(bx - 128) / 32] == 2) {  // 子彈打到牆壁或障礙
 				int nx = (bx - 128) / 32;
 				int ny = (by - 32) / 32;
-				if (dir == 1) b.isTouched(bx, (ny + 1) * 32 + 31);
+				if (dir == 1) b.isTouched(bx, (ny + 1) * 32 + 31);           // 設定爆炸動畫位置
 				else if (dir == 2) b.isTouched(bx, ny * 32 + 32);
 				else if (dir == 3) b.isTouched((nx + 1) * 32 + 127, by);
 				else if (dir == 4) b.isTouched(nx * 32 + 128, by);
