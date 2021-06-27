@@ -1,5 +1,8 @@
 # i092 Object Oriented Programming Lab
 
+### project code
+[code](./Boom)
+
 ### msi 封裝檔
 [封裝檔](./Boom!!.zip)
 
